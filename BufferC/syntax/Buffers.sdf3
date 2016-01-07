@@ -1,0 +1,32 @@
+module Buffers
+
+imports Types
+imports Identifiers
+imports Keywords
+
+context-free syntax
+
+  Type.Int    = <int>  
+  Type.Buffer = <buffer>  
+  Type.FILE   = <FILE>  
+  
+  Identifier.Length = <length>
+  Identifier.Create = <create>
+//  Identifier.Size   = <size>
+  Identifier.Print  = <print>
+  Identifier.PrintF = <printf>
+  Identifier.Fopen  = <fopen>
+  Identifier.Fread  = <fread>
+
+lexical syntax
+
+  Keyword = "buffer" 
+  Keyword = "create" 
+  Keyword = "int" 
+  Keyword = "length" 
+  Keyword = "size" 
+  Keyword = "print" 
+  Keyword = "printf" 
+  Keyword = "FILE" 
+  Keyword = "fopen" 
+  Keyword = "fread" 

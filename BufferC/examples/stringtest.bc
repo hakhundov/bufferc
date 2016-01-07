@@ -1,0 +1,35 @@
+module stringtest imports libstring {  
+	
+	int main() {
+    buffer b1 = "123434524"; 
+    buffer b2;
+    str_copy(b2, b1);
+    b2 = "qwerty";
+    printf("b1 value: %s\n", b1); 
+    printf("b2 value: %s\n, b2");
+    printf("b1+b2: %s\n", str_concat(b1, b2));
+    if(str_equal(b1, b2)){ 
+    	print("equal(b1,b2)\n"); 
+    } else { 
+    	print("not equal(b1,b2)\n"); 
+    }
+    if(str_equal(b1,b1)){ 
+    	print("equal(b1,b1)\n");  
+    } else { 
+    	print("not equal(b1,b1)\n"); 
+    }
+    if(str_equal(b1, str_concat(b1,b1))) { 
+    	print("equal(b1, add(b1,b1))\n"); 
+    } else { 
+    	print("not equal(b1, add(b1,b1))\n"); 
+    }
+    buffer b3 = "1234";
+    if(str_equal(b1,b3)){ 
+    	print("equal(b1, b3)\n"); 
+    } else { 
+    	print("not equal(b1, b3)\n"); 
+    }
+    return 0;
+  }
+
+}

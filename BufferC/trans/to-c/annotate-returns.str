@@ -1,0 +1,43 @@
+module annotate-returns
+
+imports include/BufferC
+imports runtime/editor/annotations 
+
+rules // get variables in scope
+
+  // given an annotated return statement s, 
+  // <get-vars>s produces the variables in the annotation
+					
+	get-vars =
+		get-annotation(?("vars", <id>))
+		
+rules // annotating return statements
+
+  // annotate-all-returns annotates the return statements in all functions
+  // in a module AST with the variables that are in scope in the function.
+  // This is useful for realizing reference count instrumentation.
+			
+	annotate-all-returns =
+		alltd(annotate-returns)
+
+	annotate-returns :
+	  d@FunDef(t, Identifier(f), params, stms) -> FunDef(t, Identifier(f), params, stms')
+	  where annos:= <function-vars> d
+	  where stms' := <alltd(annotate-return(|annos))> <conc>(stms, [Return("final")])
+
+	annotate-return(|annos) :
+		stm@Return(e) -> stm'
+		where stm' := <add-annotations(|annos)> stm 	
+			
+	function-vars :
+	  d@FunDef(t, Identifier(f), params, stms) -> [("vars", vs)]
+		where vs := <collect(buffer-var)> d
+			
+	buffer-var :
+		Param(Buffer(), Decl(Identifier(name))) -> name
+		
+  buffer-var :
+  	DeclInit(Buffer(), Decl(Identifier(name)), e) -> name
+  	
+  buffer-var :
+  	Decl(Buffer(), Decl(Identifier(name))) -> name

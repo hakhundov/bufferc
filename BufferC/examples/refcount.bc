@@ -1,0 +1,164 @@
+module refcount {
+
+  // some scenarios to consider for reference counting
+	
+	void test1() {
+		buffer a = create(4);
+		buffer b = "56789";
+		buffer c;
+		a[0] = 'a';
+		print(c);
+	}	
+	
+	void test2() {
+		buffer a = create(4);
+		buffer b = "56789";
+		a = b;
+		print(a);
+	}
+	
+	
+	buffer test3aux(buffer b) {
+		b[0] = '8';
+		return b;
+	}
+	void test3() {
+		buffer a = create(4);
+		buffer b = test3aux(a);
+		print(a);
+	}
+	
+	buffer initAlias() {
+	  buffer a = create(4);
+	  buffer b = a;
+	}
+
+	buffer test3aAux() {
+		buffer b = create(4);
+		b[0] = '8';
+		return b;  
+	}
+	void test3a() {
+		buffer b = test3aAux();
+		print(b);
+	}
+	
+	buffer test3bAux(buffer b) {
+		b = create(8);
+		return b;
+	}
+	void test3b() {
+		buffer a = create(4);
+		buffer b = test3bAux(a);
+		print(a);
+		print(b);
+	}
+		
+		
+	void test4aux(buffer b) {
+		b[0] = '8';
+	}	
+	void test4() {
+		buffer a = create(4);
+		test4aux(a);
+		print(a);
+	}
+	
+		
+	void test5aux(buffer b) {  
+		b[0] = '8';
+	}
+	void test5() {
+		test4aux(create(4));
+	}
+	
+		
+	buffer test6aux(buffer b) {
+		b = create(8);
+		b[0] = '8';
+		return b;
+	}
+	void test6() {
+		buffer a = create(4);
+		buffer b = test6aux(a);
+		a = b;
+		print(a); 
+		create(5);
+	}
+	  
+		
+	buffer test7Aux1(buffer b) {
+		b[0] = '8';
+		return b;
+	}
+	buffer test7Aux2(buffer b) {
+		b[1] = '9';
+		return b;
+	}	
+	void test7() {
+		buffer a = create(4);
+		buffer b = test7Aux2(test7Aux1(a));
+		print(a);
+	}
+	
+		
+	buffer test8aux(buffer b) {
+		return b;
+	}
+	void test8() {
+		buffer a = create(4);
+		test8aux(a);
+		print(a);
+	}
+	
+	buffer f(buffer b, int i) {
+		buffer a = create(i);
+		b = a;
+		return b;
+	}
+	
+	buffer g(buffer b, int i) {
+		buffer a = create(i);
+		return a; 
+	}  
+	
+	buffer cnst(buffer b) {
+		return "uvwxyz";
+	}    
+	buffer test_cnst() {
+		buffer b = create(4);
+		buffer a;
+		a = cnst(b);
+	} 
+	  
+	buffer cpy(buffer a) {    
+		return a;  
+	}   
+	buffer test_cpy() {
+		buffer b = create(4);
+		buffer a;
+		a = cpy(b);  
+	}
+	 
+	buffer h(buffer b, int i) {
+		int j = 0; 
+		buffer c = cpy(b);
+		i = i + 1;     
+		buffer a = create(i);
+		b = a;  
+		return c;
+	}
+	
+	void m() {
+		buffer b;
+		b = create(5);
+	}
+	  
+	void main() {
+		buffer d = h("abcd", 4);
+		print(d);
+		buffer e = cnst("ghij");
+		print(e);
+	}
+	
+}

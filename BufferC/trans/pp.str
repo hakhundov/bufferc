@@ -1,0 +1,42 @@
+module pp
+
+imports
+
+  libstratego-gpp
+  runtime/refactoring/-
+  include/BufferC-parenthesize
+  pp/BufferC-pp
+
+rules
+  
+  pp-BufferC-string =
+    parenthesize-BufferC
+    ; prettyprint-SDF-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-partial-BufferC-string =
+    parenthesize-BufferC
+    ; prettyprint-example
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-partial-BufferC-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-partial-BufferC-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+  pp = pp-debug
+  
+rules
+  
+  /**
+  * Given an old AST and a new AST, pretty-prints the new AST while presevering 
+  * layout (e.g. whitespacing and comments) associated with the old AST.
+  *
+  * Example:
+  *   new-text := <construct-textual-change> (old-ast, new-ast)
+  */
+  //construct-textual-change = construct-textual-change(pp-partial-BufferC-string, parenthesize, override-reconstruction, resugar)

@@ -1,0 +1,12 @@
+module base imports libstring {
+
+  int exp(int y, int n) {
+    if(n == 0) {
+      return 1;
+    } else {
+      return y * exp(y, n - 1); 
+    }
+    for(int i; i < 7; i++) i++;
+  }
+ 
+}

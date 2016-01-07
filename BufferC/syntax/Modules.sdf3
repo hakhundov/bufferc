@@ -1,0 +1,37 @@
+module Modules
+
+imports Identifiers	
+imports Constants	
+imports Expressions
+imports Types	
+imports Statements
+  
+context-free syntax
+
+  Module.Module = <
+    module <Identifier> <ModuleImports?> {
+	    <{ModuleContent "\n"}*>
+    }
+  > 
+  
+  ModuleContent = <<Declaration>> 
+  ModuleContent = <<FunDef>> 
+  ModuleContent = <<FunProto>> 
+  
+  ModuleImports.Imports = <imports <{Import ","}*>> 
+  Import.Import = <<Identifier>> 
+
+context-free syntax // functions
+
+  FunctionParameter.Param = 
+    <<Type> <Decl>> 
+  
+  FunDef.FunDef = <
+    <Type> <Identifier> (<{FunctionParameter ","}*>) {
+    	<Stm*>
+    }
+  >
+  
+  FunProto.FunProto = <
+    <Type> <Identifier> (<{FunctionParameter ","}*>);
+  > 

@@ -1,0 +1,20 @@
+module vulnerable imports libstring {  
+ 
+  // A translation of the vulnerable program from assignment I1 to BufferC
+
+	int bof(buffer str) {
+		buffer dst = create(24);
+		str_copy(dst, str);
+		return 1;
+	}
+
+	int main(buffer filename) { 
+		buffer str = create(517);
+		FILE badfile = fopen(filename, "r"); 
+		fread(str, badfile);
+		bof(str);
+		print("Returned Properly\n");
+		exit(0);
+	} 
+
+}

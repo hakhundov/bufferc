@@ -1,0 +1,68 @@
+module Statements
+
+imports Identifiers	
+imports Expressions	
+imports Types	
+
+context-free syntax // declarations
+
+  Decl.Decl = 
+  	<<Identifier>> 
+  	
+  Declaration.Decl = 
+  	<<Type> <Decl>> 
+  	
+  Declaration.DeclInit = 
+  	<<Type> <Decl> = <Exp>> 
+  	
+context-free syntax // statements
+  
+  Block.Block = <
+    {
+	    <Stm*>
+    }
+  > 
+  
+  Stm = <<Block>> 
+  
+  Stm.DeclStm = <<Declaration>;> 
+  
+  Stm.Exp = <<CommaExp>;> 
+  
+  Stm.If = <
+	  if ( <CommaExp> )
+		  <Stm>
+  > 
+  
+  Stm.IfElse = <
+	  if ( <CommaExp> )
+		  <Stm>
+	  else
+		  <Stm>
+  > 
+  
+  Stm.While = <
+	  while ( <CommaExp> )
+		  <Stm>
+  > 
+  
+  Stm.DoWhile = <
+	  do
+		  <Stm>
+	  while ( <CommaExp> )
+  > 
+  
+  Stm.For = <
+	  for(<CommaExp?>; <CommaExp?>; <CommaExp?>)
+		  <Stm>
+  > 
+  
+  Stm.ForDec = <
+	  for(<Declaration>; <CommaExp?> ; <CommaExp?>)
+		  <Stm>
+  > 
+  
+  Stm.Return = <return <CommaExp?> ;> 
+  
+  Stm.Exit = <exit <CommaExp?> ;> 
+

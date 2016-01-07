@@ -1,0 +1,36 @@
+module Constants
+
+lexical syntax
+
+  CONS = [\-]? [1-9] [0-9]* FLAGINT? {prefer}
+  CONS = [0] FLAGINT? 
+  FLAGINT = [uUlL] 
+  FLAGINT = [uU] [lL]  
+
+lexical restrictions
+
+  CONS -/- [0-9uUlL]
+
+context-free syntax
+
+  Constant.Decimal = <<CONS>> 
+  
+  Constant.True = <true> 
+  Constant.False = <false> 
+  
+  Constant.Null = <null>
+
+lexical syntax
+
+  CHAR = ~[\\\'\n\"] 
+  CHAR = [\\] [ntvbrfa\\\?\'\"] 
+  CHAR = [\\] [x] [0-9A-E] [0-9A-E] 
+  CHAR = [\\] [0-7] [0-7]? [0-7]? 
+  
+  CONSCHAR   = [\'] CHAR [\'] 
+  CONSSTRING = [\"] CHAR* [\"] 
+
+context-free syntax
+
+  Constant.Char   = <<CONSCHAR>> 
+  Constant.String = <<CONSSTRING>> 

@@ -1,0 +1,26 @@
+module BufferC.main
+
+imports
+
+  Colorer
+  Menus
+  Syntax
+  Views
+
+language
+  
+  name : BufferC
+  
+  extensions : bc
+
+  table         : include/BufferC.tbl
+  start symbols : Start
+  
+  provider : include/bufferc.ctree
+  provider : include/bufferc-java.jar
+  observer : editor-analyze (multifile)
+  
+references
+
+  reference _ : editor-resolve
+  hover _     : editor-hover

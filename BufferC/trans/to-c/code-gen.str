@@ -1,0 +1,28 @@
+module code-gen
+
+imports to-c/generate
+imports to-c/generate-safe
+imports to-c/annotate-returns
+	
+rules // builders for code generation
+	
+	generate-c :
+		(selected, position, ast, path, project-path) -> (filename, result)
+		with
+			filename := <guarantee-extension(|"c")> path;
+			result	 := <generate-safec>ast
+
+	generate-h :
+		(selected, position, ast, path, project-path) -> (filename, result)
+		with
+			filename := <guarantee-extension(|"h")> path;
+			result	 := <generate-safec-header>ast
+			
+rules // builders
+	
+	generate-safec = 
+		annotate-all-returns; genc
+		
+	generate-safec-header =
+		genc-header
+		

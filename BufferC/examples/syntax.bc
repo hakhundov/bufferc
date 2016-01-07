@@ -1,0 +1,76 @@
+module syntax {
+
+  // A sample of the syntactic constructs in BufferC
+  // Useful for testing your code generator
+
+  void expressions() {
+    int i;
+    int j = i + 1;
+    i < j;
+    j == i + 1;
+    j == 1 || j == 2 + i;
+    !(true) || false;
+    j = i++;
+    // etc.
+  }
+  
+  void characters() {
+    char c = 'a';
+    c = '\n';
+    c.a;
+  }
+  
+  int statements(int i, int j) {
+    if(!(i < j) || j == i)  
+      i = i++;
+    else 
+      i = 0;
+      
+    while(i < j) i++; 
+    
+    do i++; while(i < j)
+    
+    for(int k = 0; k < j; k++) i++;
+    
+    for(i = 0; i < j; i++) i++; 
+    
+    return i + j;
+    
+    { 
+      i = i + 1;
+      j = j - 1;
+    } // blocks
+    
+    exit(2);
+  }
+  
+  int exp(int x, int n) {
+    if(n == 0) {
+      return 1;
+    } else {
+      return x * exp(x, n - 1);
+    }
+  }
+  
+  
+
+  void allBufferOperations() {
+    buffer a;             // built-in buffer type
+    buffer b = create(5); // create empty buffer of length 5
+    b = "abcdefgh";       // buffer literal
+    b[4];                 // indexed access
+    b[4] = 'a';           // assignment
+    print(b);             // print content of buffer
+    printf("b: %s\n", b); // print with format string 
+    b.length;             // length of string
+    FILE f = fopen("a", "r"); // open file
+    fread(b, f);          // read file into buffer
+  }
+  
+  void abstract_syntax(int i, int j) { 
+    if(j == 1 || j == 2 + i) {
+      print("ok");
+    }
+  }
+
+}

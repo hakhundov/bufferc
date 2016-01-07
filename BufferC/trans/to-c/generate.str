@@ -1,0 +1,217 @@
+module generate
+
+imports include/BufferC
+		
+rules // top-level code generation function
+
+  // genc translates a BufferC construct to C code
+	
+	genc = 
+		gen-c-special   // special case
+		<+ gen-c        // normal case
+		<+ ugly-print   // if everything fails
+				
+  // genc-header translates a BufferC construct to a C header file
+  
+	genc-header = 
+		gen-c-header-special 
+		<+ gen-c-header 
+		<+ ugly-print
+	
+rules // if there are no special rules, fail
+	
+	gen-c-special = 
+		fail
+		
+	gen-c-header-special = 
+		fail
+
+rules // map with separator
+
+  // apply f to each element of a list, separate the elements of the resulting list with sep
+  		
+	mapsep(f | sep) =
+		map(f); separate-by(|sep)
+
+rules // ugly printing
+
+  // if there is no rule that matches, print term in term notation
+  
+	ugly-print : 
+		c#(ts) -> $[[c]([<mapsep(genc|", ")>ts])]
+			
+rules // modules
+	
+	gen-c-header :
+  	Module(Identifier(name), imps, decls) -> $[
+  		#include <stdlib.h>
+      #include "buffer.h" 
+  		[<filter(genc-header)> decls]
+  	]
+		
+  gen-c :
+  	Module(Identifier(name), imps, decls) -> $[
+  		#include <stdlib.h>
+      #include "buffer.h"
+      #include "[name].h"
+  		[<imports-to-c> imps]
+  		[<map(genc)> decls]
+  	]
+  		
+  imports-to-c :
+  	None() -> $[]
+  imports-to-c :
+  	Some(Imports(imps)) -> <mapsep(import-to-c|"\n")> imps
+  import-to-c :
+  	Import(Identifier(x)) -> $[#include "[x].h"]
+
+rules // functions
+	
+	gen-c-header :
+		FunProto(t, Identifier(f), params) -> $[
+			[<genc>t] [f]([<mapsep(genc|", ")>params]);
+		]
+	
+	gen-c :
+		FunProto(t, Identifier(f), params) -> $[
+			[<genc>t] [f]([<mapsep(genc|", ")>params]);
+		]
+	  	
+	gen-c-header :
+  	FunDef(t, Identifier(f), params, stms) -> $[
+      [<genc>t] [f]([<mapsep(genc|", ")>params]);
+    ]
+    
+  gen-c :
+  	FunDef(t, Identifier(f), params, stms) -> $[
+      [<genc>t] [f]([<mapsep(genc|", ")>params]) {
+        [<gen-c-stms>stms]
+  		}
+    ]
+
+rules // variables
+	
+  gen-c :
+  	Param(t, d) -> $[[<genc>t] [<genc>d]]
+  	
+  gen-c :
+  	Decl(Identifier(x)) -> x
+  		
+  gen-c :
+  	Var(Identifier(x)) -> x
+  	
+rules // types
+	
+	gen-c : Void()   -> $[void]
+	gen-c : Int()    -> $[int]
+	gen-c : Char()   -> $[char]
+	gen-c : Bool()   -> $[int]
+	gen-c : FILE()   -> $[FILE *]
+	
+rules // statements
+	
+	gen-c-stms =
+		mapsep(genc|"\n")
+	
+	gen-c : 
+		Decl(t, d) -> $[[<genc>t] [<genc>d]]
+		
+  gen-c :
+  	DeclInit(t, d, e) -> $[[<genc>t] [<genc>d] = [<genc>e]]
+  	
+  gen-c :
+  	DeclStm(d) -> $[[<genc>d];]
+  	
+  gen-c :
+  	Exp(e) -> $[[<genc>e];]
+  	
+  gen-c :
+  	Block(stms) -> $[{ [<gen-c-stms>stms] }]
+  	
+  gen-c :
+  	If(e, Block(stms)) -> $[
+  		if([<genc>e]) {
+  		  [<gen-c-stms>stms]
+  		}
+    ]
+  	
+  gen-c :
+  	If(e, s) -> $[if([<genc>e]) [<genc>s]]
+
+  gen-c :
+  	IfElse(e, Block(s1), Block(s2)) -> $[
+  		if([<genc>e]) {
+  		  [<gen-c-stms>s1] 
+  		} else {
+  			[<gen-c-stms>s2]
+  		}]
+ 
+  gen-c :
+  	IfElse(e, s1, s2) -> $[if([<genc>e]) [<genc>s1] else [<genc>s2]]
+  	
+  gen-c :
+  	While(e, Block(s)) -> $[
+  		while([<genc>e]) {
+  			[<gen-c-stms>s]
+  		}
+  	]
+  	
+  gen-c :
+  	While(e, s) -> $[while([<genc>e]) [<genc>s]]
+  	
+  gen-c :
+  	ForDec(e1, e2, e3, Block(stms)) -> $[
+      for([<genc>e1]; [<genc>e2]; [<genc>e3]) {
+  			[<gen-c-stms>stms]
+  		}
+    ]
+  	
+  gen-c :
+  	ForDec(e1, e2, e3, s) -> 
+    $[for([<genc>e1]; [<genc>e2]; [<genc>e3]) [<genc>s]]
+  	
+	gen-c : 
+		Return(Some(e)) -> $[return [<genc>e];]
+		
+	gen-c : 
+		Exit(Some(e)) -> $[exit [<genc>e];]
+		
+	gen-c : 
+		Exit(None()) -> $[exit;]
+		
+	gen-c :
+		Assign(e1, Assign(), e2) -> $[[<genc>e1] = [<genc>e2]]
+	
+rules // expressions
+	
+	gen-c : Some(e) -> <genc> e
+	
+	gen-c : Decimal(i) -> i
+	
+	gen-c : True() -> $[1]
+	gen-c : False() -> $[0]
+	
+	gen-c : Addition(e1, e2)       -> $[([<genc>e1] + [<genc>e2])]
+	gen-c : Subtraction(e1, e2)    -> $[([<genc>e1] - [<genc>e2])]
+	gen-c : Multiplication(e1, e2) -> $[([<genc>e1] * [<genc>e2])]
+	gen-c : Division(e1, e2)       -> $[([<genc>e1] / [<genc>e2])]
+	
+	gen-c : IncrementPostfix(e) -> $[[<genc>e]++]
+	gen-c : DecrementPostfix(e) -> $[[<genc>e]--]
+	
+	gen-c : Or(e1, e2)  -> $[([<genc>e1] || [<genc>e2])]
+	gen-c : And(e1, e2) -> $[([<genc>e1] && [<genc>e2])]
+	
+	gen-c : LessThan(e1, e2)         -> $[([<genc>e1] <  [<genc>e2])]
+	gen-c : LessThanEqual(e1, e2)    -> $[([<genc>e1] <= [<genc>e2])]
+	gen-c : GreaterThan(e1, e2)      -> $[([<genc>e1] >  [<genc>e2])]
+	gen-c : GreaterThanEqual(e1, e2) -> $[([<genc>e1] >= [<genc>e2])]
+	gen-c : Equal(e1, e2)            -> $[([<genc>e1] == [<genc>e2])]
+	gen-c : Inequal(e1, e2)          -> $[([<genc>e1] != [<genc>e2])]
+	
+	gen-c : FunctionCall(Identifier(f), es) -> $[[f]([<mapsep(genc|", ")>es])]
+	
+  gen-c : Char(c) -> c
+  
+  gen-c : String(str) -> str
+  

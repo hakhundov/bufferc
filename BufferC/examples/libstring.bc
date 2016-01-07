@@ -1,0 +1,46 @@
+module libstring {
+
+  boolean chr_is_space(char c) {
+	  return c == '\32' || c == '\t';
+  }    
+   
+  // str_copy(dst, src): copy characters of src buffer into dst buffer and return dst
+
+  buffer str_copy(buffer dst, buffer src) {
+  } 
+	
+// str_clone(src) : create a new buffer that is an exact copy of src
+
+  buffer str_clone(buffer src) {
+  }  
+
+  // str_concat(s1, s2): concatenate buffers s1 and s2 into a new buffer
+
+  buffer str_concat(buffer s1, buffer s2) {
+  }
+
+// str_trim(s): remove leading and trailing spaces from s 
+// i.e. copy s into a new buffer without leading and trailing spaces
+
+  buffer str_trim(buffer s) {
+  }
+
+  // str_equal(a, b): are the buffers a and b exactly equal?
+
+  boolean str_equal(buffer first, buffer second) {
+  }
+
+  // str_compare(s1, s2): compare two strings lexicographically
+  // return -1 if s1 is smaller than s2, 
+  // return 1 if s1 is larger than s2
+  // return 0 if the shortest string is equal to a prefix of the longest string 
+
+  int str_compare(buffer s1, buffer s2) {
+  }
+  
+  // str_error(msg): print an error message and exit
+
+  void str_error(buffer msg) {
+  }
+
+}

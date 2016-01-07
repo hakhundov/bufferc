@@ -1,0 +1,70 @@
+module generate-safe
+
+imports include/BufferC
+imports to-c/generate
+imports to-c/annotate-returns
+imports runtime/types/-
+imports runtime/editor/annotations 
+  
+rules // buffer operations
+
+  // Write the target templates for the following rules
+  // in order to implement the basic buffer primitives.
+  // See generate.str for inspiration.
+	
+//	gen-c-special :
+//		Buffer() -> $[buffer *]
+//		
+//	gen-c-special :
+//		Null() -> $[NULL]
+//  		
+//	gen-c-special :
+//		String(str) -> $[]
+//		where i := <string-length>str
+//			
+//	gen-c-special :
+//		FunctionCall(Create(), es) -> $[]
+//
+//	gen-c-special :
+//		Field(e, Length()) -> $[]
+//			
+//	gen-c-special :
+//		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[]
+//		
+//	gen-c-special :
+//		ArrayField(e1, e2) -> $[]
+//			
+//	gen-c-special :
+//		FunctionCall(Print(), es) -> $[]
+//			
+//	gen-c-special :
+//		FunctionCall(PrintF(), es) -> $[]
+//			
+//	gen-c-special :
+//		FunctionCall(Fopen(), es) -> $[]
+//			
+//	gen-c-special :
+//		FunctionCall(Fread(), es) -> $[]
+
+rules // main function
+
+  // the main function takes 
+	
+//	gen-c-header-special :
+//  	FunDef(t, Identifier("main"), params, stms) -> $[]
+//    
+//	gen-c-special :
+//  	FunDef(t, Identifier("main"), params, stms) -> $[]
+    
+rules // reference counting
+				
+	// write more gen-c-special rules to instrument reference counting code
+	
+	// a typical to change is assignment
+	
+//	gen-c-special :
+//		Assign(e1, Assign(), e2) -> $[[<genc>e1] = [<genc>e2]]
+
+  // examples/refcount.bc contains a variety of scenarios
+  
+  

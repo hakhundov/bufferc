@@ -1,0 +1,57 @@
+module names 
+
+// name binding rules for BufferC
+
+// ignore the error: Unresolved reference (no origin information)
+  
+imports include/BufferC
+	
+namespaces Module Variable Function ReturnType
+	
+binding rules // modules
+
+  Module(Identifier(name), _, _) :
+  	defines Module name
+  	scopes Variable, Function   
+  	
+  Import(Identifier(name)) : 
+  	imports Function from Module name
+  
+binding rules // functions
+	
+  FunProto(t, Identifier(name), params) :
+  	defines Function name of type (ty, tys_param)
+  	where t has type ty
+  	  and params has type tys_param
+    scopes Variable
+    
+  FunDef(t, Identifier(name), params, stms) :
+  	defines Function name of type (ty, tys_param)
+  	where t has type ty
+  	  and params has type tys_param
+    scopes Variable
+  	
+  FunctionCall(Identifier(name), es) :
+  	refers to Function name
+    
+binding rules // variables
+
+  Param(t, Decl(Identifier(name))) : 
+  	defines Variable name of type ty
+  	where t has type ty
+  	
+  Decl(t, Decl(Identifier(name))) :
+  	defines Variable name of type ty
+  	where t has type ty
+  	
+  DeclInit(t, Decl(Identifier(name)), e) :
+  	defines Variable name of type ty
+  	where t has type ty
+  	
+  Var(Identifier(name)) :
+  	refers to Variable name
+  	
+  ForDec(_, _, _, _) :
+  	scopes Variable
+  	
+  	

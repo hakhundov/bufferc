@@ -1,0 +1,16 @@
+module test_printf {
+
+  void f(buffer h) {
+  
+    printf("%s", h);
+    printf("%s", h, h);
+    printf("%s", h, 5);      
+    printf("%s", h, 5);   
+  
+  }
+  
+  void main(int i) {
+  
+  }
+
+}  

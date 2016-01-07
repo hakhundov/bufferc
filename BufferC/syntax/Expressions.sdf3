@@ -1,0 +1,78 @@
+module Expressions
+
+imports Identifiers	
+imports Constants	
+imports Types
+
+context-free syntax
+
+  Exp.Var               = <<Identifier>> 
+  Exp                   = <<Constant>> 
+  Exp.CommaExp          = <(<CommaExp>)> 
+  Exp.FunctionCall      = <<Identifier>(<{Exp ", "}*>)> 
+  Exp.ArrayField        = <<Exp>[<IndexExp>]> 
+  Exp.Field             = <<Exp>.<Identifier>> 
+  Exp.IncrementPostfix  = <<Exp>++> {left}
+  Exp.DecrementPostfix  = <<Exp>--> {left}
+  
+  IndexExp = Exp
+  
+  Exp.Not = <!<Exp>> {right}
+  
+context-free syntax
+
+  Exp.Multiplication   = <<Exp> * <Exp>> {left}
+  Exp.Division         = <<Exp> / <Exp>> {left}
+  Exp.Modulo           = <<Exp> % <Exp>> {left}
+  Exp.Addition         = <<Exp> + <Exp>> {left}
+  Exp.Subtraction      = <<Exp> - <Exp>> {left}
+  
+  Exp.LessThan         = <<Exp> \<   <Exp>> {left}
+  Exp.LessThanEqual    = <<Exp> \<=  <Exp>> {left}
+  Exp.GreaterThan      = <<Exp> \>   <Exp>> {left}
+  Exp.GreaterThanEqual = <<Exp> \>=  <Exp>> {left}
+  Exp.Equal            = <<Exp> ==   <Exp>> {left}
+  Exp.Inequal          = <<Exp> !=   <Exp>> {left}
+  
+  Exp.And = <<Exp> && <Exp>> {left}
+  Exp.Or  = <<Exp> || <Exp>> {left}
+  
+  AssignExp        = <<Exp>> 
+  AssignExp.Assign = <<Exp> <AssignOp> <AssignExp>> {right}
+  AssignOp.Assign  = <=> 
+  
+  CommaExp = <<AssignExp>> 
+
+context-free priorities
+
+  {left :
+    Exp.FunctionCall
+    Exp.ArrayField
+    Exp.Field
+    Exp.IncrementPostfix
+  } > 
+    Exp.Not
+  > {left :
+    Exp.Multiplication
+    Exp.Division
+    Exp.Modulo
+  } > {left :
+    Exp.Addition
+    Exp.Subtraction
+  } > {left :
+    Exp.LessThan
+    Exp.LessThanEqual
+    Exp.GreaterThan
+    Exp.GreaterThanEqual
+  } > {left :
+    Exp.Equal
+    Exp.Inequal
+  }  
+  > {Exp.And} > {Exp.Or} 
+  > {AssignExp.Assign} 
+
+lexical restrictions
+
+  "+" -/- [\+]
+  "-" -/- [\-]
+  "&" -/- [\&]
