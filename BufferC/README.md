@@ -29,7 +29,7 @@ Your task is to complete this basic implementation to a complete implementation 
 	- Tests: Write test programs in BufferC to test the correct behavior of your implementation
 * Stage 2 (For an 8)
 	- Reference counting: Adapt code generation to realize reference counting garbage collection
-* Stage 3 (Bonus)
+* Stage 3 (For a 10)
 	- Validate format strings
 * Stage 4 (Super Bonus)
 	- Optimizations
@@ -191,15 +191,7 @@ Dynamic checking is expensive. If we know statically that a buffer access is wit
 
 ## Testing
 
-Attacks
-
-- explore possible implementations
-
-- how are these vulnerable: give example
-
-- what goes wrong with 
-
-- test die faalt als automatisch free-en niet werkt
+Write test programs that test good behavior and potentially unsafe behavior. 
 
 ## Tips
 
