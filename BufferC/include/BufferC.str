@@ -1,0 +1,91 @@
+module BufferC
+
+signature
+  constructors
+    FunProto         : Type * Identifier * List(FunctionParameter) -> FunProto
+    FunDef           : Type * Identifier * List(FunctionParameter) * List(Stm) -> FunDef
+    Param            : Type * Decl -> FunctionParameter
+    Import           : Identifier -> Import
+    Imports          : List(Import) -> ModuleImports
+                     : FunProto -> ModuleContent
+                     : FunDef -> ModuleContent
+                     : Declaration -> ModuleContent
+    Module           : Identifier * Option(ModuleImports) * List(ModuleContent) -> Module
+    Exit             : Option(CommaExp) -> Stm
+    Return           : Option(CommaExp) -> Stm
+    ForDec           : Declaration * Option(CommaExp) * Option(CommaExp) * Stm -> Stm
+    For              : Option(CommaExp) * Option(CommaExp) * Option(CommaExp) * Stm -> Stm
+    DoWhile          : Stm * CommaExp -> Stm
+    While            : CommaExp * Stm -> Stm
+    IfElse           : CommaExp * Stm * Stm -> Stm
+    If               : CommaExp * Stm -> Stm
+    Exp              : CommaExp -> Stm
+    DeclStm          : Declaration -> Stm
+                     : Block -> Stm
+    Block            : List(Stm) -> Block
+    DeclInit         : Type * Decl * Exp -> Declaration
+    Decl             : Type * Decl -> Declaration
+    Decl             : Identifier -> Decl
+                     : AssignExp -> CommaExp
+    Assign           : AssignOp
+    Assign           : Exp * AssignOp * AssignExp -> AssignExp
+                     : Exp -> AssignExp
+                     : Exp -> IndexExp
+    Or               : Exp * Exp -> Exp
+    And              : Exp * Exp -> Exp
+    Inequal          : Exp * Exp -> Exp
+    Equal            : Exp * Exp -> Exp
+    GreaterThanEqual : Exp * Exp -> Exp
+    GreaterThan      : Exp * Exp -> Exp
+    LessThanEqual    : Exp * Exp -> Exp
+    LessThan         : Exp * Exp -> Exp
+    Subtraction      : Exp * Exp -> Exp
+    Addition         : Exp * Exp -> Exp
+    Modulo           : Exp * Exp -> Exp
+    Division         : Exp * Exp -> Exp
+    Multiplication   : Exp * Exp -> Exp
+    Not              : Exp -> Exp
+    DecrementPostfix : Exp -> Exp
+    IncrementPostfix : Exp -> Exp
+    Field            : Exp * Identifier -> Exp
+    ArrayField       : Exp * IndexExp -> Exp
+    FunctionCall     : Identifier * List(Exp) -> Exp
+    CommaExp         : CommaExp -> Exp
+                     : Constant -> Exp
+    Var              : Identifier -> Exp
+    Fread            : Identifier
+    Fopen            : Identifier
+    PrintF           : Identifier
+    Print            : Identifier
+    Create           : Identifier
+    Length           : Identifier
+    Identifier       : ID -> Identifier
+                     : String -> ID
+    FILE             : Type
+    Buffer           : Type
+    Int              : Type
+    Char             : Type
+    Bool             : Type
+    Void             : Type
+    String           : CONSSTRING -> Constant
+    Char             : CONSCHAR -> Constant
+    Null             : Constant
+    False            : Constant
+    True             : Constant
+    Decimal          : CONS -> Constant
+                     : String -> CONSSTRING
+                     : String -> CONSCHAR
+                     : String -> CONS
+
+
+signature
+  constructors
+    Some : a -> Option(a)
+    None : Option(a)
+
+
+signature
+  constructors
+    Cons : a * List(a) -> List(a)
+    Nil  : List(a)
+    Conc : List(a) * List(a) -> List(a)

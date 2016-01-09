@@ -1,0 +1,363 @@
+definition
+module Buffers
+imports Types
+
+imports Identifiers
+
+imports Keywords
+
+exports
+  context-free syntax
+    "int"    -> Type       {cons("Int")}
+    "buffer" -> Type       {cons("Buffer")}
+    "FILE"   -> Type       {cons("FILE")}
+    "length" -> Identifier {cons("Length")}
+    "create" -> Identifier {cons("Create")}
+    "print"  -> Identifier {cons("Print")}
+    "printf" -> Identifier {cons("PrintF")}
+    "fopen"  -> Identifier {cons("Fopen")}
+    "fread"  -> Identifier {cons("Fread")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Type       {cons("COMPLETION-Type")}
+    CONTENTCOMPLETE -> Identifier {cons("COMPLETION-Identifier")}
+
+  lexical syntax
+    "buffer" -> Keyword 
+    "create" -> Keyword 
+    "int"    -> Keyword 
+    "length" -> Keyword 
+    "size"   -> Keyword 
+    "print"  -> Keyword 
+    "printf" -> Keyword 
+    "FILE"   -> Keyword 
+    "fopen"  -> Keyword 
+    "fread"  -> Keyword 
+
+module Types
+imports Constants
+
+imports Identifiers
+
+exports
+  context-free syntax
+    "void"    -> Type {cons("Void")}
+    "boolean" -> Type {cons("Bool")}
+    "char"    -> Type {cons("Char")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Type {cons("COMPLETION-Type")}
+
+module Statements
+imports Identifiers
+
+imports Expressions
+
+imports Types
+
+exports
+  context-free syntax
+    Identifier        -> Decl        {cons("Decl")}
+    Type Decl         -> Declaration {cons("Decl")}
+    Type Decl "=" Exp -> Declaration {cons("DeclInit")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Decl        {cons("COMPLETION-Decl")}
+    CONTENTCOMPLETE -> Declaration {cons("COMPLETION-Declaration")}
+
+  context-free syntax
+    "{" Stm* "}"                                              -> Block {cons("Block")}
+    Block                                                     -> Stm   
+    Declaration ";"                                           -> Stm   {cons("DeclStm")}
+    CommaExp ";"                                              -> Stm   {cons("Exp")}
+    "if" "(" CommaExp ")" Stm                                 -> Stm   {cons("If")}
+    "if" "(" CommaExp ")" Stm "else" Stm                      -> Stm   {cons("IfElse")}
+    "while" "(" CommaExp ")" Stm                              -> Stm   {cons("While")}
+    "do" Stm "while" "(" CommaExp ")"                         -> Stm   {cons("DoWhile")}
+    "for" "(" CommaExp? ";" CommaExp? ";" CommaExp? ")" Stm   -> Stm   {cons("For")}
+    "for" "(" Declaration ";" CommaExp? ";" CommaExp? ")" Stm -> Stm   {cons("ForDec")}
+    "return" CommaExp? ";"                                    -> Stm   {cons("Return")}
+    "exit" CommaExp? ";"                                      -> Stm   {cons("Exit")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Block {cons("COMPLETION-Block")}
+    CONTENTCOMPLETE -> Stm   {cons("COMPLETION-Stm")}
+
+module Modules
+imports Identifiers
+
+imports Constants
+
+imports Expressions
+
+imports Types
+
+imports Statements
+
+exports
+  context-free syntax
+    "module" Identifier ModuleImports? "{" ModuleContent* "}" -> Module        {cons("Module")}
+    Declaration                                               -> ModuleContent 
+    FunDef                                                    -> ModuleContent 
+    FunProto                                                  -> ModuleContent 
+    "imports" {Import ","}*                                   -> ModuleImports {cons("Imports")}
+    Identifier                                                -> Import        {cons("Import")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Module        {cons("COMPLETION-Module")}
+    CONTENTCOMPLETE -> ModuleContent {cons("COMPLETION-ModuleContent")}
+    CONTENTCOMPLETE -> ModuleImports {cons("COMPLETION-ModuleImports")}
+    CONTENTCOMPLETE -> Import        {cons("COMPLETION-Import")}
+
+  context-free syntax
+    Type Decl                                                     -> FunctionParameter {cons("Param")}
+    Type Identifier "(" {FunctionParameter ","}* ")" "{" Stm* "}" -> FunDef            {cons("FunDef")}
+    Type Identifier "(" {FunctionParameter ","}* ")" ";"          -> FunProto          {cons("FunProto")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> FunctionParameter {cons("COMPLETION-FunctionParameter")}
+    CONTENTCOMPLETE -> FunDef            {cons("COMPLETION-FunDef")}
+    CONTENTCOMPLETE -> FunProto          {cons("COMPLETION-FunProto")}
+
+module Layout
+exports
+  lexical syntax
+    [\ \t\r\n\12] -> LAYOUT 
+
+  context-free restrictions
+    LAYOUT? -/- [\ \t\r\n\12]
+
+  lexical syntax
+    [\*]                                              -> Asterisk          
+    [\/]                                              -> Slash             
+    ~[\*\/] | Asterisk | Slash*                       -> NestedCommentText 
+    "/*" NestedCommentText NestedCommentRest "*/"     -> NestedComment     
+    NestedComment NestedCommentText NestedCommentRest -> NestedCommentRest 
+                                                      -> NestedCommentRest 
+    NestedComment                                     -> LAYOUT            
+    "//" ~[\n\r]* [\n\r] | EOF                        -> LAYOUT            
+                                                      -> EOF               
+
+  lexical restrictions
+    EOF -/- ~[]
+    Asterisk -/- [\/]
+    Slash -/- [\*]
+
+  context-free restrictions
+    LAYOUT? -/- [\/] . [\/]
+    LAYOUT? -/- [\/] . [\*]
+
+module Keywords
+imports Types
+
+exports
+  lexical syntax
+    Keyword    -> Keyword 
+    "auto"     -> Keyword 
+    "char"     -> Keyword 
+    "struct"   -> Keyword 
+    "break"    -> Keyword 
+    "else"     -> Keyword 
+    "switch"   -> Keyword 
+    "case"     -> Keyword 
+    "enum"     -> Keyword 
+    "register" -> Keyword 
+    "typedef"  -> Keyword 
+    "extern"   -> Keyword 
+    "return"   -> Keyword 
+    "exit"     -> Keyword 
+    "union"    -> Keyword 
+    "const"    -> Keyword 
+    "unsigned" -> Keyword 
+    "continue" -> Keyword 
+    "for"      -> Keyword 
+    "signed"   -> Keyword 
+    "void"     -> Keyword 
+    "default"  -> Keyword 
+    "goto"     -> Keyword 
+    "sizeof"   -> Keyword 
+    "volatile" -> Keyword 
+    "do"       -> Keyword 
+    "if"       -> Keyword 
+    "static"   -> Keyword 
+    "while"    -> Keyword 
+    "double"   -> Keyword 
+    "true"     -> Keyword 
+    "false"    -> Keyword 
+    "void"     -> Keyword 
+    "boolean"  -> Keyword 
+    "int8"     -> Keyword 
+    "int16"    -> Keyword 
+    "int32"    -> Keyword 
+    "int64"    -> Keyword 
+    "uint8"    -> Keyword 
+    "uint16"   -> Keyword 
+    "uint32"   -> Keyword 
+    "uint64"   -> Keyword 
+    "float"    -> Keyword 
+    "double"   -> Keyword 
+    "long"     -> Keyword 
+    "string"   -> Keyword 
+    "null"     -> Keyword 
+
+  lexical restrictions
+    Keyword -/- [a-zA-Z0-9\_]
+
+module Identifiers
+imports Keywords
+
+exports
+  lexical syntax
+    [a-zA-Z\_] [0-9a-zA-Z\_]* -> ID 
+    Keyword                   -> ID {reject}
+
+  lexical restrictions
+    ID -/- [a-zA-Z0-9\_]
+
+  context-free syntax
+    ID -> Identifier {cons("Identifier")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Identifier {cons("COMPLETION-Identifier")}
+
+module Expressions
+imports Identifiers
+
+imports Constants
+
+imports Types
+
+exports
+  context-free syntax
+    Identifier                    -> Exp      {cons("Var")}
+    Constant                      -> Exp      
+    "(" CommaExp ")"              -> Exp      {cons("CommaExp")}
+    Identifier "(" {Exp ","}* ")" -> Exp      {cons("FunctionCall")}
+    Exp "[" IndexExp "]"          -> Exp      {cons("ArrayField")}
+    Exp "." Identifier            -> Exp      {cons("Field")}
+    Exp "++"                      -> Exp      {cons("IncrementPostfix"), left}
+    Exp "--"                      -> Exp      {cons("DecrementPostfix"), left}
+    Exp                           -> IndexExp 
+    "!" Exp                       -> Exp      {cons("Not"), right}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Exp {cons("COMPLETION-Exp")}
+
+  context-free syntax
+    Exp "*" Exp            -> Exp       {cons("Multiplication"), left}
+    Exp "/" Exp            -> Exp       {cons("Division"), left}
+    Exp "%" Exp            -> Exp       {cons("Modulo"), left}
+    Exp "+" Exp            -> Exp       {cons("Addition"), left}
+    Exp "-" Exp            -> Exp       {cons("Subtraction"), left}
+    Exp "<" Exp            -> Exp       {cons("LessThan"), left}
+    Exp "<=" Exp           -> Exp       {cons("LessThanEqual"), left}
+    Exp ">" Exp            -> Exp       {cons("GreaterThan"), left}
+    Exp ">=" Exp           -> Exp       {cons("GreaterThanEqual"), left}
+    Exp "==" Exp           -> Exp       {cons("Equal"), left}
+    Exp "!=" Exp           -> Exp       {cons("Inequal"), left}
+    Exp "&&" Exp           -> Exp       {cons("And"), left}
+    Exp "||" Exp           -> Exp       {cons("Or"), left}
+    Exp                    -> AssignExp 
+    Exp AssignOp AssignExp -> AssignExp {cons("Assign"), right}
+    "="                    -> AssignOp  {cons("Assign")}
+    AssignExp              -> CommaExp  
+
+  context-free syntax
+    CONTENTCOMPLETE -> Exp       {cons("COMPLETION-Exp")}
+    CONTENTCOMPLETE -> AssignExp {cons("COMPLETION-AssignExp")}
+    CONTENTCOMPLETE -> AssignOp  {cons("COMPLETION-AssignOp")}
+    CONTENTCOMPLETE -> CommaExp  {cons("COMPLETION-CommaExp")}
+
+  context-free priorities
+    {left:
+      Identifier "(" {Exp ","}* ")" -> Exp
+      Exp "[" IndexExp "]" -> Exp
+      Exp "." Identifier -> Exp
+      Exp "++" -> Exp
+    } >
+    "!" Exp -> Exp >
+    {left:
+      Exp "*" Exp -> Exp
+      Exp "/" Exp -> Exp
+      Exp "%" Exp -> Exp
+    } >
+    {left:
+      Exp "+" Exp -> Exp
+      Exp "-" Exp -> Exp
+    } >
+    {left:
+      Exp "<" Exp -> Exp
+      Exp "<=" Exp -> Exp
+      Exp ">" Exp -> Exp
+      Exp ">=" Exp -> Exp
+    } >
+    {left:
+      Exp "==" Exp -> Exp
+      Exp "!=" Exp -> Exp
+    } >
+    { Exp "&&" Exp -> Exp } >
+    { Exp "||" Exp -> Exp } >
+    { Exp AssignOp AssignExp -> AssignExp }
+
+  lexical restrictions
+    "+" -/- [\+]
+    "-" -/- [\-]
+    "&" -/- [\&]
+
+module Constants
+exports
+  lexical syntax
+    [\-]? [1-9] [0-9]* FLAGINT? -> CONS    {prefer}
+    [0] FLAGINT?                -> CONS    
+    [uUlL]                      -> FLAGINT 
+    [uU] [lL]                   -> FLAGINT 
+
+  lexical restrictions
+    CONS -/- [0-9uUlL]
+
+  context-free syntax
+    CONS    -> Constant {cons("Decimal")}
+    "true"  -> Constant {cons("True")}
+    "false" -> Constant {cons("False")}
+    "null"  -> Constant {cons("Null")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Constant {cons("COMPLETION-Constant")}
+
+  lexical syntax
+    ~[\\\'\n\"]                -> CHAR       
+    [\\] [ntvbrfa\\\?\'\"]     -> CHAR       
+    [\\] [x] [0-9A-E] [0-9A-E] -> CHAR       
+    [\\] [0-7] [0-7]? [0-7]?   -> CHAR       
+    [\'] CHAR [\']             -> CONSCHAR   
+    [\"] CHAR* [\"]            -> CONSSTRING 
+
+  context-free syntax
+    CONSCHAR   -> Constant {cons("Char")}
+    CONSSTRING -> Constant {cons("String")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Constant {cons("COMPLETION-Constant")}
+
+module BufferC
+imports Constants
+
+imports Expressions
+
+imports Identifiers
+
+imports Keywords
+
+imports Layout
+
+imports Modules
+
+imports Statements
+
+imports Types
+
+imports Buffers
+
+exports
+  context-free start-symbols
+    Module

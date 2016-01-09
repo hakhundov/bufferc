@@ -1,0 +1,26 @@
+module completions/Buffers-esv
+
+imports
+  completions/Types-esv
+  completions/Identifiers-esv
+  completions/Keywords-esv
+
+completions
+  completion template Type : "int" =
+    "int"  
+  completion template Type : "buffer" =
+    "buffer"  
+  completion template Type : "FILE" =
+    "FILE"  
+  completion template Identifier : "length" =
+    "length"  
+  completion template Identifier : "create" =
+    "create"  
+  completion template Identifier : "print" =
+    "print"  
+  completion template Identifier : "printf" =
+    "printf"  
+  completion template Identifier : "fopen" =
+    "fopen"  
+  completion template Identifier : "fread" =
+    "fread"  

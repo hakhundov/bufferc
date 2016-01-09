@@ -1,0 +1,22 @@
+module src-gen/ds-signatures/BufferC-sig
+
+imports ds-signatures/Constants-sig
+
+imports ds-signatures/Expressions-sig
+
+imports ds-signatures/Identifiers-sig
+
+imports ds-signatures/Keywords-sig
+
+imports ds-signatures/Layout-sig
+
+imports ds-signatures/Modules-sig
+
+imports ds-signatures/Statements-sig
+
+imports ds-signatures/Types-sig
+
+imports ds-signatures/Buffers-sig
+
+signature
+    sorts

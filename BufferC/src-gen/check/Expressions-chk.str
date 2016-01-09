@@ -1,0 +1,305 @@
+module check/Expressions-chk
+
+imports
+  libstratego-gpp
+  runtime/tmpl/pp
+  libstratego-sglr
+  signatures/Expressions-sig
+
+
+imports
+  signatures/Identifiers-sig
+
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Types-sig
+
+
+imports
+  check/Identifiers-chk
+
+
+imports
+  check/Constants-chk
+
+
+imports
+  check/Types-chk
+
+
+strategies
+  check-example =
+    check-IndexExp
+
+  check-example =
+    check-Exp
+
+  check-Exp :
+    Var(t1__) -> <id>
+    with <(check-Identifier <+ error-Identifier)> t1__
+
+  is-Exp-with-constructor =
+    ?Var(_)
+
+  check-Exp :
+    t1__ -> <id>
+    where not(is-Exp-with-constructor)
+    where <(check-Constant <+ error-Constant)> t1__
+
+  check-Exp :
+    CommaExp(t1__) -> <id>
+    with <(check-CommaExp <+ error-CommaExp)> t1__
+
+  is-Exp-with-constructor =
+    ?CommaExp(_)
+
+  check-Exp :
+    FunctionCall(t1__, t2__) -> <id>
+    with <(check-Identifier <+ error-Identifier)> t1__
+    with <map(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?FunctionCall(_, _)
+
+  check-Exp :
+    ArrayField(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-IndexExp <+ error-IndexExp)> t2__
+
+  is-Exp-with-constructor =
+    ?ArrayField(_, _)
+
+  check-Exp :
+    Field(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Identifier <+ error-Identifier)> t2__
+
+  is-Exp-with-constructor =
+    ?Field(_, _)
+
+  check-Exp :
+    IncrementPostfix(t1__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+
+  is-Exp-with-constructor =
+    ?IncrementPostfix(_)
+
+  check-Exp :
+    DecrementPostfix(t1__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+
+  is-Exp-with-constructor =
+    ?DecrementPostfix(_)
+
+  check-IndexExp :
+    t1__ -> <id>
+    where not(is-IndexExp-with-constructor)
+    where <(check-Exp <+ error-Exp)> t1__
+
+  check-Exp :
+    Not(t1__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+
+  is-Exp-with-constructor =
+    ?Not(_)
+
+  is-IndexExp-with-constructor =
+    fail
+
+  is-Exp-with-constructor =
+    fail
+
+  check-IndexExp :
+    amb([h|hs]) -> <check-IndexExp> h
+
+  check-Exp :
+    amb([h|hs]) -> <check-Exp> h
+
+  error-IndexExp =
+    debug(!"Unexpected constructor. Expected constructor from sort IndexExp instead. ")
+
+  error-Exp =
+    debug(!"Unexpected constructor. Expected constructor from sort Exp instead. ")
+
+
+strategies
+  check-example =
+    check-Exp
+
+  check-example =
+    check-AssignExp
+
+  check-example =
+    check-AssignOp
+
+  check-example =
+    check-CommaExp
+
+  check-Exp :
+    Multiplication(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Multiplication(_, _)
+
+  check-Exp :
+    Division(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Division(_, _)
+
+  check-Exp :
+    Modulo(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Modulo(_, _)
+
+  check-Exp :
+    Addition(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Addition(_, _)
+
+  check-Exp :
+    Subtraction(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Subtraction(_, _)
+
+  check-Exp :
+    LessThan(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?LessThan(_, _)
+
+  check-Exp :
+    LessThanEqual(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?LessThanEqual(_, _)
+
+  check-Exp :
+    GreaterThan(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?GreaterThan(_, _)
+
+  check-Exp :
+    GreaterThanEqual(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?GreaterThanEqual(_, _)
+
+  check-Exp :
+    Equal(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Equal(_, _)
+
+  check-Exp :
+    Inequal(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Inequal(_, _)
+
+  check-Exp :
+    And(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?And(_, _)
+
+  check-Exp :
+    Or(t1__, t2__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-Exp <+ error-Exp)> t2__
+
+  is-Exp-with-constructor =
+    ?Or(_, _)
+
+  check-AssignExp :
+    t1__ -> <id>
+    where not(is-AssignExp-with-constructor)
+    where <(check-Exp <+ error-Exp)> t1__
+
+  check-AssignExp :
+    Assign(t1__, t2__, t3__) -> <id>
+    with <(check-Exp <+ error-Exp)> t1__
+    with <(check-AssignOp <+ error-AssignOp)> t2__
+    with <(check-AssignExp <+ error-AssignExp)> t3__
+
+  is-AssignExp-with-constructor =
+    ?Assign(_, _, _)
+
+  check-AssignOp :
+    Assign() -> <id>
+
+  is-AssignOp-with-constructor =
+    ?Assign()
+
+  check-CommaExp :
+    t1__ -> <id>
+    where not(is-CommaExp-with-constructor)
+    where <(check-AssignExp <+ error-AssignExp)> t1__
+
+  is-Exp-with-constructor =
+    fail
+
+  is-AssignExp-with-constructor =
+    fail
+
+  is-AssignOp-with-constructor =
+    fail
+
+  is-CommaExp-with-constructor =
+    fail
+
+  check-Exp :
+    amb([h|hs]) -> <check-Exp> h
+
+  check-AssignExp :
+    amb([h|hs]) -> <check-AssignExp> h
+
+  check-AssignOp :
+    amb([h|hs]) -> <check-AssignOp> h
+
+  check-CommaExp :
+    amb([h|hs]) -> <check-CommaExp> h
+
+  error-Exp =
+    debug(!"Unexpected constructor. Expected constructor from sort Exp instead. ")
+
+  error-AssignExp =
+    debug(!"Unexpected constructor. Expected constructor from sort AssignExp instead. ")
+
+  error-AssignOp =
+    debug(!"Unexpected constructor. Expected constructor from sort AssignOp instead. ")
+
+  error-CommaExp =
+    debug(!"Unexpected constructor. Expected constructor from sort CommaExp instead. ")

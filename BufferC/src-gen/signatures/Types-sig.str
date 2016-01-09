@@ -1,0 +1,15 @@
+module signatures/Types-sig
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Identifiers-sig
+
+
+signature
+  constructors
+    Void : Type
+    Bool : Type
+    Char : Type

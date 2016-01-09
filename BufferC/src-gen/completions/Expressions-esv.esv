@@ -1,0 +1,54 @@
+module completions/Expressions-esv
+
+imports
+  completions/Identifiers-esv
+  completions/Constants-esv
+  completions/Types-esv
+
+completions
+  completion template Exp : "(CommaExp)" =
+    "(" <CommaExp:CommaExp> ")"  
+  completion template Exp : "Identifier()" =
+    <Identifier:Identifier> "(" <:Exp> ")"  
+  completion template Exp : "Exp[IndexExp]" =
+    <Exp:Exp> "[" <IndexExp:IndexExp> "]"  
+  completion template Exp : "Exp.Identifier" =
+    <Exp:Exp> "." <Identifier:Identifier>  
+  completion template Exp : "Exp++" =
+    <Exp:Exp> "++"  
+  completion template Exp : "Exp--" =
+    <Exp:Exp> "--"  
+  completion template Exp : "!Exp" =
+    "!" <Exp:Exp>  
+
+completions
+  completion template Exp : "Exp * Exp" =
+    <Exp:Exp> " * " <Exp:Exp>  
+  completion template Exp : "Exp / Exp" =
+    <Exp:Exp> " / " <Exp:Exp>  
+  completion template Exp : "Exp % Exp" =
+    <Exp:Exp> " % " <Exp:Exp>  
+  completion template Exp : "Exp + Exp" =
+    <Exp:Exp> " + " <Exp:Exp>  
+  completion template Exp : "Exp - Exp" =
+    <Exp:Exp> " - " <Exp:Exp>  
+  completion template Exp : "Exp < Exp" =
+    <Exp:Exp> " <   " <Exp:Exp>  
+  completion template Exp : "Exp <= Exp" =
+    <Exp:Exp> " <=  " <Exp:Exp>  
+  completion template Exp : "Exp > Exp" =
+    <Exp:Exp> " >   " <Exp:Exp>  
+  completion template Exp : "Exp >= Exp" =
+    <Exp:Exp> " >=  " <Exp:Exp>  
+  completion template Exp : "Exp == Exp" =
+    <Exp:Exp> " ==   " <Exp:Exp>  
+  completion template Exp : "Exp != Exp" =
+    <Exp:Exp> " !=   " <Exp:Exp>  
+  completion template Exp : "Exp && Exp" =
+    <Exp:Exp> " && " <Exp:Exp>  
+  completion template Exp : "Exp || Exp" =
+    <Exp:Exp> " || " <Exp:Exp>  
+  completion template AssignExp : "Exp AssignOp AssignExp" =
+    <Exp:Exp> " " <AssignOp:AssignOp> " " <AssignExp:AssignExp>  
+  completion template AssignOp : "=" =
+    "="                   

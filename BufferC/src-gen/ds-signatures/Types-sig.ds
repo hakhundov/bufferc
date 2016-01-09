@@ -1,0 +1,13 @@
+module src-gen/ds-signatures/Types-sig
+
+imports ds-signatures/Constants-sig
+
+imports ds-signatures/Identifiers-sig
+
+signature
+    sorts
+      Type
+    constructors
+      Void : Type 
+      Bool : Type 
+      Char : Type 

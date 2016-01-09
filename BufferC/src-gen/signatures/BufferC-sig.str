@@ -1,0 +1,39 @@
+module signatures/BufferC-sig
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Expressions-sig
+
+
+imports
+  signatures/Identifiers-sig
+
+
+imports
+  signatures/Keywords-sig
+
+
+imports
+  signatures/Layout-sig
+
+
+imports
+  signatures/Modules-sig
+
+
+imports
+  signatures/Statements-sig
+
+
+imports
+  signatures/Types-sig
+
+
+imports
+  signatures/Buffers-sig
+
+
+signature

@@ -1,0 +1,10 @@
+module signatures/Layout-sig
+
+signature
+  constructors
+     : String -> Asterisk
+     : String -> Slash
+     : String -> NestedCommentText
+     : String -> NestedComment
+     : String -> NestedCommentRest
+     : String -> EOF

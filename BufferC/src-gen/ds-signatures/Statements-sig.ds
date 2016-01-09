@@ -1,0 +1,30 @@
+module src-gen/ds-signatures/Statements-sig
+
+imports ds-signatures/Identifiers-sig
+
+imports ds-signatures/Expressions-sig
+
+imports ds-signatures/Types-sig
+
+signature
+    sorts
+      Decl
+      Declaration
+      Block
+      Stm
+    constructors
+      Decl : Identifier -> Decl 
+      Decl : Type * Decl -> Declaration 
+      DeclInit : Type * Decl * Exp -> Declaration 
+    constructors
+      Block : List(Stm) -> Block 
+      DeclStm : Declaration -> Stm 
+      Exp : CommaExp -> Stm 
+      If : CommaExp * Stm -> Stm 
+      IfElse : CommaExp * Stm * Stm -> Stm 
+      While : CommaExp * Stm -> Stm 
+      DoWhile : Stm * CommaExp -> Stm 
+      For : CommaExp * CommaExp * CommaExp * Stm -> Stm 
+      ForDec : Declaration * CommaExp * CommaExp * Stm -> Stm 
+      Return : CommaExp -> Stm 
+      Exit : CommaExp -> Stm 

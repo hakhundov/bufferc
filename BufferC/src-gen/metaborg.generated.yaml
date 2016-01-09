@@ -1,0 +1,83 @@
+---
+identifier:
+  groupId: "org.metaborg.cube.bufferc"
+  id: "bufferc"
+  version:
+    major: 1
+    minor: 0
+    patch: 0
+    qualifier: ""
+name: "BufferC"
+compileDependencies:
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lib.analysis"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.esv"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.template"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.nabl"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.ts"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+runtimeDependencies:
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lib.analysis"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.esv"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.template"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.nabl"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+- groupId: "org.metaborg"
+  id: "org.metaborg.meta.lang.ts"
+  version:
+    major: 1
+    minor: 5
+    patch: 0
+    qualifier: "SNAPSHOT"
+languageContributions: []

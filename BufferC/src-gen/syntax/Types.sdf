@@ -1,0 +1,13 @@
+module Types
+imports Constants
+
+imports Identifiers
+
+exports
+  context-free syntax
+    "void"    -> Type {cons("Void")}
+    "boolean" -> Type {cons("Bool")}
+    "char"    -> Type {cons("Char")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Type {cons("COMPLETION-Type")}

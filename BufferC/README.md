@@ -68,6 +68,11 @@ You can find the base implementation of BufferC in the following git repository:
 
 * In the examples directory you find a couple of example `.bc` files. Open them to inspect what the IDE provides.
 
+* Add the `Spoofax (Meta) Nature` to the project: right click on the project folder (in the explorer widget), 
+	- spoofax (meta) -> add spoofax meta nature
+	- spoofax -> add spoofax nature
+
+
 ## The BufferC Language
 
 The ‘BufferC’ language is a very limited subset of the C language. It is not designed to make a complete usable language, but rather to be just big enough to illustrate the principles of linguistic abstraction for security.

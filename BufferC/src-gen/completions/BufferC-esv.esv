@@ -1,0 +1,12 @@
+module completions/BufferC-esv
+
+imports
+  completions/Constants-esv
+  completions/Expressions-esv
+  completions/Identifiers-esv
+  completions/Keywords-esv
+  completions/Layout-esv
+  completions/Modules-esv
+  completions/Statements-esv
+  completions/Types-esv
+  completions/Buffers-esv

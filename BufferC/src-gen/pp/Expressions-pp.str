@@ -1,0 +1,411 @@
+module pp/Expressions-pp
+
+imports
+  libstratego-gpp
+  runtime/tmpl/pp
+  libstratego-sglr
+  signatures/Expressions-sig
+
+
+imports
+  signatures/Identifiers-sig
+
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Types-sig
+
+
+imports
+  pp/Identifiers-pp
+
+
+imports
+  pp/Constants-pp
+
+
+imports
+  pp/Types-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-IndexExp
+
+  prettyprint-example =
+    prettyprint-Exp
+
+  prettyprint-Exp :
+    Var(t1__) -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [t1__']
+                   )
+                 ]
+    with t1__' := <pp-one-Z(prettyprint-Identifier)> t1__
+
+  is-Exp =
+    ?Var(_)
+
+  prettyprint-Exp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-Exp)
+    where t1__' := <pp-one-Z(prettyprint-Constant)> t1__
+
+  prettyprint-Exp :
+    CommaExp(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [ S("(")
+                          , t1__'
+                          , S(")")
+                          ]
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-CommaExp)> t1__
+
+  is-Exp =
+    ?CommaExp(_)
+
+  prettyprint-Exp :
+    FunctionCall(t1__, t2__) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [ t1__'
+                                    , S("(")
+                                    , t2__'
+                                    , S(")")
+                                    ]
+                                  )
+                                ]
+    with t1__' := <pp-one-Z(prettyprint-Identifier)> t1__
+    with t2__' := <pp-H-list(prettyprint-Exp|", ")> t2__
+
+  is-Exp =
+    ?FunctionCall(_, _)
+
+  prettyprint-Exp :
+    ArrayField(t1__, t2__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [ t1__'
+                                  , S("[")
+                                  , t2__'
+                                  , S("]")
+                                  ]
+                                )
+                              ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-IndexExp)> t2__
+
+  is-Exp =
+    ?ArrayField(_, _)
+
+  prettyprint-Exp :
+    Field(t1__, t2__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__', S("."), t2__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Identifier)> t2__
+
+  is-Exp =
+    ?Field(_, _)
+
+  prettyprint-Exp :
+    IncrementPostfix(t1__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [t1__', S("++")]
+                                )
+                              ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+
+  is-Exp =
+    ?IncrementPostfix(_)
+
+  prettyprint-Exp :
+    DecrementPostfix(t1__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [t1__', S("--")]
+                                )
+                              ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+
+  is-Exp =
+    ?DecrementPostfix(_)
+
+  prettyprint-IndexExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-IndexExp)
+    where t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+
+  prettyprint-Exp :
+    Not(t1__) -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("!"), t1__']
+                   )
+                 ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+
+  is-Exp =
+    ?Not(_)
+
+  is-IndexExp =
+    fail
+
+  is-Exp =
+    fail
+
+  prettyprint-IndexExp :
+    amb([h|hs]) -> <prettyprint-IndexExp> h
+
+  prettyprint-Exp :
+    amb([h|hs]) -> <prettyprint-Exp> h
+
+
+strategies
+  prettyprint-example =
+    prettyprint-Exp
+
+  prettyprint-example =
+    prettyprint-AssignExp
+
+  prettyprint-example =
+    prettyprint-AssignOp
+
+  prettyprint-example =
+    prettyprint-CommaExp
+
+  prettyprint-Exp :
+    Multiplication(t1__, t2__) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [t1__', S(" * "), t2__']
+                                    )
+                                  ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Multiplication(_, _)
+
+  prettyprint-Exp :
+    Division(t1__, t2__) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [t1__', S(" / "), t2__']
+                              )
+                            ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Division(_, _)
+
+  prettyprint-Exp :
+    Modulo(t1__, t2__) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [t1__', S(" % "), t2__']
+                            )
+                          ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Modulo(_, _)
+
+  prettyprint-Exp :
+    Addition(t1__, t2__) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [t1__', S(" + "), t2__']
+                              )
+                            ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Addition(_, _)
+
+  prettyprint-Exp :
+    Subtraction(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [t1__', S(" - "), t2__']
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Subtraction(_, _)
+
+  prettyprint-Exp :
+    LessThan(t1__, t2__) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [t1__', S(" <   "), t2__']
+                              )
+                            ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?LessThan(_, _)
+
+  prettyprint-Exp :
+    LessThanEqual(t1__, t2__) -> [ H(
+                                     [SOpt(HS(), "0")]
+                                   , [t1__', S(" <=  "), t2__']
+                                   )
+                                 ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?LessThanEqual(_, _)
+
+  prettyprint-Exp :
+    GreaterThan(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [t1__', S(" >   "), t2__']
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?GreaterThan(_, _)
+
+  prettyprint-Exp :
+    GreaterThanEqual(t1__, t2__) -> [ H(
+                                        [SOpt(HS(), "0")]
+                                      , [t1__', S(" >=  "), t2__']
+                                      )
+                                    ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?GreaterThanEqual(_, _)
+
+  prettyprint-Exp :
+    Equal(t1__, t2__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__', S(" ==   "), t2__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Equal(_, _)
+
+  prettyprint-Exp :
+    Inequal(t1__, t2__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [t1__', S(" !=   "), t2__']
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Inequal(_, _)
+
+  prettyprint-Exp :
+    And(t1__, t2__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [t1__', S(" && "), t2__']
+                         )
+                       ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?And(_, _)
+
+  prettyprint-Exp :
+    Or(t1__, t2__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__', S(" || "), t2__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-Exp)> t2__
+
+  is-Exp =
+    ?Or(_, _)
+
+  prettyprint-AssignExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-AssignExp)
+    where t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+
+  prettyprint-AssignExp :
+    Assign(t1__, t2__, t3__) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [ t1__'
+                                    , S(" ")
+                                    , t2__'
+                                    , S(" ")
+                                    , t3__'
+                                    ]
+                                  )
+                                ]
+    with t1__' := <pp-one-Z(prettyprint-Exp)> t1__
+    with t2__' := <pp-one-Z(prettyprint-AssignOp)> t2__
+    with t3__' := <pp-one-Z(prettyprint-AssignExp)> t3__
+
+  is-AssignExp =
+    ?Assign(_, _, _)
+
+  prettyprint-AssignOp :
+    Assign() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("=")]
+                  )
+                ]
+
+  is-AssignOp =
+    ?Assign()
+
+  prettyprint-CommaExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-CommaExp)
+    where t1__' := <pp-one-Z(prettyprint-AssignExp)> t1__
+
+  is-Exp =
+    fail
+
+  is-AssignExp =
+    fail
+
+  is-AssignOp =
+    fail
+
+  is-CommaExp =
+    fail
+
+  prettyprint-Exp :
+    amb([h|hs]) -> <prettyprint-Exp> h
+
+  prettyprint-AssignExp :
+    amb([h|hs]) -> <prettyprint-AssignExp> h
+
+  prettyprint-AssignOp :
+    amb([h|hs]) -> <prettyprint-AssignOp> h
+
+  prettyprint-CommaExp :
+    amb([h|hs]) -> <prettyprint-CommaExp> h

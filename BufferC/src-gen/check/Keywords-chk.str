@@ -1,0 +1,29 @@
+module check/Keywords-chk
+
+imports
+  libstratego-gpp
+  runtime/tmpl/pp
+  libstratego-sglr
+  signatures/Keywords-sig
+
+
+imports
+  signatures/Types-sig
+
+
+imports
+  check/Types-chk
+
+
+strategies
+  check-Keyword =
+    is-string
+
+  check-example =
+    check-Keyword
+
+  check-Keyword :
+    amb([h|hs]) -> <check-Keyword> h
+
+  error-Keyword =
+    debug(!"Unexpected constructor. Expected string from sort Keyword instead. ")

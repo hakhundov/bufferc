@@ -1,0 +1,16 @@
+module Identifiers
+imports Keywords
+
+exports
+  lexical syntax
+    [a-zA-Z\_] [0-9a-zA-Z\_]* -> ID 
+    Keyword                   -> ID {reject}
+
+  lexical restrictions
+    ID -/- [a-zA-Z0-9\_]
+
+  context-free syntax
+    ID -> Identifier {cons("Identifier")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Identifier {cons("COMPLETION-Identifier")}

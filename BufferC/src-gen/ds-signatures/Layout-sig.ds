@@ -1,0 +1,17 @@
+module src-gen/ds-signatures/Layout-sig
+
+signature
+    sorts
+      Asterisk
+      Slash
+      NestedCommentText
+      NestedComment
+      NestedCommentRest
+      EOF
+    constructors
+      __String2Asterisk__ : String -> Asterisk {implicit}
+      __String2Slash__ : String -> Slash {implicit}
+      __String2NestedCommentText__ : String -> NestedCommentText {implicit}
+      __String2NestedComment__ : String -> NestedComment {implicit}
+      __String2NestedCommentRest__ : String -> NestedCommentRest {implicit}
+      __String2EOF__ : String -> EOF {implicit}

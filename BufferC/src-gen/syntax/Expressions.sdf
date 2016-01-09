@@ -1,0 +1,83 @@
+module Expressions
+imports Identifiers
+
+imports Constants
+
+imports Types
+
+exports
+  context-free syntax
+    Identifier                    -> Exp      {cons("Var")}
+    Constant                      -> Exp      
+    "(" CommaExp ")"              -> Exp      {cons("CommaExp")}
+    Identifier "(" {Exp ","}* ")" -> Exp      {cons("FunctionCall")}
+    Exp "[" IndexExp "]"          -> Exp      {cons("ArrayField")}
+    Exp "." Identifier            -> Exp      {cons("Field")}
+    Exp "++"                      -> Exp      {cons("IncrementPostfix"), left}
+    Exp "--"                      -> Exp      {cons("DecrementPostfix"), left}
+    Exp                           -> IndexExp 
+    "!" Exp                       -> Exp      {cons("Not"), right}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Exp {cons("COMPLETION-Exp")}
+
+  context-free syntax
+    Exp "*" Exp            -> Exp       {cons("Multiplication"), left}
+    Exp "/" Exp            -> Exp       {cons("Division"), left}
+    Exp "%" Exp            -> Exp       {cons("Modulo"), left}
+    Exp "+" Exp            -> Exp       {cons("Addition"), left}
+    Exp "-" Exp            -> Exp       {cons("Subtraction"), left}
+    Exp "<" Exp            -> Exp       {cons("LessThan"), left}
+    Exp "<=" Exp           -> Exp       {cons("LessThanEqual"), left}
+    Exp ">" Exp            -> Exp       {cons("GreaterThan"), left}
+    Exp ">=" Exp           -> Exp       {cons("GreaterThanEqual"), left}
+    Exp "==" Exp           -> Exp       {cons("Equal"), left}
+    Exp "!=" Exp           -> Exp       {cons("Inequal"), left}
+    Exp "&&" Exp           -> Exp       {cons("And"), left}
+    Exp "||" Exp           -> Exp       {cons("Or"), left}
+    Exp                    -> AssignExp 
+    Exp AssignOp AssignExp -> AssignExp {cons("Assign"), right}
+    "="                    -> AssignOp  {cons("Assign")}
+    AssignExp              -> CommaExp  
+
+  context-free syntax
+    CONTENTCOMPLETE -> Exp       {cons("COMPLETION-Exp")}
+    CONTENTCOMPLETE -> AssignExp {cons("COMPLETION-AssignExp")}
+    CONTENTCOMPLETE -> AssignOp  {cons("COMPLETION-AssignOp")}
+    CONTENTCOMPLETE -> CommaExp  {cons("COMPLETION-CommaExp")}
+
+  context-free priorities
+    {left:
+      Identifier "(" {Exp ","}* ")" -> Exp
+      Exp "[" IndexExp "]" -> Exp
+      Exp "." Identifier -> Exp
+      Exp "++" -> Exp
+    } >
+    "!" Exp -> Exp >
+    {left:
+      Exp "*" Exp -> Exp
+      Exp "/" Exp -> Exp
+      Exp "%" Exp -> Exp
+    } >
+    {left:
+      Exp "+" Exp -> Exp
+      Exp "-" Exp -> Exp
+    } >
+    {left:
+      Exp "<" Exp -> Exp
+      Exp "<=" Exp -> Exp
+      Exp ">" Exp -> Exp
+      Exp ">=" Exp -> Exp
+    } >
+    {left:
+      Exp "==" Exp -> Exp
+      Exp "!=" Exp -> Exp
+    } >
+    { Exp "&&" Exp -> Exp } >
+    { Exp "||" Exp -> Exp } >
+    { Exp AssignOp AssignExp -> AssignExp }
+
+  lexical restrictions
+    "+" -/- [\+]
+    "-" -/- [\-]
+    "&" -/- [\&]

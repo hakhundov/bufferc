@@ -1,0 +1,34 @@
+module Buffers
+imports Types
+
+imports Identifiers
+
+imports Keywords
+
+exports
+  context-free syntax
+    "int"    -> Type       {cons("Int")}
+    "buffer" -> Type       {cons("Buffer")}
+    "FILE"   -> Type       {cons("FILE")}
+    "length" -> Identifier {cons("Length")}
+    "create" -> Identifier {cons("Create")}
+    "print"  -> Identifier {cons("Print")}
+    "printf" -> Identifier {cons("PrintF")}
+    "fopen"  -> Identifier {cons("Fopen")}
+    "fread"  -> Identifier {cons("Fread")}
+
+  context-free syntax
+    CONTENTCOMPLETE -> Type       {cons("COMPLETION-Type")}
+    CONTENTCOMPLETE -> Identifier {cons("COMPLETION-Identifier")}
+
+  lexical syntax
+    "buffer" -> Keyword 
+    "create" -> Keyword 
+    "int"    -> Keyword 
+    "length" -> Keyword 
+    "size"   -> Keyword 
+    "print"  -> Keyword 
+    "printf" -> Keyword 
+    "FILE"   -> Keyword 
+    "fopen"  -> Keyword 
+    "fread"  -> Keyword 

@@ -1,0 +1,23 @@
+
+module completions/Modules-esv
+
+imports
+  completions/Identifiers-esv
+  completions/Constants-esv
+  completions/Expressions-esv
+  completions/Types-esv
+  completions/Statements-esv
+
+completions
+  completion template Module : "module Identifier { }" =
+    "module " <Identifier:Identifier> " " <:ModuleImports> " {\n\t" (cursor) "\n}" (blank)  
+  completion template ModuleImports : "imports " =
+    "imports " <:Import>                 
+
+completions
+  completion template FunctionParameter : "Type Decl" =
+    <Type:Type> " " <Decl:Decl>                 
+  completion template FunDef : "Type Identifier () { }" =
+    <Type:Type> " " <Identifier:Identifier> " (" <:FunctionParameter> ") {\n\t" (cursor) "\n}" (blank)  
+  completion template FunProto : "Type Identifier ();" =
+    <Type:Type> " " <Identifier:Identifier> " (" <:FunctionParameter> ");" (blank)  

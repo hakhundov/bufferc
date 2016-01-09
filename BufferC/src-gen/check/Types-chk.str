@@ -1,0 +1,55 @@
+module check/Types-chk
+
+imports
+  libstratego-gpp
+  runtime/tmpl/pp
+  libstratego-sglr
+  signatures/Types-sig
+
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Identifiers-sig
+
+
+imports
+  check/Constants-chk
+
+
+imports
+  check/Identifiers-chk
+
+
+strategies
+  check-example =
+    check-Type
+
+  check-Type :
+    Void() -> <id>
+
+  is-Type-with-constructor =
+    ?Void()
+
+  check-Type :
+    Bool() -> <id>
+
+  is-Type-with-constructor =
+    ?Bool()
+
+  check-Type :
+    Char() -> <id>
+
+  is-Type-with-constructor =
+    ?Char()
+
+  is-Type-with-constructor =
+    fail
+
+  check-Type :
+    amb([h|hs]) -> <check-Type> h
+
+  error-Type =
+    debug(!"Unexpected constructor. Expected constructor from sort Type instead. ")

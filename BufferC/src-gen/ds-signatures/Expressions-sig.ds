@@ -1,0 +1,41 @@
+module src-gen/ds-signatures/Expressions-sig
+
+imports ds-signatures/Identifiers-sig
+
+imports ds-signatures/Constants-sig
+
+imports ds-signatures/Types-sig
+
+signature
+    sorts
+      IndexExp
+      Exp
+      AssignExp
+      AssignOp
+      CommaExp
+    constructors
+      Var : Identifier -> Exp 
+      CommaExp : CommaExp -> Exp 
+      FunctionCall : Identifier * List(Exp) -> Exp 
+      ArrayField : Exp * IndexExp -> Exp 
+      Field : Exp * Identifier -> Exp 
+      IncrementPostfix : Exp -> Exp 
+      DecrementPostfix : Exp -> Exp 
+      __Exp2IndexExp__ : Exp -> IndexExp {implicit}
+      Not : Exp -> Exp 
+    constructors
+      Multiplication : Exp * Exp -> Exp 
+      Division : Exp * Exp -> Exp 
+      Modulo : Exp * Exp -> Exp 
+      Addition : Exp * Exp -> Exp 
+      Subtraction : Exp * Exp -> Exp 
+      LessThan : Exp * Exp -> Exp 
+      LessThanEqual : Exp * Exp -> Exp 
+      GreaterThan : Exp * Exp -> Exp 
+      GreaterThanEqual : Exp * Exp -> Exp 
+      Equal : Exp * Exp -> Exp 
+      Inequal : Exp * Exp -> Exp 
+      And : Exp * Exp -> Exp 
+      Or : Exp * Exp -> Exp 
+      Assign : Exp * AssignOp * AssignExp -> AssignExp 
+      Assign : AssignOp 

@@ -1,0 +1,35 @@
+module signatures/Modules-sig
+
+imports
+  signatures/Identifiers-sig
+
+
+imports
+  signatures/Constants-sig
+
+
+imports
+  signatures/Expressions-sig
+
+
+imports
+  signatures/Types-sig
+
+
+imports
+  signatures/Statements-sig
+
+
+signature
+  constructors
+    Module  : Identifier * Option(ModuleImports) * List(ModuleContent) -> Module
+            : Declaration -> ModuleContent
+            : FunDef -> ModuleContent
+            : FunProto -> ModuleContent
+    Imports : List(Import) -> ModuleImports
+    Import  : Identifier -> Import
+
+  constructors
+    Param    : Type * Decl -> FunctionParameter
+    FunDef   : Type * Identifier * List(FunctionParameter) * List(Stm) -> FunDef
+    FunProto : Type * Identifier * List(FunctionParameter) -> FunProto

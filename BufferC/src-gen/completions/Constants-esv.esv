@@ -1,0 +1,9 @@
+module completions/Constants-esv
+
+completions
+  completion template Constant : "true" =
+    "true"  
+  completion template Constant : "false" =
+    "false"  
+  completion template Constant : "null" =
+    "null"  

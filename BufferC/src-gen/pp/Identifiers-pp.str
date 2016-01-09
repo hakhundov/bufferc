@@ -1,0 +1,48 @@
+module pp/Identifiers-pp
+
+imports
+  libstratego-gpp
+  runtime/tmpl/pp
+  libstratego-sglr
+  signatures/Identifiers-sig
+
+
+imports
+  signatures/Keywords-sig
+
+
+imports
+  pp/Keywords-pp
+
+
+strategies
+  prettyprint-ID =
+    ![S(<is-string>)]
+
+  prettyprint-example =
+    prettyprint-ID
+
+  prettyprint-ID :
+    amb([h|hs]) -> <prettyprint-ID> h
+
+
+strategies
+  prettyprint-example =
+    prettyprint-Identifier
+
+  prettyprint-Identifier :
+    Identifier(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [t1__']
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-ID)> t1__
+
+  is-Identifier =
+    ?Identifier(_)
+
+  is-Identifier =
+    fail
+
+  prettyprint-Identifier :
+    amb([h|hs]) -> <prettyprint-Identifier> h

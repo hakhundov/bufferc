@@ -1,0 +1,12 @@
+module signatures/Identifiers-sig
+
+imports
+  signatures/Keywords-sig
+
+
+signature
+  constructors
+     : String -> ID
+
+  constructors
+    Identifier : ID -> Identifier
