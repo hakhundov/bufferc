@@ -66,12 +66,26 @@ You can find the base implementation of BufferC in the following git repository:
 
 * Build the project (Project menu) to make the language implementation active. 
 
-* In the examples directory you find a couple of example `.bc` files. Open them to inspect what the IDE provides.
-
 * Add the `Spoofax (Meta) Nature` to the project: right click on the project folder (in the explorer widget), 
 	- spoofax (meta) -> add spoofax meta nature
 	- spoofax -> add spoofax nature
 
+#### BufferC Examples
+
+* Import the bufferc-examples project (also in the bufferc repository) into Eclipse as a generic project
+
+* Add the Spoofax Nature to the project (see above)
+
+* In the examples directory you find a couple of example `.bc` files. Open them to inspect what the IDE provides, which should include:
+	- syntax highlighting
+	- syntax checking, i.e. error reports on syntactic errors
+	- name checking
+	- type checking
+
+* The Spoofax menu for a .bc file should have entries for
+	- getting the abstract syntax of a file
+	- generation of a C header file
+	- generation of a C file
 
 ## The BufferC Language
 
