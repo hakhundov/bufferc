@@ -27,7 +27,7 @@ module syntax {
       i = 0;
       
     while(i < j) i++; 
-    
+      
     do i++; while(i < j)
     
     for(int k = 0; k < j; k++) i++;
