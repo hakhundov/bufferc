@@ -22,64 +22,64 @@ rules // relations
 rules // rules
   
   create-type-task(|ctx) :
-    Void() -> <task-create-id(|ctx,[x0])> x0
+    Void() -> <task-create-id(|ctx,[x47])> x47
     where
-      x0 := <type-is(|ctx)> Void()
+      x47 := <type-is(|ctx)> Void()
   
   create-type-task(|ctx) :
-    Int() -> <task-create-id(|ctx,[x1])> x1
+    Int() -> <task-create-id(|ctx,[x48])> x48
     where
-      x1 := <type-is(|ctx)> Int()
+      x48 := <type-is(|ctx)> Int()
   
   create-type-task(|ctx) :
-    Buffer() -> <task-create-id(|ctx,[x2])> x2
+    Buffer() -> <task-create-id(|ctx,[x49])> x49
     where
-      x2 := <type-is(|ctx)> Buffer()
+      x49 := <type-is(|ctx)> Buffer()
   
   create-type-task(|ctx) :
-    Bool() -> <task-create-id(|ctx,[x3])> x3
+    Bool() -> <task-create-id(|ctx,[x50])> x50
     where
-      x3 := <type-is(|ctx)> Bool()
+      x50 := <type-is(|ctx)> Bool()
   
   create-type-task(|ctx) :
-    Char() -> <task-create-id(|ctx,[x4])> x4
+    Char() -> <task-create-id(|ctx,[x51])> x51
     where
-      x4 := <type-is(|ctx)> Char()
+      x51 := <type-is(|ctx)> Char()
   
   create-type-task(|ctx) :
-    FILE() -> <task-create-id(|ctx,[x5])> x5
+    FILE() -> <task-create-id(|ctx,[x52])> x52
     where
-      x5 := <type-is(|ctx)> FILE()
+      x52 := <type-is(|ctx)> FILE()
   
   create-type-task(|ctx) :
-    Decimal(val) -> <task-create-id(|ctx,[x6])> x6
+    Decimal(val) -> <task-create-id(|ctx,[x53])> x53
     where
-      x6 := <type-is(|ctx)> Int()
+      x53 := <type-is(|ctx)> Int()
   
   create-type-task(|ctx) :
-    True() -> <task-create-id(|ctx,[x7])> x7
+    True() -> <task-create-id(|ctx,[x54])> x54
     where
-      x7 := <type-is(|ctx)> Bool()
+      x54 := <type-is(|ctx)> Bool()
   
   create-type-task(|ctx) :
-    False() -> <task-create-id(|ctx,[x8])> x8
+    False() -> <task-create-id(|ctx,[x55])> x55
     where
-      x8 := <type-is(|ctx)> Bool()
+      x55 := <type-is(|ctx)> Bool()
   
   create-type-task(|ctx) :
-    Char(val) -> <task-create-id(|ctx,[x9])> x9
+    Char(val) -> <task-create-id(|ctx,[x56])> x56
     where
-      x9 := <type-is(|ctx)> Char()
+      x56 := <type-is(|ctx)> Char()
   
   create-type-task(|ctx) :
-    String(val) -> <task-create-id(|ctx,[x10])> x10
+    String(val) -> <task-create-id(|ctx,[x57])> x57
     where
-      x10 := <type-is(|ctx)> Buffer()
+      x57 := <type-is(|ctx)> Buffer()
   
   create-type-task(|ctx) :
-    Null() -> <task-create-id(|ctx,[x11])> x11
+    Null() -> <task-create-id(|ctx,[x58])> x58
     where
-      x11 := <type-is(|ctx)> Buffer()
+      x58 := <type-is(|ctx)> Buffer()
   
   create-type-task(|ctx) :
     Param(t, Decl(Identifier(name))) -> <task-create-id(|ctx,[ty])> ty
@@ -105,7 +105,7 @@ rules // rules
       t := <type-task(|ctx)> e
   
   create-type-task(|ctx) :
-    Addition(e1, e2) -> <task-create-id(|ctx,[x12])> x12
+    Addition(e1, e2) -> <task-create-id(|ctx,[x59])> x59
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
@@ -113,10 +113,10 @@ rules // rules
       <task-create-error-on-failure(|ctx, eq1, "int expected")> e1;
       eq2 := <type-match(|ctx, Int()); task-create-id(|ctx, [eq1])> ty2;
       <task-create-error-on-failure(|ctx, eq2, "int expected")> e2;
-      x12 := <type-is(|ctx); task-create-id(|ctx, [eq2])> Int()
+      x59 := <type-is(|ctx); task-create-id(|ctx, [eq2])> Int()
   
   create-type-task(|ctx) :
-    Subtraction(e1, e2) -> <task-create-id(|ctx,[x12])> x12
+    Subtraction(e1, e2) -> <task-create-id(|ctx,[x59])> x59
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
@@ -124,10 +124,10 @@ rules // rules
       <task-create-error-on-failure(|ctx, eq3, "int expected")> e1;
       eq4 := <type-match(|ctx, Int()); task-create-id(|ctx, [eq3])> ty2;
       <task-create-error-on-failure(|ctx, eq4, "int expected")> e2;
-      x12 := <type-is(|ctx); task-create-id(|ctx, [eq4])> Int()
+      x59 := <type-is(|ctx); task-create-id(|ctx, [eq4])> Int()
   
   create-type-task(|ctx) :
-    Multiplication(e1, e2) -> <task-create-id(|ctx,[x12])> x12
+    Multiplication(e1, e2) -> <task-create-id(|ctx,[x59])> x59
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
@@ -135,10 +135,10 @@ rules // rules
       <task-create-error-on-failure(|ctx, eq5, "int expected")> e1;
       eq6 := <type-match(|ctx, Int()); task-create-id(|ctx, [eq5])> ty2;
       <task-create-error-on-failure(|ctx, eq6, "int expected")> e2;
-      x12 := <type-is(|ctx); task-create-id(|ctx, [eq6])> Int()
+      x59 := <type-is(|ctx); task-create-id(|ctx, [eq6])> Int()
   
   create-type-task(|ctx) :
-    Division(e1, e2) -> <task-create-id(|ctx,[x12])> x12
+    Division(e1, e2) -> <task-create-id(|ctx,[x59])> x59
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
@@ -146,7 +146,7 @@ rules // rules
       <task-create-error-on-failure(|ctx, eq7, "int expected")> e1;
       eq8 := <type-match(|ctx, Int()); task-create-id(|ctx, [eq7])> ty2;
       <task-create-error-on-failure(|ctx, eq8, "int expected")> e2;
-      x12 := <type-is(|ctx); task-create-id(|ctx, [eq8])> Int()
+      x59 := <type-is(|ctx); task-create-id(|ctx, [eq8])> Int()
   
   create-type-task(|ctx) :
     DecrementPostfix(e) -> <task-create-id(|ctx,[eq9])> ty
@@ -163,180 +163,180 @@ rules // rules
       <task-create-error-on-failure(|ctx, eq10, "int expected")> e
   
   create-type-task(|ctx) :
-    GreaterThan(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    GreaterThan(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq11 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq11, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq11])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq11])> Bool()
   
   create-type-task(|ctx) :
-    GreaterThanEqual(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    GreaterThanEqual(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq12 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq12, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq12])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq12])> Bool()
   
   create-type-task(|ctx) :
-    Equal(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    Equal(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq13 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq13, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq13])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq13])> Bool()
   
   create-type-task(|ctx) :
-    Inequal(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    Inequal(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq14 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq14, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq14])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq14])> Bool()
   
   create-type-task(|ctx) :
-    LessThan(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    LessThan(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq15 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq15, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq15])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq15])> Bool()
   
   create-type-task(|ctx) :
-    LessThanEqual(e1, e2) -> <task-create-id(|ctx,[x13])> x13
+    LessThanEqual(e1, e2) -> <task-create-id(|ctx,[x60])> x60
     where
       ty1 := <type-task(|ctx)> e1;
       ty2 := <type-task(|ctx); task-create-id(|ctx, [ty1])> e2;
       eq16 := <type-match(|ctx, ty2); task-create-id(|ctx, [ty2])> ty1;
       <task-create-error-on-failure(|ctx, eq16, "types not compatible")> e2;
-      x13 := <type-is(|ctx); task-create-id(|ctx, [eq16])> Bool()
+      x60 := <type-is(|ctx); task-create-id(|ctx, [eq16])> Bool()
   
   create-type-task(|ctx) :
-    Or(e1, e2) -> <task-create-id(|ctx,[x16])> x16
+    Or(e1, e2) -> <task-create-id(|ctx,[x63])> x63
     where
-      x14 := <type-task(|ctx)> e1;
-      eq17 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x14])> x14;
+      x61 := <type-task(|ctx)> e1;
+      eq17 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x61])> x61;
       <task-create-error-on-failure(|ctx, eq17, "bool expected")> e1;
-      x15 := <type-task(|ctx); task-create-id(|ctx, [eq17])> e2;
-      eq18 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x15])> x15;
+      x62 := <type-task(|ctx); task-create-id(|ctx, [eq17])> e2;
+      eq18 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x62])> x62;
       <task-create-error-on-failure(|ctx, eq18, "bool expected")> e2;
-      x16 := <type-is(|ctx); task-create-id(|ctx, [eq18])> Bool()
+      x63 := <type-is(|ctx); task-create-id(|ctx, [eq18])> Bool()
   
   create-type-task(|ctx) :
-    And(e1, e2) -> <task-create-id(|ctx,[x16])> x16
+    And(e1, e2) -> <task-create-id(|ctx,[x63])> x63
     where
-      x14 := <type-task(|ctx)> e1;
-      eq19 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x14])> x14;
+      x61 := <type-task(|ctx)> e1;
+      eq19 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x61])> x61;
       <task-create-error-on-failure(|ctx, eq19, "bool expected")> e1;
-      x15 := <type-task(|ctx); task-create-id(|ctx, [eq19])> e2;
-      eq20 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x15])> x15;
+      x62 := <type-task(|ctx); task-create-id(|ctx, [eq19])> e2;
+      eq20 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x62])> x62;
       <task-create-error-on-failure(|ctx, eq20, "bool expected")> e2;
-      x16 := <type-is(|ctx); task-create-id(|ctx, [eq20])> Bool()
+      x63 := <type-is(|ctx); task-create-id(|ctx, [eq20])> Bool()
   
   create-type-task(|ctx) :
-    Not(e) -> <task-create-id(|ctx,[x18])> x18
+    Not(e) -> <task-create-id(|ctx,[x65])> x65
     where
-      x17 := <type-task(|ctx)> e;
-      eq21 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x17])> x17;
+      x64 := <type-task(|ctx)> e;
+      eq21 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x64])> x64;
       <task-create-error-on-failure(|ctx, eq21, "bool expected")> e;
-      x18 := <type-is(|ctx); task-create-id(|ctx, [eq21])> Bool()
+      x65 := <type-is(|ctx); task-create-id(|ctx, [eq21])> Bool()
   
   create-type-task(|ctx) :
     e@FunctionCall(Identifier(name), es) -> <task-create-id(|ctx,[eq22])> ty
     where
-      x19 := <type-lookup(|ctx)> name;
-      ty := <new-task(|ctx)> Rewrite("proj0", x19); task-create-id(|ctx, [x19]);
-      tys := <new-task(|ctx)> Rewrite("proj1", x19); task-create-id(|ctx, [ty]);
+      x66 := <type-lookup(|ctx)> name;
+      ty := <new-task(|ctx)> Rewrite("proj0", x66); task-create-id(|ctx, [x66]);
+      tys := <new-task(|ctx)> Rewrite("proj1", x66); task-create-id(|ctx, [ty]);
       tys_es := <type-task(|ctx); task-create-id(|ctx, [tys])> es;
       eq22 := <type-match(|ctx, tys_es); task-create-id(|ctx, [tys_es])> tys;
       <task-create-error-on-failure(|ctx, eq22, "argument types not compatible")> e
   
   create-type-task(|ctx) :
-    FunctionCall(Create(), [e]) -> <task-create-id(|ctx,[x21])> x21
+    FunctionCall(Create(), [e]) -> <task-create-id(|ctx,[x68])> x68
     where
-      x20 := <type-task(|ctx)> e;
-      eq23 := <type-match(|ctx, Int()); task-create-id(|ctx, [x20])> x20;
+      x67 := <type-task(|ctx)> e;
+      eq23 := <type-match(|ctx, Int()); task-create-id(|ctx, [x67])> x67;
       <task-create-error-on-failure(|ctx, eq23, "int expected")> e;
-      x21 := <type-is(|ctx); task-create-id(|ctx, [eq23])> Buffer()
+      x68 := <type-is(|ctx); task-create-id(|ctx, [eq23])> Buffer()
   
   create-type-task(|ctx) :
-    FunctionCall(Print(), [e]) -> <task-create-id(|ctx,[x23])> x23
+    FunctionCall(Print(), [e]) -> <task-create-id(|ctx,[x70])> x70
     where
-      x22 := <type-task(|ctx)> e;
-      eq24 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x22])> x22;
+      x69 := <type-task(|ctx)> e;
+      eq24 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x69])> x69;
       <task-create-error-on-failure(|ctx, eq24, "buffer expected")> e;
-      x23 := <type-is(|ctx); task-create-id(|ctx, [eq24])> Void()
+      x70 := <type-is(|ctx); task-create-id(|ctx, [eq24])> Void()
   
   create-type-task(|ctx) :
-    FunctionCall(PrintF(), [e1, e2]) -> <task-create-id(|ctx,[x26])> x26
+    FunctionCall(PrintF(), [e1, e2]) -> <task-create-id(|ctx,[x73])> x73
     where
-      x24 := <type-task(|ctx)> e1;
-      eq25 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x24])> x24;
+      x71 := <type-task(|ctx)> e1;
+      eq25 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x71])> x71;
       <task-create-error-on-failure(|ctx, eq25, "buffer expected")> e1;
-      x25 := <type-task(|ctx); task-create-id(|ctx, [eq25])> e2;
-      eq26 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x25])> x25;
+      x72 := <type-task(|ctx); task-create-id(|ctx, [eq25])> e2;
+      eq26 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x72])> x72;
       <task-create-error-on-failure(|ctx, eq26, "buffer expected")> e2;
-      x26 := <type-is(|ctx); task-create-id(|ctx, [eq26])> Void()
+      x73 := <type-is(|ctx); task-create-id(|ctx, [eq26])> Void()
   
   create-type-task(|ctx) :
-    FunctionCall(Fopen(), [e1, e2]) -> <task-create-id(|ctx,[x29])> x29
+    FunctionCall(Fopen(), [e1, e2]) -> <task-create-id(|ctx,[x76])> x76
     where
-      x27 := <type-task(|ctx)> e1;
-      eq27 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x27])> x27;
+      x74 := <type-task(|ctx)> e1;
+      eq27 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x74])> x74;
       <task-create-error-on-failure(|ctx, eq27, "buffer expected")> e1;
-      x28 := <type-task(|ctx); task-create-id(|ctx, [eq27])> e2;
-      eq28 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x28])> x28;
+      x75 := <type-task(|ctx); task-create-id(|ctx, [eq27])> e2;
+      eq28 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x75])> x75;
       <task-create-error-on-failure(|ctx, eq28, "buffer expected")> e2;
-      x29 := <type-is(|ctx); task-create-id(|ctx, [eq28])> FILE()
+      x76 := <type-is(|ctx); task-create-id(|ctx, [eq28])> FILE()
   
   create-type-task(|ctx) :
-    FunctionCall(Fread(), [e1, e2]) -> <task-create-id(|ctx,[x32])> x32
+    FunctionCall(Fread(), [e1, e2]) -> <task-create-id(|ctx,[x79])> x79
     where
-      x30 := <type-task(|ctx)> e1;
-      eq29 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x30])> x30;
+      x77 := <type-task(|ctx)> e1;
+      eq29 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x77])> x77;
       <task-create-error-on-failure(|ctx, eq29, "buffer expected")> e1;
-      x31 := <type-task(|ctx); task-create-id(|ctx, [eq29])> e2;
-      eq30 := <type-match(|ctx, FILE()); task-create-id(|ctx, [x31])> x31;
+      x78 := <type-task(|ctx); task-create-id(|ctx, [eq29])> e2;
+      eq30 := <type-match(|ctx, FILE()); task-create-id(|ctx, [x78])> x78;
       <task-create-error-on-failure(|ctx, eq30, "buffer expected")> e2;
-      x32 := <type-is(|ctx); task-create-id(|ctx, [eq30])> Void()
+      x79 := <type-is(|ctx); task-create-id(|ctx, [eq30])> Void()
   
   create-type-task(|ctx) :
-    Field(e, Length()) -> <task-create-id(|ctx,[x34])> x34
+    Field(e, Length()) -> <task-create-id(|ctx,[x81])> x81
     where
-      x33 := <type-task(|ctx)> e;
-      eq31 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x33])> x33;
+      x80 := <type-task(|ctx)> e;
+      eq31 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x80])> x80;
       <task-create-error-on-failure(|ctx, eq31, "buffer expected")> e;
-      x34 := <type-is(|ctx); task-create-id(|ctx, [eq31])> Int()
+      x81 := <type-is(|ctx); task-create-id(|ctx, [eq31])> Int()
   
   create-type-task(|ctx) :
-    ArrayField(e1, e2) -> <task-create-id(|ctx,[x37])> x37
+    ArrayField(e1, e2) -> <task-create-id(|ctx,[x84])> x84
     where
-      x35 := <type-task(|ctx)> e1;
-      eq32 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x35])> x35;
+      x82 := <type-task(|ctx)> e1;
+      eq32 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x82])> x82;
       <task-create-error-on-failure(|ctx, eq32, "buffer expected")> e1;
-      x36 := <type-task(|ctx); task-create-id(|ctx, [eq32])> e2;
-      eq33 := <type-match(|ctx, Int()); task-create-id(|ctx, [x36])> x36;
+      x83 := <type-task(|ctx); task-create-id(|ctx, [eq32])> e2;
+      eq33 := <type-match(|ctx, Int()); task-create-id(|ctx, [x83])> x83;
       <task-create-error-on-failure(|ctx, eq33, "int expected")> e2;
-      x37 := <type-is(|ctx); task-create-id(|ctx, [eq33])> Char()
+      x84 := <type-is(|ctx); task-create-id(|ctx, [eq33])> Char()
   
   create-type-task(|ctx) :
-    Assign(ArrayField(e1, e2), Assign(), e3) -> <task-create-id(|ctx,[x41])> x41
+    Assign(ArrayField(e1, e2), Assign(), e3) -> <task-create-id(|ctx,[x88])> x88
     where
-      x38 := <type-task(|ctx)> e1;
-      eq34 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x38])> x38;
+      x85 := <type-task(|ctx)> e1;
+      eq34 := <type-match(|ctx, Buffer()); task-create-id(|ctx, [x85])> x85;
       <task-create-error-on-failure(|ctx, eq34, "buffer expected")> e1;
-      x39 := <type-task(|ctx); task-create-id(|ctx, [eq34])> e2;
-      eq35 := <type-match(|ctx, Int()); task-create-id(|ctx, [x39])> x39;
+      x86 := <type-task(|ctx); task-create-id(|ctx, [eq34])> e2;
+      eq35 := <type-match(|ctx, Int()); task-create-id(|ctx, [x86])> x86;
       <task-create-error-on-failure(|ctx, eq35, "int expected")> e2;
-      x40 := <type-task(|ctx); task-create-id(|ctx, [eq35])> e3;
-      eq36 := <type-match(|ctx, Char()); task-create-id(|ctx, [x40])> x40;
+      x87 := <type-task(|ctx); task-create-id(|ctx, [eq35])> e3;
+      eq36 := <type-match(|ctx, Char()); task-create-id(|ctx, [x87])> x87;
       <task-create-error-on-failure(|ctx, eq36, "char expected")> e3;
-      x41 := <type-is(|ctx); task-create-id(|ctx, [eq36])> Char()
+      x88 := <type-is(|ctx); task-create-id(|ctx, [eq36])> Char()
   
   create-type-task(|ctx) :
     Assign(Var(Identifier(x)), Assign(), e) -> <task-create-id(|ctx,[eq37])> ty
@@ -349,50 +349,50 @@ rules // rules
   nabl-constraint(|ctx) :
     If(e, stm) -> <fail>
     where
-      x42 := <type-task(|ctx)> e;
-      eq38 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x42])> x42;
+      x89 := <type-task(|ctx)> e;
+      eq38 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x89])> x89;
       <task-create-error-on-failure(|ctx, eq38, "bool expected")> e
   
   nabl-constraint(|ctx) :
     While(e, stm) -> <fail>
     where
-      x42 := <type-task(|ctx)> e;
-      eq39 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x42])> x42;
+      x89 := <type-task(|ctx)> e;
+      eq39 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x89])> x89;
       <task-create-error-on-failure(|ctx, eq39, "bool expected")> e
   
   nabl-constraint(|ctx) :
     DoWhile(stm, e) -> <fail>
     where
-      x42 := <type-task(|ctx)> e;
-      eq40 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x42])> x42;
+      x89 := <type-task(|ctx)> e;
+      eq40 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x89])> x89;
       <task-create-error-on-failure(|ctx, eq40, "bool expected")> e
   
   nabl-constraint(|ctx) :
     IfElse(e, stm1, stm2) -> <fail>
     where
-      x43 := <type-task(|ctx)> e;
-      eq41 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x43])> x43;
+      x90 := <type-task(|ctx)> e;
+      eq41 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x90])> x90;
       <task-create-error-on-failure(|ctx, eq41, "bool expected")> e
   
   nabl-constraint(|ctx) :
     ForDec(stm1, Some(e), stm2, stm3) -> <fail>
     where
-      x44 := <type-task(|ctx)> e;
-      eq42 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x44])> x44;
+      x91 := <type-task(|ctx)> e;
+      eq42 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x91])> x91;
       <task-create-error-on-failure(|ctx, eq42, "bool expected")> e
   
   nabl-constraint(|ctx) :
     For(stm1, Some(e), stm2, stm3) -> <fail>
     where
-      x45 := <type-task(|ctx)> e;
-      eq43 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x45])> x45;
+      x92 := <type-task(|ctx)> e;
+      eq43 := <type-match(|ctx, Bool()); task-create-id(|ctx, [x92])> x92;
       <task-create-error-on-failure(|ctx, eq43, "bool expected")> e
   
   nabl-constraint(|ctx) :
     Exit(Some(e)) -> <fail>
     where
-      x46 := <type-task(|ctx)> e;
-      eq44 := <type-match(|ctx, Int()); task-create-id(|ctx, [x46])> x46;
+      x93 := <type-task(|ctx)> e;
+      eq44 := <type-match(|ctx, Int()); task-create-id(|ctx, [x93])> x93;
       <task-create-error-on-failure(|ctx, eq44, "int expected")> e
   
 
