@@ -7,27 +7,89 @@ module libstring {
   // str_copy(dst, src): copy characters of src buffer into dst buffer and return dst
 
   buffer str_copy(buffer dst, buffer src) {
+	for(int i = 0; i < src.length; i++) {
+		// Prevent overflow on dst buffer
+		if (i < dst.length) {
+			dst[i] = src[i];
+		}
+	}
+	
+	return dst;
   } 
 	
 // str_clone(src) : create a new buffer that is an exact copy of src
 
   buffer str_clone(buffer src) {
+  	buffer dst = create(src.length);
+  	return str_copy(dst, src);
   }  
 
   // str_concat(s1, s2): concatenate buffers s1 and s2 into a new buffer
 
   buffer str_concat(buffer s1, buffer s2) {
+  	buffer dst = create(s1.length + s2.length);
+  	
+  	// First copy the first part, can be done using str_copy
+  	str_copy(dst, s1);
+  	
+  	// Concatenate second part
+  	for (int i = s1.length; i < dst.length; i++) {
+  		// Prevent overflow on s2 buffer
+  		if (i - s1.length < s2.length) {
+  			dst[i] = s2[i-s1.length];
+  		}
+  	}
+  	
+  	return dst;
   }
 
 // str_trim(s): remove leading and trailing spaces from s 
 // i.e. copy s into a new buffer without leading and trailing spaces
 
   buffer str_trim(buffer s) {
+  	int numLeadingSpaces = 0;
+  	int numTrailingSpaces = 0;
+  	
+  	// Count number of leading spaces
+  	int pos = 0;
+  	while (chr_is_space(s[pos])) {
+  		numLeadingSpaces++;
+  		pos++;
+  	}
+  	
+  	// Count number of trailing spaces
+  	pos = s.length - 1;
+  	while (chr_is_space(s[pos])) {
+  		numTrailingSpaces++;
+  		pos--;
+  	}
+  	
+  	// Copy to new buffer
+  	buffer dst = create(s.length - numLeadingSpaces - numTrailingSpaces);
+  	for (int i = 0; i < dst.length; i++) {
+  		dst[i] = s[i + numLeadingSpaces];
+  	} 
+  	
+  	return dst;
   }
 
   // str_equal(a, b): are the buffers a and b exactly equal?
 
   boolean str_equal(buffer first, buffer second) {
+  	// Start by comparing lengths
+  	if (first.length != second.length) {
+  		return false;
+	}
+	else {
+		// Compare every character
+		for(int i = 0; i < first.length; i++) {
+			if (first[i] != second[i]) {
+				return false;
+			}
+		}
+	}
+	
+	return true;
   }
 
   // str_compare(s1, s2): compare two strings lexicographically
@@ -35,12 +97,31 @@ module libstring {
   // return 1 if s1 is larger than s2
   // return 0 if the shortest string is equal to a prefix of the longest string 
 
+	// Following the definition of the standard strcmp: 
+	// "This function starts comparing the first character of each string. If they are equal to each other, it continues with the following pairs until the characters differ or until a terminating null-character is reached."
   int str_compare(buffer s1, buffer s2) {
+  	int diff = 0;
+  	
+  	for(int i = 0; i < s1.length; i++) {
+  		if (i < s2.length) {
+  			// Compare characters
+  			diff = s1[i] - s2[i];
+  			if (diff > 0) {
+  				return 1;
+  			}
+  			else if (diff < 0) {
+  				return -1;
+  			}
+  		}
+  	}
+  	
+  	return 0;
   }
   
   // str_error(msg): print an error message and exit
 
   void str_error(buffer msg) {
+  	printf("Omg errors: %s", msg);
   }
 
 }
