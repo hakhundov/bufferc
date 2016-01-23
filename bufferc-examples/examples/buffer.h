@@ -12,7 +12,13 @@
 #include <string.h>
 
 // buffer data type
+typedef struct {
+	char* ptr;
+	int bufsize
+} buffer;
 
 // prototypes of operations on buffer data type
+buffer *alloc_buf(int size);
+buffer *copy(buffer *src);
 
 #endif
