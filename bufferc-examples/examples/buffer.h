@@ -20,5 +20,5 @@ typedef struct {
 // prototypes of operations on buffer data type
 buffer *alloc_buf(int size);
 buffer *copy(buffer *src);
-
+int buf_length(buffer *src);
 #endif

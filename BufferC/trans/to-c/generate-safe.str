@@ -12,25 +12,25 @@ rules // buffer operations
   // in order to implement the basic buffer primitives.
   // See generate.str for inspiration.
 	
-//	gen-c-special :
-//		Buffer() -> $[buffer *]
-//		
-//	gen-c-special :
-//		Null() -> $[NULL]
-//  		
-//	gen-c-special :
-//		String(str) -> $[]
-//		where i := <string-length>str
-//			
-//	gen-c-special :
-//		FunctionCall(Create(), es) -> $[]
-//
-//	gen-c-special :
-//		Field(e, Length()) -> $[]
-//			
+	gen-c-special :
+		Buffer() -> $[buffer *]
+		
+	gen-c-special :
+		Null() -> $[NULL]
+  		
+	gen-c-special :
+		String(str) -> $["[str]"]
+		where i := <string-length>str
+			
+	gen-c-special :
+		FunctionCall(Create(), es) -> $[alloc_buf([es])]
+
+	gen-c-special :
+		Field(e, Length()) -> $[buf_length([e])]
+			
 //	gen-c-special :
 //		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[]
-//		
+		
 //	gen-c-special :
 //		ArrayField(e1, e2) -> $[]
 //			

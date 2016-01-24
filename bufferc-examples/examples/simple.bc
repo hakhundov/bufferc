@@ -1,0 +1,10 @@
+module simple imports libstring {
+	void f() {
+		buffer b;
+		b = create(5);
+		b = "bla";
+		b.length;
+		buffer a;
+		a = b;
+	}	
+}

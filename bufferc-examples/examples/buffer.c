@@ -20,7 +20,9 @@ buffer *copy(buffer *src) {
 
 	return buf;
 }
-
+int buf_length(buffer *src) {
+	return buf->size;
+}
 
 
 /* PRINTING */
