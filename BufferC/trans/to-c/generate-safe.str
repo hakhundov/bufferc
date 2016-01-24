@@ -30,12 +30,17 @@ rules // buffer operations
 	gen-c-special :
 		Field(e, Length()) -> $[buf_length([<genc>e])]
 			
-////	gen-c-special :
-//		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[]
+	// Done in run-time
+	// TODO: static check
+	gen-c-special :
+		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[assign_char([<genc>e1], [<genc>e_idx], [<genc>e2])]
 		
-//	gen-c-special :
-//		ArrayField(e1, e2) -> $[]
-//			
+	gen-c-special :
+		ArrayField(e1, e2) -> $[read_element([<genc>e1], [<genc>e2])]
+//		ArrayField(e1, e2) -> $[[<genc>e1]->ptr[loc]]
+//		where
+//			loc := $[["["][<genc>e2]["]"]]
+			
 //	gen-c-special :
 //		FunctionCall(Print(), es) -> $[]
 //			

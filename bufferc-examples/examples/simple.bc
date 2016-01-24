@@ -6,5 +6,9 @@ module simple imports libstring {
 		b.length;
 		buffer a;
 		a = b;
+		a[0] = 'a';
+		int c = 42;
+		a[c] = 'b';
+		a[0];
 	}	
 }

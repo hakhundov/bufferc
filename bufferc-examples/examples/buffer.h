@@ -14,7 +14,7 @@
 // buffer data type
 typedef struct {
 	char* ptr;
-	int bufsize
+	int bufsize;
 } buffer;
 
 // prototypes of operations on buffer data type
