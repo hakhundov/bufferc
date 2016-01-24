@@ -19,16 +19,18 @@ rules // buffer operations
 		Null() -> $[NULL]
   		
 	gen-c-special :
-		String(str) -> $["[str]"]
+		String(str) -> $[[str]]
 		where i := <string-length>str
 			
 	gen-c-special :
-		FunctionCall(Create(), es) -> $[alloc_buf([es])]
+		FunctionCall(Create(), es) -> $[alloc_buf([exp])]
+		where
+			exp := <genc><Hd> es
 
 	gen-c-special :
-		Field(e, Length()) -> $[buf_length([e])]
+		Field(e, Length()) -> $[buf_length([<genc>e])]
 			
-//	gen-c-special :
+////	gen-c-special :
 //		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[]
 		
 //	gen-c-special :
