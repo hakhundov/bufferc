@@ -45,11 +45,22 @@ void assign_char(buffer *dst, int loc, char c) {
 
 
 /* PRINTING */
-void bufferc_printf(buffer b) {
+void bufferc_printf(char* format, buffer b) {
+	printf(format, b->ptr);
+}
+
+void bufferc_print(buffer b) {
 	printf("%s", b->ptr);
 }
 
 /* FILE OPERATIONS */
+FILE bufferc_fopen(char *fname, char *mode) {
+	return fopen(fname, mode);
+}
+
+void bufferc_fread(buffer b, FILE *fp) {
+	fgets(b->ptr, b->bufsize, fp);
+}
 
 /* REFERENCE COUNTING */
 

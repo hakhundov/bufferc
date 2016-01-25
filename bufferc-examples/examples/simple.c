@@ -14,7 +14,10 @@
 	assign_char(a, 0, 'a');
 	int c = 42;
 	assign_char(a, c, 'b');
-	read_element(a, 0);
+	buffer_print(a);
+	buffer_printf("%s %s", b);
+	FILE * f = bufferc_fopen("a", "r");
+	bufferc_fread(b, f);
 	Return("final"())
 	}
 	

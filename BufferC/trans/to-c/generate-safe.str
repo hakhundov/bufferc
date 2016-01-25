@@ -41,17 +41,17 @@ rules // buffer operations
 //		where
 //			loc := $[["["][<genc>e2]["]"]]
 			
-//	gen-c-special :
-//		FunctionCall(Print(), es) -> $[]
-//			
-//	gen-c-special :
-//		FunctionCall(PrintF(), es) -> $[]
-//			
-//	gen-c-special :
-//		FunctionCall(Fopen(), es) -> $[]
-//			
-//	gen-c-special :
-//		FunctionCall(Fread(), es) -> $[]
+	gen-c-special :
+		FunctionCall(Print(), es) -> $[buffer_print[<genc>es]]
+			
+	gen-c-special :
+		FunctionCall(PrintF(), es) -> $[buffer_printf[<genc>es]]
+			
+	gen-c-special :
+		FunctionCall(Fopen(), es) -> $[bufferc_fopen[<genc>es]]
+			
+	gen-c-special :
+		FunctionCall(Fread(), es) -> $[bufferc_fread[<genc>es]]
 
 rules // main function
 
