@@ -18,6 +18,10 @@
 	buffer_printf("%s %s", b);
 	FILE * f = bufferc_fopen("a", "r");
 	bufferc_fread(b, f);
-	Return("final"())
+	}
+	
+	int main() {
+	f();
+	return 0;
 	}
 	

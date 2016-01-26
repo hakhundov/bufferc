@@ -57,9 +57,17 @@ rules // main function
 
   // the main function takes 
 	
-//	gen-c-header-special :
-//  	FunDef(t, Identifier("main"), params, stms) -> $[]
-//    
+	gen-c-header-special :
+  	FunDef(t, Identifier("main"), params, stms) -> $[[t] [name] {
+  		[c-params]
+  		[c-stms]
+  	}]
+  	where
+  		type := <genc> t
+	;	name := <genc> Identifier("main")
+	;	c-params := <map(genc)> params
+	;	c-stms := <map(genc)> stms
+    
 //	gen-c-special :
 //  	FunDef(t, Identifier("main"), params, stms) -> $[]
     

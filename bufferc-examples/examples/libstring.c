@@ -9,12 +9,12 @@
 	Return("final"())
 	}
 	
-	Buffer() str_copy(Buffer() dst, Buffer() src) {
+	buffer * str_copy(buffer * dst, buffer * src) {
 	
-	for(int i = 0; (i <  Field(src, Length())); i++) {
+	for(int i = 0; (i <  buf_length(src)); i++) {
 			
-			if((i <  Field(dst, Length()))) {
-			  ArrayField(dst, i) = ArrayField(src, i);
+			if((i <  buf_length(dst))) {
+			  assign_char(dst, i, read_element(src, i));
 			}
 			
 		}
@@ -23,20 +23,20 @@
 	Return("final"())
 	}
 	
-	Buffer() str_clone(Buffer() src) {
-	Buffer() dst = FunctionCall(Create(), (Field(src, Length())));
+	buffer * str_clone(buffer * src) {
+	buffer * dst = alloc_buf(buf_length(src));
 	return str_copy(dst, src);
 	Return("final"())
 	}
 	
-	Buffer() str_concat(Buffer() s1, Buffer() s2) {
-	Buffer() dst = FunctionCall(Create(), ((Field(s1, Length()) + Field(s2, Length()))));
+	buffer * str_concat(buffer * s1, buffer * s2) {
+	buffer * dst = alloc_buf((buf_length(s1) + buf_length(s2)));
 	str_copy(dst, s1);
 	
-	for(int i = Field(s1, Length()); (i <  Field(dst, Length())); i++) {
+	for(int i = buf_length(s1); (i <  buf_length(dst)); i++) {
 			
-			if(((i - Field(s1, Length())) <  Field(s2, Length()))) {
-			  ArrayField(dst, i) = ArrayField(s2, (i - Field(s1, Length())));
+			if(((i - buf_length(s1)) <  buf_length(s2))) {
+			  assign_char(dst, i, read_element(s2, (i - buf_length(s1))));
 			}
 			
 		}
@@ -45,42 +45,42 @@
 	Return("final"())
 	}
 	
-	Buffer() str_trim(Buffer() s) {
+	buffer * str_trim(buffer * s) {
 	int numLeadingSpaces = 0;
 	int numTrailingSpaces = 0;
 	int pos = 0;
 	
-	while(chr_is_space(ArrayField(s, pos))) {
+	while(chr_is_space(read_element(s, pos))) {
 		numLeadingSpaces++;
 		pos++;
 	}
 	
-	pos = (Field(s, Length()) - 1);
+	pos = (buf_length(s) - 1);
 	
-	while(chr_is_space(ArrayField(s, pos))) {
+	while(chr_is_space(read_element(s, pos))) {
 		numTrailingSpaces++;
 		pos--;
 	}
 	
-	Buffer() dst = FunctionCall(Create(), (((Field(s, Length()) - numLeadingSpaces) - numTrailingSpaces)));
+	buffer * dst = alloc_buf(((buf_length(s) - numLeadingSpaces) - numTrailingSpaces));
 	
-	for(int i = 0; (i <  Field(dst, Length())); i++) {
-			ArrayField(dst, i) = ArrayField(s, (i + numLeadingSpaces));
+	for(int i = 0; (i <  buf_length(dst)); i++) {
+			assign_char(dst, i, read_element(s, (i + numLeadingSpaces)));
 		}
 	
 	return dst;
 	Return("final"())
 	}
 	
-	int str_equal(Buffer() first, Buffer() second) {
+	int str_equal(buffer * first, buffer * second) {
 	
-	if((Field(first, Length()) != Field(second, Length()))) {
+	if((buf_length(first) != buf_length(second))) {
 	  return 0; 
 	} else {
 		
-		for(int i = 0; (i <  Field(first, Length())); i++) {
+		for(int i = 0; (i <  buf_length(first)); i++) {
 				
-				if((ArrayField(first, i) != ArrayField(second, i))) {
+				if((read_element(first, i) != read_element(second, i))) {
 				  return 0;
 				}
 				
@@ -91,12 +91,12 @@
 	Return("final"())
 	}
 	
-	int str_compare(Buffer() s1, Buffer() s2) {
+	int str_compare(buffer * s1, buffer * s2) {
 	int diff = 0;
 	
-	for(int i = 0; (i <  Field(s1, Length())); i++) {
+	for(int i = 0; (i <  buf_length(s1)); i++) {
 			
-			if((i <  Field(s2, Length()))) {
+			if((i <  buf_length(s2))) {
 			  diff = 0;
 			  if((diff >  0)) { return 1; } else 
 			                                if((diff <  0)) {
@@ -111,8 +111,8 @@
 	Return("final"())
 	}
 	
-	void str_error(Buffer() msg) {
-	FunctionCall(PrintF(), ("Omg errors: %s", msg));
+	void str_error(buffer * msg) {
+	buffer_printf("Omg errors: %s", msg);
 	Return("final"())
 	}
 	

@@ -13,6 +13,11 @@ module simple imports libstring {
 		printf("%s %s", b);
 		
 		FILE f = fopen("a", "r"); // open file
-		fread(b, f);          // read file into buffer
+		fread(b, f);         	  // read file into buffer
 	}	
+	
+	int main() {
+		f();
+		return 0;
+	}
 }
