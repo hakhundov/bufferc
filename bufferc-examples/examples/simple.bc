@@ -1,7 +1,13 @@
 module simple imports libstring {
 	void f() {
-		buffer b;
+		
+		buffer a;
+		a = create(5);
+		
+		buffer b = create(42);
+		
 		b = create(5);
+				
 		b = "bla";
 		b.length;
 		buffer a;
@@ -15,6 +21,12 @@ module simple imports libstring {
 		FILE f = fopen("a", "r"); // open file
 		fread(b, f);         	  // read file into buffer
 	}	
+	
+	buffer func() 
+	{
+		buffer b;
+		return b;
+	}
 	
 	int main() {
 		f();

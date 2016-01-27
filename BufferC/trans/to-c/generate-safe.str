@@ -12,9 +12,28 @@ rules // buffer operations
   // in order to implement the basic buffer primitives.
   // See generate.str for inspiration.
 	
+	// Allocate buffer with size zero
+	gen-c-special :	
+		DeclStm(Decl(Buffer(), Decl(Identifier(var))))	-> 
+			$[buffer * [var];
+			[var] = alloc_buf(0);]
+			
+	gen-c-special :	
+		Buffer()	->	$[buffer *]
+	
+	// Creating a new buffer is reallocating the old one
 	gen-c-special :
-		Buffer() -> $[buffer *]
-		
+	    Assign(
+            Var(Identifier(var))
+          , Assign()
+          , FunctionCall(Create(), [Decimal(size)]) )	->
+			$[realloc_buf([var], [size]) ]
+			
+	gen-c-special :
+		FunctionCall(Create(), es) -> $[alloc_buf([exp])]
+		where
+			exp := <genc><Hd> es
+           
 	gen-c-special :
 		Null() -> $[NULL]
   		
@@ -22,10 +41,7 @@ rules // buffer operations
 		String(str) -> $[[str]]
 		where i := <string-length>str
 			
-	gen-c-special :
-		FunctionCall(Create(), es) -> $[alloc_buf([exp])]
-		where
-			exp := <genc><Hd> es
+
 
 	gen-c-special :
 		Field(e, Length()) -> $[buf_length([<genc>e])]
