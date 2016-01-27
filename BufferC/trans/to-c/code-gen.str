@@ -21,7 +21,7 @@ rules // builders for code generation
 rules // builders
 	
 	generate-safec = 
-		genc
+		annotate-all-returns; genc
 		
 	generate-safec-header =
 		genc-header
