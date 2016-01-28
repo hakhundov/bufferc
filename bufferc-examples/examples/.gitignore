@@ -1,2 +1,4 @@
 /libstring.c
 /simple.c
+*.o
+simpler

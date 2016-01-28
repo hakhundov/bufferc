@@ -1,0 +1,16 @@
+module simple imports libstring {
+	void f() {
+		buffer a;
+		a = create(5);
+		buffer b = create(5);		
+		b = "bla";
+		a = b;
+		print(a);
+		print(b);
+	}	
+
+	int main() {
+		f();
+		return 0;
+	}
+}
