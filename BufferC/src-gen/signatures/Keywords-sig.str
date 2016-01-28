@@ -1,9 +1,0 @@
-module signatures/Keywords-sig
-
-imports
-  signatures/Types-sig
-
-
-signature
-  constructors
-     : String -> Keyword

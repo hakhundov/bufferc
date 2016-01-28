@@ -1,9 +1,0 @@
-module src-gen/ds-signatures/Keywords-sig
-
-imports ds-signatures/Types-sig
-
-signature
-    sorts
-      Keyword
-    constructors
-      __String2Keyword__ : String -> Keyword {implicit}

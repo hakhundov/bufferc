@@ -1,4 +1,0 @@
-module completions/Identifiers-esv
-
-imports
-  completions/Keywords-esv
