@@ -13,6 +13,21 @@ buffer *alloc_buf(int size) {
 	return buf;
 }
 
+buffer *realloc_buf(buffer * buf, int size) {
+	char * temp;
+	temp = realloc(buf->ptr, size+1);
+	if (temp!=NULL){
+		buf->ptr = temp;
+		buf->bufsize = size;
+	}
+	else{
+		//exit();
+	}
+	return buf;
+}
+
+
+//deprecated
 buffer *copy(buffer *src) {
 	buffer *dst = alloc_buf(src->bufsize);
 	strncopy(dst->ptr, src-ptr, dst->bufsize);
@@ -20,6 +35,7 @@ buffer *copy(buffer *src) {
 
 	return buf;
 }
+
 int buf_length(buffer *src) {
 	return buf->size;
 }
