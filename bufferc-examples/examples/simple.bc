@@ -10,7 +10,6 @@ module simple imports libstring {
 				
 		b = "bla";
 		b.length;
-		buffer a;
 		a = b;
 		a[0] = 'a';
 		int c = 42;
