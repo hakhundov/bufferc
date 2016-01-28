@@ -98,4 +98,39 @@ module libstring_tests imports libstring {
 		res = str_trim(e);
 		
 	}
+	
+	void test_str_equal() {
+		buffer a = create(5);
+		buffer b = create(5);
+		buffer c = create(10);
+		buffer d = create(5);
+		buffer e = create(5);
+		buffer f;
+		boolean res;
+		
+		a = "12345";
+		b = "12345";
+		c = "1234567890";
+		d = "54321";
+		e = "1234";
+		
+		// str_equal on two initialized buffers, should work.
+		res = str_equal(a, b);	
+		// This should return true
+		
+		// str_equal on two buffers with different length, should work.
+		res = str_equal(a, c);	
+		// This should return false
+		
+		// str_equal on two equal length but different buffers, should work.
+		res = str_equal(a, d);	
+		// This should return false
+		
+		// str_equal on two equal size buffers but different length strings, should work.
+		res = str_equal(a, e);	
+		// This should return false
+		
+		// str_equal on an uninitialized buffer, shouldn't work.
+		res = str_equal(a, f);	
+	}
 }
