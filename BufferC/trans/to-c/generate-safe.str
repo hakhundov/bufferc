@@ -65,16 +65,17 @@ rules // buffer operations
 	// a = b	//TODO: Should we free a before doing the assignment?
 	gen-c-special :
 		Assign(Var(Identifier(var1)), Assign(), Var(Identifier(var2))) -> 
-		$[[var1] = copy([var2])]
+		$[ free([var1]);
+		[var1] = copy([var2])]
 		where
 			<?Buffer()><get-type>var1
 		;	<?Buffer()><get-type>var2
 			
 	gen-c-special :
-		FunctionCall(Print(), es) -> $[buffer_print([<mapsep(genc|", ")>es])]
+		FunctionCall(Print(), es) -> $[bufferc_print([<mapsep(genc|", ")>es])]
 			
 	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[buffer_printf([<mapsep(genc|", ")>es])]
+		FunctionCall(PrintF(), es) -> $[bufferc_printf([<mapsep(genc|", ")>es])]
 			
 	gen-c-special :
 		FunctionCall(Fopen(), es) -> $[bufferc_fopen[<genc>es]]
