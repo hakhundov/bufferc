@@ -64,10 +64,10 @@ rules // buffer operations
 			<?Buffer()><get-type>x
 			
 	gen-c-special :
-		FunctionCall(Print(), es) -> $[buffer_print[<genc>es]]
+		FunctionCall(Print(), es) -> $[buffer_print([<mapsep(genc|", ")>es])]
 			
 	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[buffer_printf[<genc>es]]
+		FunctionCall(PrintF(), es) -> $[buffer_printf([<mapsep(genc|", ")>es])]
 			
 	gen-c-special :
 		FunctionCall(Fopen(), es) -> $[bufferc_fopen[<genc>es]]
