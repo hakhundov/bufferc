@@ -1,19 +1,25 @@
-module strcopy imports libstring {
+module libstring_tests imports libstring {
 	void test_str_copy() {
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c;
+		buffer d = create(10);
 		a = "5char";
+		d = "10char1234";
 		
 		// Using str_copy on an initialized dst buffer b, this should work.
 		str_copy(b, a);
-		// b should equal "5char";
+		// b should equal "5char" with length == 5
 		
 		// Using str_copy on an uninitialized dst buffer c, this shouldn't work.
 		str_copy(c, a);
 		
 		// Using str_copy on an uninitialized src buffer c, this shouldn't work.
 		str_copy(a, c);
+		
+		// Using str_copy on an initialized dst buffer d with d.length > a.length, this should work.
+		str_copy(d, a);
+		// d should equal "5char" with length == 10
 	}
 	
 	void test_str_clone() {
