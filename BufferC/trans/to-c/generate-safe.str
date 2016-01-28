@@ -57,6 +57,10 @@ rules // buffer operations
 //		where
 //			loc := $[["["][<genc>e2]["]"]]
 			
+	// Code gen for x = "string_literal";
+	gen-c-special :
+		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s])]
+			
 	gen-c-special :
 		FunctionCall(Print(), es) -> $[buffer_print[<genc>es]]
 			

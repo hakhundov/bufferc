@@ -43,6 +43,14 @@ void assign_char(buffer *dst, int loc, char c) {
 	}
 }
 
+void assign_stringliteral(buffer *dst, char* c) {
+	for(int i = 0; i < sizeof(c); i++) {
+		if (i < dst->bufsize) {
+			dst->ptr[i] = c[i];
+		}
+	}
+}
+
 
 /* PRINTING */
 void bufferc_printf(char* format, buffer b) {
