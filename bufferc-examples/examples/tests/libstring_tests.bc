@@ -65,4 +65,37 @@ module libstring_tests imports libstring {
 		// Using str_concat on uninitialized buffer s2, this shouldn't work.
 		e = str_concat(a, c);
 	}
+	
+	void test_str_trim() {
+		buffer a = create(5);
+		buffer b = create(5);
+		buffer c = create(5);
+		buffer d = create(5);
+		buffer e;
+		buffer res;
+		a = "  3  ";
+		b = "  345";
+		c = "123  ";
+		d = "12345";
+		
+		// Both leading and trailing spaces.
+		res = str_trim(a);
+		// res should equal "3" with length == 1
+		
+		// Only leading spaces.
+		res = str_trim(b);
+		// res should equal "345" with length == 3
+		
+		// Only trailing spaces.
+		res = str_trim(c);
+		// res should equal "123" with length == 3
+		
+		// No leading or trailing spaces.
+		res = str_trim(d);
+		// res should equal "12345" with length == 5
+		
+		// Uninitialized src buffer, this shouldn't work.
+		res = str_trim(e);
+		
+	}
 }
