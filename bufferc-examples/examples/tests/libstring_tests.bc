@@ -40,4 +40,23 @@ module strcopy imports libstring {
 		// Using str_clone on an uninitialized src buffer e, this shouldn't work.
 		a = str_clone(e);
 	}
+	
+	void test_str_concat() {
+		buffer a = create(5);
+		buffer b = create(10);
+		buffer c;
+		buffer e;
+		a = "5char";
+		b = "10char1234";
+		
+		// Using str_concat on two initialized buffers, this should work.
+		e = str_concat(a, b);
+		// e should equal "5char10char1234", with length == 15
+		
+		// Using str_concat on uninitialized buffer s1, this shouldn't work.
+		e = str_concat(c, a);
+		
+		// Using str_concat on uninitialized buffer s2, this shouldn't work.
+		e = str_concat(a, c);
+	}
 }
