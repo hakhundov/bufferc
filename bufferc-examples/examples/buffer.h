@@ -19,6 +19,7 @@ typedef struct {
 
 // prototypes of operations on buffer data type
 buffer *alloc_buf(int size);
+buffer *realloc_buf(int size);
 buffer *copy(buffer *src);
 int buf_length(buffer *src);
 char read_element(buffer *dst, int loc);

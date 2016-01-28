@@ -41,8 +41,6 @@ rules // buffer operations
 		String(str) -> $[[str]]
 		where i := <string-length>str
 			
-
-
 	gen-c-special :
 		Field(e, Length()) -> $[buf_length([<genc>e])]
 			
@@ -62,6 +60,14 @@ rules // buffer operations
 		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s])]
 		where
 			<?Buffer()><get-type>x
+			
+	// a = b	//TODO: Should we free a before doing the assignment?
+	gen-c-special :
+		Assign(Var(Identifier(var1)), Assign(), Var(Identifier(var2))) -> 
+		$[[var1] = copy([var2])]
+		where
+			<?Buffer()><get-type>var1
+		;	<?Buffer()><get-type>var2
 			
 	gen-c-special :
 		FunctionCall(Print(), es) -> $[buffer_print([<mapsep(genc|", ")>es])]

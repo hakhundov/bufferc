@@ -9,7 +9,6 @@ buffer *alloc_buf(int size) {
 	buffer *buf = (buffer *)malloc(sizeof(buffer));
 	buf->bufsize = size;
 	buf->ptr = (char *) malloc(buf->bufsize + 1); // +1 for '\0'
-
 	return buf;
 }
 
@@ -26,14 +25,10 @@ buffer *realloc_buf(buffer * buf, int size) {
 	return buf;
 }
 
-
-//deprecated
 buffer *copy(buffer *src) {
-	buffer *dst = alloc_buf(src->bufsize);
-	strncopy(dst->ptr, src-ptr, dst->bufsize);
-	dst->ptr[dst->bufsize-1] = '\0';
-
-	return buf;
+	buffer * dst = alloc_buf(src->bufsize);
+	assign_stringliteral(dst, src->ptr);
+	return dst;
 }
 
 int buf_length(buffer *src) {
