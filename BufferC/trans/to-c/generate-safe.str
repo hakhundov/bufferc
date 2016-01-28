@@ -60,6 +60,8 @@ rules // buffer operations
 	// Code gen for x = "string_literal";
 	gen-c-special :
 		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s])]
+		where
+			<?Buffer()><get-type>x
 			
 	gen-c-special :
 		FunctionCall(Print(), es) -> $[buffer_print[<genc>es]]
