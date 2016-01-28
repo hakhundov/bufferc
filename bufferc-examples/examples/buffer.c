@@ -48,6 +48,10 @@ void assign_stringliteral(buffer *dst, char* c) {
 		if (i < dst->bufsize) {
 			dst->ptr[i] = c[i];
 		}
+		else { // buffsize limit reached. breaking.
+			dst->ptr[i] = '\0';
+			break;
+		}
 	}
 }
 
