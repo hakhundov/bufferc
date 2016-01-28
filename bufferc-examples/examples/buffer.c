@@ -7,6 +7,7 @@
 
 buffer *alloc_buf(int size) {
 	buffer *buf = (buffer *)malloc(sizeof(buffer));
+	if (buf == NULL) exit(EXIT_FAILURE);
 	buf->bufsize = size;
 	buf->ptr = (char *) malloc(buf->bufsize + 1); // +1 for '\0'
 	return buf;
@@ -27,12 +28,12 @@ buffer *realloc_buf(buffer * buf, int size) {
 
 buffer *copy(buffer *src) {
 	buffer * dst = alloc_buf(src->bufsize);
-	assign_stringliteral(dst, src->ptr);
+	assign_stringliteral(dst, src->ptr, src->bufsize);
 	return dst;
 }
 
 int buf_length(buffer *src) {
-	return buf->size;
+	return src->bufsize;
 }
 
 char read_element(buffer *dst, int loc) {
@@ -71,20 +72,20 @@ void assign_stringliteral(buffer *dst, char* c, int length) {
 
 
 /* PRINTING */
-void bufferc_printf(char* format, buffer b) {
+void bufferc_printf(char* format, buffer * b) {
 	printf(format, b->ptr);
 }
 
-void bufferc_print(buffer b) {
+void bufferc_print(buffer * b) {
 	printf("%s", b->ptr);
 }
 
 /* FILE OPERATIONS */
-FILE bufferc_fopen(char *fname, char *mode) {
+FILE * bufferc_fopen(char *fname, char *mode) {
 	return fopen(fname, mode);
 }
 
-void bufferc_fread(buffer b, FILE *fp) {
+void bufferc_fread(buffer * b, FILE *fp) {
 	fgets(b->ptr, b->bufsize, fp);
 }
 
