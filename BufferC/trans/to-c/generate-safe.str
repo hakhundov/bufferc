@@ -57,9 +57,10 @@ rules // buffer operations
 			
 	// Code gen for x = "string_literal";
 	gen-c-special :
-		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s])]
+		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s], [len])]
 		where
 			<?Buffer()><get-type>x
+		;	len := <subt>(<string-length>s,2)
 			
 	// a = b	//TODO: Should we free a before doing the assignment?
 	gen-c-special :

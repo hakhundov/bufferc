@@ -22,7 +22,7 @@ buffer *realloc_buf(buffer * buf, int size) {
 	else{
 		//exit();
 	}
-	return buf;
+	return buf; // unnecessary
 }
 
 buffer *copy(buffer *src) {
@@ -54,16 +54,19 @@ void assign_char(buffer *dst, int loc, char c) {
 	}
 }
 
-void assign_stringliteral(buffer *dst, char* c) {
-	for(int i = 0; i < sizeof(c); i++) {
+void assign_stringliteral(buffer *dst, char* c, int length) {
+	//sizeof is probably wrong
+	int i;
+	for(i = 0; i < length; i++) {
 		if (i < dst->bufsize) {
 			dst->ptr[i] = c[i];
 		}
 		else { // buffsize limit reached. breaking.
-			dst->ptr[i] = '\0';
 			break;
 		}
 	}
+	dst->ptr[i] = '\0';
+	//dst->ptr[(length < dst->bufsize)? length : dst->bufsize ] = '\0';
 }
 
 

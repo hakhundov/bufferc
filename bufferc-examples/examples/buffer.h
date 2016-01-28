@@ -24,7 +24,7 @@ buffer *copy(buffer *src);
 int buf_length(buffer *src);
 char read_element(buffer *dst, int loc);
 void assign_char(buffer *dst, int loc, char c);
-void assign_stringliteral(buffer *dst, char* c);
+void assign_stringliteral(buffer *dst, char* c, int length);
 void bufferc_printf(buffer b);
 FILE bufferc_fopen(char *fname, char *mode);
 void bufferc_fread(buffer b, FILE *fp);

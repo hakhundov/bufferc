@@ -9,6 +9,7 @@ module simple imports libstring {
 		b = create(5);
 				
 		b = "bla";
+		
 		b.length;
 		a = b;
 		a[0] = 'a';
