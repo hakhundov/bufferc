@@ -7,10 +7,43 @@ imports runtime/types/-
 imports runtime/editor/annotations 
   
 rules // buffer operations
-
-  // Write the target templates for the following rules
-  // in order to implement the basic buffer primitives.
-  // See generate.str for inspiration.
+	
+/**************************************************
+	Declaration, Allocation, Reallocation
+***************************************************/	
+	
+	/* // deprecated: when used by itself will cause memory leaks.	
+	gen-c-special :
+		FunctionCall(Create(), es) -> $[alloc_buf([exp])]
+		where
+			exp := <genc><Hd> es
+    */     
+    
+    // Allow create() only when declaring or assigning to prevent memory leaks
+          
+    gen-c-special :
+       Assign(
+            Var(Identifier(var))
+          , Assign()
+          , FunctionCall(Create(), es)
+          )
+		 -> $[[var] = alloc_buf([exp])]
+		where
+			exp := <genc><Hd> es
+	
+	gen-c-special :
+        DeclInit(
+            Buffer()
+          , Decl(Identifier(var))
+          , FunctionCall(Create(), es)
+          )
+		 -> $[buffer * [var] = alloc_buf([exp])]
+		where
+			exp := <genc><Hd> es
+			
+	//TODO: Modify the rewrite to avoid a lonely semicolomn		
+	gen-c-special :
+		FunctionCall(Create(), _ ) -> []
 	
 	// Allocate buffer with size zero
 	gen-c-special :	
@@ -28,18 +61,17 @@ rules // buffer operations
           , Assign()
           , FunctionCall(Create(), [Decimal(size)]) )	->
 			$[realloc_buf([var], [size]) ]
-			
-	gen-c-special :
-		FunctionCall(Create(), es) -> $[alloc_buf([exp])]
-		where
-			exp := <genc><Hd> es
-           
+/*
+
+*/	
+
+	
 	gen-c-special :
 		Null() -> $[NULL]
   		
 	gen-c-special :
 		String(str) -> $[[str]]
-		where i := <string-length>str
+	//	where i := <string-length>str
 			
 	gen-c-special :
 		Field(e, Length()) -> $[buf_length([<genc>e])]
@@ -70,12 +102,28 @@ rules // buffer operations
 		where
 			<?Buffer()><get-type>var1
 		;	<?Buffer()><get-type>var2
-			
+	
+/**************************************************
+	Printing
+***************************************************/	
+
+	// deprecated, print() should only print one bufferc string
+	//gen-c-special :
+	//	FunctionCall(Print(), es) -> $[bufferc_print([<mapsep(genc|", ")>es])]
+	
 	gen-c-special :
-		FunctionCall(Print(), es) -> $[bufferc_print([<mapsep(genc|", ")>es])]
-			
+		FunctionCall(Print(), es) -> $[bufferc_print([exp])]
+		where
+		exp := <genc><Hd>es
+	
+	is-it-buffer:
+		var -> $[var->ptr]
+		where
+		<?Buffer()><get-type>var
+	
+	// TODO: Must fix this to use the proper buffer pointer 				
 	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[bufferc_printf([<mapsep(genc|", ")>es])]
+		FunctionCall(PrintF(), es) -> $[printf([<mapsep(genc|", ")>es])]
 			
 	gen-c-special :
 		FunctionCall(Fopen(), es) -> $[bufferc_fopen[<genc>es]]
