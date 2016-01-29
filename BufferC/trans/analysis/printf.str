@@ -1,0 +1,27 @@
+module printf
+
+imports
+  runtime/task/-
+  runtime/types/-
+  
+  signatures/-
+  
+rules
+
+  custom-check(|ctx, name, error):
+    e -> <id>
+    where
+      t := <type-task(|ctx)> e 
+    ; check := <new-task(|ctx)> Rewrite(name, t)
+    ; <task-create-error-on-failure(|ctx, check, error)> e  
+  
+rules
+
+  nabl-constraint(|ctx) :
+    FunctionCall(PrintF(), [e | es]) -> <fail>
+    where
+       <custom-check(|ctx,"buf-check","buffer expected as first argument to printf")> e
+     ; <map(custom-check(|ctx,"var-arg-check","int or buffer expected"))> es
+     
+  task-rewrite : ("buf-check", type) -> <?Buffer()> type
+  task-rewrite : ("var-arg-check", type) -> <?Int() + ?Buffer()> type  

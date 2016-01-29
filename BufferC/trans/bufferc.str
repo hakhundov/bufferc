@@ -5,6 +5,7 @@ imports pp
 imports outline
 imports analysis/analysis
 imports to-c/code-gen
+imports analysis/printf
 
 rules // Editor services
 

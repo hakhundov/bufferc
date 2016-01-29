@@ -1,6 +1,16 @@
 module bufferc_tests {
+
+	int test_allocs(){
+		int error_count;
+		
+		buffer a = create(5);
+		if (a.length() != 5) {
+		}
+		buffer b;
+		
+		return error_count;
+	}
 	int test_bufferlength() {
-		int test;
 		int error_count = 0;
 		
 		buffer a = create(5);
@@ -12,7 +22,7 @@ module bufferc_tests {
 		print(a);
 		b = "";
 		print(b);
-		
+		printf();
 		// Buffer a, size 5, length 5
 		res = a.length;
 		// res should be 5.	

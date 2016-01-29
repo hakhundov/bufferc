@@ -1,8 +1,10 @@
+
 #include <stdlib.h>
 #include "buffer.h"
-
-
-void f() {
+#include "simple.h"
+	#include "libstring.h"
+	
+	void f() {
 	buffer * a;
 	a = alloc_buf(0);
 	realloc_buf(a, 5);
@@ -12,10 +14,13 @@ void f() {
 	a = copy(b);
 	bufferc_print(a);
 	bufferc_print(b);
-}
-
-int main() {
+	bufferc_printf();
+	Return("final"())
+	}
+	
+	int main() {
 	f();
 	return 0;
-}
-
+	Return("final"())
+	}
+	
