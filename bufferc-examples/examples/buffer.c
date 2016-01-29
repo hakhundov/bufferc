@@ -81,14 +81,18 @@ void assign_stringliteral(buffer *dst, char* c, int length) {
 
 
 /* PRINTING */
-void bufferc_printf(char* format, buffer * b) {
-	printf(format, b->ptr);
-}
 
 // Print() with implicit new line
 void bufferc_print(buffer * b) {
 	printf("%s\n", b->ptr);
 }
+
+//This is not how we are going to do it yet
+//TODO:
+void bufferc_printf(char* format, buffer * b) {
+	printf(format, b->ptr);
+}
+
 
 /* FILE OPERATIONS */
 FILE * bufferc_fopen(char *fname, char *mode) {
