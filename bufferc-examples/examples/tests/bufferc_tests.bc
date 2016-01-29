@@ -1,13 +1,17 @@
 module bufferc_tests {
-	void test_bufferlength() {
+	int test_bufferlength() {
+		int test;
+		int error_count = 0;
+		
 		buffer a = create(5);
-		buffer b = create(0);
+		buffer b;
 		buffer c = create(5);
 		buffer d;
 		int res;
-		
 		a = "12345";
+		print(a);
 		b = "";
+		print(b);
 		
 		// Buffer a, size 5, length 5
 		res = a.length;
@@ -22,6 +26,22 @@ module bufferc_tests {
 		// res should be 0.
 		
 		// Buffer d, uninitialized. Shouldn't work.
-		res = d.length;				
+		res = d.length;
+		return error_count;		
+	}
+	
+	int main()
+	{
+		int error_count = 0;
+		
+		//Run TEST 1
+		error_count = error_count + test_bufferlength();
+		//Run TEST 2
+			
+		//Report error count
+		buffer succ = create(8);
+		succ = "SUCCESS!"; 
+		if (error_count == 0) print(succ);
+		
 	}
 }

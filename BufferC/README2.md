@@ -1,6 +1,16 @@
 README with your report which should in particular address any design/implementation decisions you have made
 
-Buffer Assignment:
+
+### BufferC declaration:
+BufferC decalartion such as the following:
+
+buffer b;
+
+is managed by the run-time library, which allocates the buffers struct with size = 0;
+
+This prevents it from being misused in the code
+
+### Buffer Assignment:
 
 Buffer Assignment such as a = b where both a and b are of type Buffer() copy b entrirely into a;
 

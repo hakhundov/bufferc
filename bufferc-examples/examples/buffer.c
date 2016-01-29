@@ -21,25 +21,33 @@ buffer *realloc_buf(buffer * buf, int size) {
 		buf->bufsize = size;
 	}
 	else{
-		//exit();
+		exit(EXIT_FAILURE);
 	}
 	return buf; // unnecessary
 }
 
 buffer *copy(buffer *src) {
 	buffer * dst = alloc_buf(src->bufsize);
+	if (dst == NULL) exit(EXIT_FAILURE);
 	assign_stringliteral(dst, src->ptr, src->bufsize);
 	return dst;
 }
 
-int buf_length(buffer *src) {
-	return src->bufsize;
+int buf_size(buffer *buf) {
+	return buf->bufsize;
+}
+
+int buf_length(buffer *buf){
+	int len = 0;
+		while (buf->ptr[len] != '\0') len++;
+	return len;
 }
 
 char read_element(buffer *dst, int loc) {
 	if (loc > dst->bufsize) {
 		printf("Array index out of bounds");
-		return '\0'; // TODO: return something else (?)
+		//exit(EXIT_FAILURE);
+		return '\0'; //better to return NULL rather than terminate the program
 	}
 	else {
 		return dst->ptr[loc];
@@ -49,6 +57,7 @@ char read_element(buffer *dst, int loc) {
 void assign_char(buffer *dst, int loc, char c) {
 	if (loc > dst->bufsize) {
 		printf("Array index out of bounds");
+		exit(EXIT_FAILURE);
 	}
 	else {
 		dst->ptr[loc] = c;
@@ -76,8 +85,9 @@ void bufferc_printf(char* format, buffer * b) {
 	printf(format, b->ptr);
 }
 
+// Print() with implicit new line
 void bufferc_print(buffer * b) {
-	printf("%s", b->ptr);
+	printf("%s\n", b->ptr);
 }
 
 /* FILE OPERATIONS */
