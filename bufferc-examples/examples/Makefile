@@ -9,3 +9,6 @@ OBJ = buffer.o simpler.o
 
 simpler: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
+
+clean:
+	rm *.o
