@@ -17,3 +17,11 @@ Buffer Assignment such as a = b where both a and b are of type Buffer() copy b e
 The state of a does not matter i.e. it's size or content
 
 and entirely new a is allocated and b is copied into a;
+
+
+### Run-time failures
+
+For run-time failures i.e. malloc failure, out of bounds exception etc. the program exits using the following:
+
+exit(EXIT_FAILURE);
+
