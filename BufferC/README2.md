@@ -1,4 +1,7 @@
-README with your report which should in particular address any design/implementation decisions you have made
+# README
+## Secure by Construction through Linguistic Abstraction
+
+In this report design/implementation decisions are addressed:
 
 
 ### BufferC declaration:
