@@ -6,9 +6,8 @@
 /target
 /trans/*.pp.generated.str
 /lib/*.generated.*
-
 /.classpath
 /.project
 /.settings
-/include/
-/src-gen/
+/include
+/src-gen
