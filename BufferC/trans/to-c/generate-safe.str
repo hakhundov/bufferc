@@ -107,7 +107,7 @@ rules // buffer operations
 	Printing
 ***************************************************/	
 
-	// deprecated, print() should only print one bufferc string
+	// deprecated, print() should only print one bufferc string, or  NOT?
 	//gen-c-special :
 	//	FunctionCall(Print(), es) -> $[bufferc_print([<mapsep(genc|", ")>es])]
 	
@@ -117,14 +117,27 @@ rules // buffer operations
 		exp := <genc><Hd>es
 	
 	is-it-buffer:
-		var -> $[var->ptr]
+		var -> $[[<genc>var]->ptr]
 		where
 		<?Buffer()><get-type>var
+	;	<not(?String(_))>var
 	
-	// TODO: Must fix this to use the proper buffer pointer 				
+	is-it-buffer:
+		var -> $[[<genc>var]]
+		where
+		<?Buffer()><get-type>var
+	;	<?String(_)>var
+	
+	is-it-buffer:
+		var -> $[[<genc>var]]
+	
 	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[printf([<mapsep(genc|", ")>es])]
-			
+		FunctionCall(PrintF(), es) -> $[printf([<debug><mapsep(is-it-buffer|", ")>es])]
+
+		
+/**************************************************
+	File Operations
+***************************************************/		
 	gen-c-special :
 		FunctionCall(Fopen(), es) -> $[bufferc_fopen[<genc>es]]
 			
