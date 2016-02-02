@@ -75,7 +75,40 @@ int test_bufferlength() {
 	return error_count;		
 }
 
+// TEST 3
+// Testing assigning and reading from buffer array.
+int test_assignment_reading() {
+	printf("buffer assignment and reading test\n");
+	int error_count = 0;
+	buffer a = create(4);
+	//stringliteral tests
+	a = "1234";
+	a = "87654321";
+	print(a);	//inspect output: must be 8765
+	
+	a = "42";
+	print(a);	//inspect output: must be 42
+	
+	a[0]='2';
+	print (a);	//inspect output: must be 22
+	
+	a[2] = '8';
+	a[3] = '8'; 
+	print (a);	//inspect output: must be 2288
+	
+	// uncomment the following line to test out of bounds assignment
+	// a[4] = '8'; //out of bounds! exit the program
 
+	buffer b = create(1);
+	b[0] = a[3];
+	print(b);	//inspect output: must be 8;
+	
+	// uncomment the following line to test out of bounds access
+	//b[0] = a[4]; //out of bounds! exit the program
+	
+	
+	return error_count;
+}
 	
 	int main()
 	{
@@ -86,8 +119,11 @@ int test_bufferlength() {
 		
 		//Run TEST 2
 		error_count = error_count + test_bufferalloc();
-		//Report error count
-
+		
+		//Run TEST 3
+		error_count = error_count + test_assignment_reading();
+		
+		//Report results
 		if (error_count == 0) printf("Success!\n");
 		else printf("Failure, Error Count: %d", error_count);
 	}
