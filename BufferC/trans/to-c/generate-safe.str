@@ -19,17 +19,13 @@ rules // buffer operations
 			exp := <genc><Hd> es
     */     
     // Allow create() only when declaring or assigning to prevent memory leaks
-          
-    gen-c-special :
-       Assign(
-            Var(Identifier(var))
-          , Assign()
-          , FunctionCall(Create(), es)
-          )
-		 -> $[[var] = realloc_buf([var],[exp])]
-		where
-			exp := <genc><Hd> es
+	// Allocate buffer with size zero
 	
+	gen-c-special :	
+		DeclStm(Decl(Buffer(), Decl(Identifier(var))))	-> 
+			$[buffer * [var];
+			[var] = alloc_buf(0);]      
+			
 	gen-c-special :
         DeclInit(
             Buffer()
@@ -39,39 +35,47 @@ rules // buffer operations
 		 -> $[buffer * [var] = alloc_buf([exp])]
 		where
 			exp := <genc><Hd> es
+			    
+    gen-c-special :
+       Assign(
+            Var(Identifier(var))
+          , Assign()
+          , FunctionCall(Create(), es)
+          )
+		 -> $[[var] = realloc_buf([var],[exp])]
+		where
+			exp := <genc><Hd> es
 			
 	//TODO: Modify the rewrite to avoid a lonely semicolomn		
 	gen-c-special :
 		Exp(FunctionCall(Create(), _ )) -> ""
-	
-	// Allocate buffer with size zero
-	gen-c-special :	
-		DeclStm(Decl(Buffer(), Decl(Identifier(var))))	-> 
-			$[buffer * [var];
-			[var] = alloc_buf(0);]
 			
 	gen-c-special :	
 		Buffer()	->	$[buffer *]
 	
-	// Creating a new buffer is reallocating the old one
 	gen-c-special :
 	    Assign(
             Var(Identifier(var))
           , Assign()
           , FunctionCall(Create(), [Decimal(size)]) )	->
 			$[realloc_buf([var], [size]) ]
-
 	
 	gen-c-special :
 		Null() -> $[NULL]
   		
 	gen-c-special :
 		String(str) -> $[[str]]
-	//	where i := <string-length>str
-			
+	
+/**************************************************
+	Buffer Size
+***************************************************/	
+
 	gen-c-special :
 		Field(e, Length()) -> $[buf_size([<genc>e])]
-			
+		
+/**************************************************
+	Assignment & Reading an element
+***************************************************/			
 	// Done in run-time
 	// TODO: static check
 	gen-c-special :
