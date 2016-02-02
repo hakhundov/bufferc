@@ -37,6 +37,7 @@ int buf_size(buffer *buf) {
 	return buf->bufsize;
 }
 
+//deprecated
 int buf_length(buffer *buf){
 	int len = 0;
 		while (buf->ptr[len] != '\0') len++;
@@ -55,8 +56,8 @@ char read_element(buffer *dst, int loc) {
 }
 
 void assign_char(buffer *dst, int loc, char c) {
-	if (loc > dst->bufsize) {
-		printf("Array index out of bounds");
+	if (loc >= dst->bufsize) {
+		fprintf(stderr, "Array index out of bounds. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
 		exit(EXIT_FAILURE);
 	}
 	else {
