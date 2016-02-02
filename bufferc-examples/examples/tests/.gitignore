@@ -1,1 +1,4 @@
 /libstring_tests.c
+tests
+buffer.c
+buffer.h
