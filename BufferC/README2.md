@@ -39,9 +39,8 @@ Hence, the state of *a* does not matter i.e. it's size nor content: an entirely 
 
 For run-time failures i.e. malloc failure, out of bounds exception etc. the program exits using the following:
 
-
 exit(EXIT_FAILURE);
 
-## .length operator
+### .length operator
 
 This operator returns the allocated buffer size.

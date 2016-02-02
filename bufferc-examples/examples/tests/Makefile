@@ -13,6 +13,6 @@ tests: $(OBJ)
 
 clean:
 	rm *.o
-
+	rm tests
 copy:
 	cp ../buffer.{c,h} .

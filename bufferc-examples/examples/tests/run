@@ -1,0 +1,5 @@
+clear
+cp ../buffer.{c,h} .
+make clean
+make tests
+./tests
