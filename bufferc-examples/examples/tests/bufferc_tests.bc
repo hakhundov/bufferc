@@ -118,10 +118,22 @@ void test_copy() {
 	buffer b;
 	b = a;
 	print(b); //inspect output: must be "cafebabe"
-			//inspect code
-	return ;
+			  //inspect code
+	return;
 }	
 
+void test_fileOperations() {
+	printf("testing file operations\n");
+	buffer a = create(22);
+	FILE f = fopen("input_file", "r");
+	fread(a, f);
+	print(a);	//Inspect the output;
+	
+	//testing Unable to read from file. Uncomment to get the error
+	//FILE f_f = fopen("file_doesnt_exist", "r");
+	
+	return;
+}
 	int main()
 	{
 		int error_count = 0;
@@ -138,10 +150,14 @@ void test_copy() {
 		//Run TEST 4
 		test_copy();
 		
+		//Run TEST 5
+		test_fileOperations();
 		// Printing functions are tested along the way in the previous tests
 		
 		//Report results
 		if (error_count == 0) printf("Success!\n");
 		else printf("Failure, Error Count: %d", error_count);
+		
+		return 1;
 	}
 }
