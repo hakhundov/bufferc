@@ -121,6 +121,7 @@ void test_copy() {
 			//inspect code
 	return ;
 }	
+
 	int main()
 	{
 		int error_count = 0;
@@ -136,6 +137,8 @@ void test_copy() {
 		
 		//Run TEST 4
 		test_copy();
+		
+		// Printing functions are tested along the way in the previous tests
 		
 		//Report results
 		if (error_count == 0) printf("Success!\n");
