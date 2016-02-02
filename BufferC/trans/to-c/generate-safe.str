@@ -59,12 +59,18 @@ rules // buffer operations
           , Assign()
           , FunctionCall(Create(), [Decimal(size)]) )	->
 			$[realloc_buf([var], [size]) ]
-	
+
+/**************************************************
+	Misc
+***************************************************/	
 	gen-c-special :
 		Null() -> $[NULL]
   		
 	gen-c-special :
 		String(str) -> $[[str]]
+	
+	gen-c-special :	
+		Return(None()) -> $[return;]
 	
 /**************************************************
 	Buffer Size
@@ -135,6 +141,9 @@ rules // buffer operations
 			
 	gen-c-special :
 		FunctionCall(Fread(), es) -> $[bufferc_fread[<genc>es]]
+
+
+
 
 rules // main function
 
