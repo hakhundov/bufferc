@@ -1,3 +1,7 @@
+/*#ifndef __linux__
+#error "You must use Linux to compile this, sorry!"
+#endif
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include "buffer.h"
@@ -103,14 +107,23 @@ void bufferc_printf(char* format, buffer * b) {
 
 /* FILE OPERATIONS */
 FILE * bufferc_fopen(char *fname, char *mode) {
-	return fopen(fname, mode);
+	FILE * fp;
+	if (!(fp = fopen(fname, mode))) {
+		fprintf(stderr, "Error opening the file. Line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		exit(EXIT_FAILURE);
+	}
+	return fp;
 }
 
 void bufferc_fread(buffer * b, FILE *fp) {
-	fgets(b->ptr, b->bufsize, fp);
+	if ((fp != NULL) && (b != NULL))
+	{
+		if (fgets(b->ptr, b->bufsize+1, fp) == NULL)
+		{
+			fprintf(stderr, "Error reading from file. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+			exit(EXIT_FAILURE);
+		}
+	}
 }
 
 /* REFERENCE COUNTING */
-
-
-
