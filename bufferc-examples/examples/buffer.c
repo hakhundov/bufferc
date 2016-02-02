@@ -45,10 +45,10 @@ int buf_length(buffer *buf){
 }
 
 char read_element(buffer *dst, int loc) {
-	if (loc > dst->bufsize) {
-		printf("Array index out of bounds");
-		//exit(EXIT_FAILURE);
-		return '\0'; //better to return NULL rather than terminate the program
+	if (loc >= dst->bufsize) {
+		fprintf(stderr, "Cannot Read: Array index out of bounds. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		exit(EXIT_FAILURE); //or the following
+		return '\0'; 		//return NULL rather than terminate the program
 	}
 	else {
 		return dst->ptr[loc];
@@ -57,7 +57,7 @@ char read_element(buffer *dst, int loc) {
 
 void assign_char(buffer *dst, int loc, char c) {
 	if (loc >= dst->bufsize) {
-		fprintf(stderr, "Array index out of bounds. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		fprintf(stderr, "Cannot Write: Array index out of bounds. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
 		exit(EXIT_FAILURE);
 	}
 	else {
