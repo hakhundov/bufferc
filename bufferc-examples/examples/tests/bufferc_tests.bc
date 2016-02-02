@@ -1,44 +1,81 @@
 module bufferc_tests {
 
-	int test_allocs(){
-		int error_count;
-		
-		buffer a = create(5);
-		if (a.length() != 5) {
-		}
-		buffer b;
-		
-		return error_count;
+// TEST 1
+// Testing allocation, reallocation. Inspect allocation and reallocation
+int test_bufferalloc() {
+	printf("bufferlength tests\n");
+	int error_count = 0;
+	//inspect C code:
+	buffer a = create(42);
+	buffer b;
+	b = create(42);
+	create(400); //this is ignored, otherwise will cause a memory leak
+	
+	buffer c;
+	c = create(2);
+	c = create(4);
+	
+	return error_count;
+}
+// TEST 2
+// Testing buffer length operator
+int test_bufferlength() {
+	printf("bufferlength tests\n");
+	int error_count = 0;
+	buffer a = create(5);
+	buffer b;
+	buffer c = create(5);
+	buffer d;
+	
+	a = "12345";
+	b = "";
+	print(a);
+	print(b);
+	print(c);
+	print(d);
+
+	int res;
+	// Buffer a, size 5, length 5; res should be 5.	
+	res = a.length;
+	if(res!=5) {
+		printf("buf_length: Error 1\n");
+		error_count++;
 	}
-	int test_bufferlength() {
-		int error_count = 0;
-		
-		buffer a = create(5);
-		buffer b;
-		buffer c = create(5);
-		buffer d;
-		int res;
-		a = "12345";
-		print(a);
-		b = "";
-		print(b);
-		printf();
-		// Buffer a, size 5, length 5
-		res = a.length;
-		// res should be 5.	
-		
-		// Buffer b, size 0, length 0
-		res = b.length;
-		// res should be 0.
-		
-		// Buffer c, size 5, length 0
-		res = c.length;
-		// res should be 0.
-		
-		// Buffer d, uninitialized. Shouldn't work.
-		res = d.length;
-		return error_count;		
+	
+	// Buffer b, size 0, length 0; res should be 0
+	res = b.length;
+	if(res!=0) {
+		printf("buf_length: Error 2\n");
+		error_count++;
 	}
+	
+	// Buffer c, size 5, length 0; res should be 5
+	res = c.length;
+	if(res!=5) {
+		printf("buf_length: Error 3\n");
+		error_count++;
+	}
+	
+	// Buffer d, uninitialized.; res should be 0
+	res = d.length;
+	if(res!=0) {
+		printf("buf_length: Error 4\n");
+		error_count++;
+	}
+	
+	// Buffer e, realloced several times.; res should be 42
+	buffer e;
+	e = create(10);
+	e = create(42);
+	res = e.length;
+	if(res!=42) {
+		printf("buf_length: Error 5\n");
+		error_count++;
+	}
+	return error_count;		
+}
+
+
 	
 	int main()
 	{
@@ -46,12 +83,12 @@ module bufferc_tests {
 		
 		//Run TEST 1
 		error_count = error_count + test_bufferlength();
-		//Run TEST 2
-			
-		//Report error count
-		buffer succ = create(8);
-		succ = "SUCCESS!"; 
-		if (error_count == 0) print(succ);
 		
+		//Run TEST 2
+		error_count = error_count + test_bufferalloc();
+		//Report error count
+
+		if (error_count == 0) printf("Success!\n");
+		else printf("Failure, Error Count: %d", error_count);
 	}
 }
