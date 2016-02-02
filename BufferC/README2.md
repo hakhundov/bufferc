@@ -13,6 +13,16 @@ is managed by the run-time library, which allocates the buffers struct with size
 
 This prevents it from being misused in the code at later stages.
 
+All other assignments and creates are done via realloc. Realloc takes care of freeing previously used space on the heap.
+
+e.g.
+
+buffer a;
+a = create(42);
+a = create(420);
+
+will have no memory leaks.
+
 ### Buffer Assignment:
 
 Buffer Assignment such as *a = b* where both variables *a* and *b* are of type *Buffer()* copy *b* entirely into *a*;
