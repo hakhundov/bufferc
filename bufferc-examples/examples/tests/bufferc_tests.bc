@@ -106,10 +106,21 @@ int test_assignment_reading() {
 	// uncomment the following line to test out of bounds access
 	//b[0] = a[4]; //out of bounds! exit the program
 	
-	
 	return error_count;
 }
-	
+
+// TEST 4
+// Testing copy
+void test_copy() {
+	printf("buffer copy/clone test\n");
+	buffer a = create (8);
+	a = "cafebabe";
+	buffer b;
+	b = a;
+	print(b); //inspect output: must be "cafebabe"
+			//inspect code
+	return ;
+}	
 	int main()
 	{
 		int error_count = 0;
@@ -122,6 +133,9 @@ int test_assignment_reading() {
 		
 		//Run TEST 3
 		error_count = error_count + test_assignment_reading();
+		
+		//Run TEST 4
+		test_copy();
 		
 		//Report results
 		if (error_count == 0) printf("Success!\n");
