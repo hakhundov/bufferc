@@ -44,3 +44,13 @@ exit(EXIT_FAILURE);
 ### .length operator
 
 This operator returns the allocated buffer size.
+
+### Reading from a file
+
+We are assuming a really safe implemeanation of this, hence:
+
+FILE * f = bufferc_fopen("input_file", "r");
+
+rather than leaving it to the user to check wheterh opening the file was successful or not, we simply exit() if failed.
+
+The C library function char *fgets(char *str, int n, FILE *stream) reads a line from the specified stream and stores it into the string pointed to by str. It stops when either (n-1) characters are read, the newline character is read, or the end-of-file is reached, whichever comes first.
