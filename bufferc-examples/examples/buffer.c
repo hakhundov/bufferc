@@ -7,7 +7,10 @@
 
 buffer *alloc_buf(int size) {
 	buffer *buf = (buffer *)malloc(sizeof(buffer));
-	if (buf == NULL) exit(EXIT_FAILURE);
+	if (buf == NULL) {
+		fprintf(stderr, "Unable to allocate memory. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		exit(EXIT_FAILURE);
+	}
 	buf->bufsize = size;
 	buf->ptr = (char *) malloc(buf->bufsize + 1); // +1 for '\0'
 	return buf;
@@ -21,6 +24,7 @@ buffer *realloc_buf(buffer * buf, int size) {
 		buf->bufsize = size;
 	}
 	else{
+		fprintf(stderr, "Unable to re-allocate memory. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
 		exit(EXIT_FAILURE);
 	}
 	return buf; // unnecessary
@@ -28,7 +32,10 @@ buffer *realloc_buf(buffer * buf, int size) {
 
 buffer *copy(buffer *src) {
 	buffer * dst = alloc_buf(src->bufsize);
-	if (dst == NULL) exit(EXIT_FAILURE);
+	if (dst == NULL) {
+		fprintf(stderr, "Unable to allocate memory. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		exit(EXIT_FAILURE);
+	}
 	assign_stringliteral(dst, src->ptr, src->bufsize);
 	return dst;
 }
@@ -88,8 +95,7 @@ void bufferc_print(buffer * b) {
 	printf("%s\n", b->ptr);
 }
 
-//This is not how we are going to do it yet
-//TODO:
+//deprecated
 void bufferc_printf(char* format, buffer * b) {
 	printf(format, b->ptr);
 }
