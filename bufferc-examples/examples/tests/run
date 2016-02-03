@@ -1,5 +1,14 @@
 clear
+
 cp ../buffer.{c,h} .
+cp ../libstring.{c,h} .
+
 make clean
-make tests
-./tests
+make test_bufferc
+./test_bufferc
+
+
+make clean -f MakefileLibstring
+make -f MakefileLibstring
+./test_libstring
+
