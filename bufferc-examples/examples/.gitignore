@@ -1,8 +1,6 @@
-/libstring.c
-/simple.c
 *.o
+*.c
+*.h
 simpler
 test_bufferc
 test_libstring
-*.c
-*.h
