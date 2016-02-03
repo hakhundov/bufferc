@@ -78,16 +78,16 @@ rules // functions
 		]
 	  	
 	gen-c-header :
-  	FunDef(t, Identifier(f), params, stms) -> $[
-      [<genc>t] [f]([<mapsep(genc|", ")>params]);
-    ]
+		FunDef(t, Identifier(f), params, stms) -> $[
+			[<genc>t] [f]([<mapsep(genc|", ")>params]);
+		]
     
-  gen-c :
-  	FunDef(t, Identifier(f), params, stms) -> $[
-      [<genc>t] [f]([<mapsep(genc|", ")>params]) {
-        [<gen-c-stms>stms]
+	gen-c :
+		FunDef(t, Identifier(f), params, stms) -> $[
+			[<genc>t] [f]([<mapsep(genc|", ")>params]) {
+			[<gen-c-stms>stms]
   		}
-    ]
+		]
 
 rules // variables
 	
