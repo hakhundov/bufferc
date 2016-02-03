@@ -2,162 +2,162 @@ module bufferc_tests {
 
 // TEST 1
 // Testing allocation, reallocation. Inspect allocation and reallocation
-int test_bufferalloc() {
-	printf("bufferlength tests\n");
-	int error_count = 0;
-	//inspect C code:
-	buffer a = create(42);
-	buffer b;
-	b = create(42);
-	create(400); //this is ignored, otherwise will cause a memory leak
-	
-	buffer c;
-	c = create(2);
-	c = create(4);
-	
-	return error_count;
-}
+	int test_bufferalloc() {
+		printf("bufferlength tests\n");
+		int error_count = 0;
+		//inspect C code:
+		buffer a = create(42);
+		buffer b;
+		b = create(42);
+		create(400); //this is ignored, otherwise will cause a memory leak
+
+		buffer c;
+		c = create(2);
+		c = create(4);
+
+		return error_count;
+	}
 // TEST 2
 // Testing buffer length operator
-int test_bufferlength() {
-	printf("bufferlength tests\n");
-	int error_count = 0;
-	buffer a = create(5);
-	buffer b;
-	buffer c = create(5);
-	buffer d;
-	
-	a = "12345";
-	b = "";
-	print(a);
-	print(b);
-	print(c);
-	print(d);
+	int test_bufferlength() {
+		printf("bufferlength tests\n");
+		int error_count = 0;
+		buffer a = create(5);
+		buffer b;
+		buffer c = create(5);
+		buffer d;
 
-	int res;
-	// Buffer a, size 5, length 5; res should be 5.	
-	res = a.length;
-	if(res!=5) {
-		printf("buf_length: Error 1\n");
-		error_count++;
+		a = "12345";
+		b = "";
+		print(a);
+		print(b);
+		print(c);
+		print(d);
+
+		int res;
+		// Buffer a, size 5, length 5; res should be 5.
+		res = a.length;
+		if (res != 5) {
+			printf("buf_length: Error 1\n");
+			error_count++;
+		}
+
+		// Buffer b, size 0, length 0; res should be 0
+		res = b.length;
+		if (res != 0) {
+			printf("buf_length: Error 2\n");
+			error_count++;
+		}
+
+		// Buffer c, size 5, length 0; res should be 5
+		res = c.length;
+		if (res != 5) {
+			printf("buf_length: Error 3\n");
+			error_count++;
+		}
+
+		// Buffer d, uninitialized.; res should be 0
+		res = d.length;
+		if (res != 0) {
+			printf("buf_length: Error 4\n");
+			error_count++;
+		}
+
+		// Buffer e, realloced several times.; res should be 42
+		buffer e;
+		e = create(10);
+		e = create(42);
+		res = e.length;
+		if (res != 42) {
+			printf("buf_length: Error 5\n");
+			error_count++;
+		}
+		return error_count;
 	}
-	
-	// Buffer b, size 0, length 0; res should be 0
-	res = b.length;
-	if(res!=0) {
-		printf("buf_length: Error 2\n");
-		error_count++;
-	}
-	
-	// Buffer c, size 5, length 0; res should be 5
-	res = c.length;
-	if(res!=5) {
-		printf("buf_length: Error 3\n");
-		error_count++;
-	}
-	
-	// Buffer d, uninitialized.; res should be 0
-	res = d.length;
-	if(res!=0) {
-		printf("buf_length: Error 4\n");
-		error_count++;
-	}
-	
-	// Buffer e, realloced several times.; res should be 42
-	buffer e;
-	e = create(10);
-	e = create(42);
-	res = e.length;
-	if(res!=42) {
-		printf("buf_length: Error 5\n");
-		error_count++;
-	}
-	return error_count;		
-}
 
 // TEST 3
 // Testing assigning and reading from buffer array.
-int test_assignment_reading() {
-	printf("buffer assignment and reading test\n");
-	int error_count = 0;
-	buffer a = create(4);
-	//stringliteral tests
-	a = "1234";
-	a = "87654321";
-	print(a);	//inspect output: must be 8765
-	
-	a = "42";
-	print(a);	//inspect output: must be 42
-	
-	a[0]='2';
-	print (a);	//inspect output: must be 22
-	
-	a[2] = '8';
-	a[3] = '8'; 
-	print (a);	//inspect output: must be 2288
-	
-	// uncomment the following line to test out of bounds assignment
-	// a[4] = '8'; //out of bounds! exit the program
+	int test_assignment_reading() {
+		printf("buffer assignment and reading test\n");
+		int error_count = 0;
+		buffer a = create(4);
+		//stringliteral tests
+		a = "1234";
+		a = "87654321";
+		print(a);	//inspect output: must be 8765
 
-	buffer b = create(1);
-	b[0] = a[3];
-	print(b);	//inspect output: must be 8;
-	
-	// uncomment the following line to test out of bounds access
-	//b[0] = a[4]; //out of bounds! exit the program
-	
-	return error_count;
-}
+		a = "42";
+		print(a);	//inspect output: must be 42
+
+		a[0] = '2';
+		print (a);	//inspect output: must be 22
+
+		a[2] = '8';
+		a[3] = '8';
+		print (a);	//inspect output: must be 2288
+
+		// uncomment the following line to test out of bounds assignment
+		// a[4] = '8'; //out of bounds! exit the program
+
+		buffer b = create(1);
+		b[0] = a[3];
+		print(b);	//inspect output: must be 8;
+
+		// uncomment the following line to test out of bounds access
+		//b[0] = a[4]; //out of bounds! exit the program
+
+		return error_count;
+	}
 
 // TEST 4
 // Testing copy
-void test_copy() {
-	printf("buffer copy/clone test\n");
-	buffer a = create (8);
-	a = "cafebabe";
-	buffer b;
-	b = a;
-	print(b); //inspect output: must be "cafebabe"
-			  //inspect code
-	return;
-}	
+	void test_copy() {
+		printf("buffer copy/clone test\n");
+		buffer a = create (8);
+		a = "cafebabe";
+		buffer b;
+		b = a;
+		print(b); //inspect output: must be "cafebabe"
+		//inspect code
+		return;
+	}
 
-void test_fileOperations() {
-	printf("testing file operations\n");
-	buffer a = create(22);
-	FILE f = fopen("input_file", "r");
-	fread(a, f);
-	print(a);	//Inspect the output;
-	
-	//testing Unable to read from file. Uncomment to get the error
-	//FILE f_f = fopen("file_doesnt_exist", "r");
-	
-	return;
-}
+	void test_fileOperations() {
+		printf("testing file operations\n");
+		buffer a = create(22);
+		FILE f = fopen("input_file", "r");
+		fread(a, f);
+		print(a);	//Inspect the output;
+
+		//testing Unable to read from file. Uncomment to get the error
+		//FILE f_f = fopen("file_doesnt_exist", "r");
+
+		return;
+	}
 	int main()
 	{
 		int error_count = 0;
-		
+
 		//Run TEST 1
 		error_count = error_count + test_bufferlength();
-		
+
 		//Run TEST 2
 		error_count = error_count + test_bufferalloc();
-		
+
 		//Run TEST 3
 		error_count = error_count + test_assignment_reading();
-		
+
 		//Run TEST 4
 		test_copy();
-		
+
 		//Run TEST 5
 		test_fileOperations();
 		// Printing functions are tested along the way in the previous tests
-		
+
 		//Report results
 		if (error_count == 0) printf("Success!\n");
 		else printf("Failure, Error Count: %d", error_count);
-		
+
 		return 1;
 	}
 }

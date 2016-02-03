@@ -1,28 +1,39 @@
 module libstring_tests imports libstring {
 	void test_str_copy() {
+		printf("Testing: str_copy\n\n");
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c;
 		buffer d = create(10);
 		a = "5char";
 		d = "10char1234";
-		
+
+		//inspect outputs of the following tests:
+
 		// Using str_copy on an initialized dst buffer b, this should work.
-		str_copy(b, a);
 		// b should equal "5char" with length == 5
-		
-		// Using str_copy on an uninitialized dst buffer c, this shouldn't work.
+		str_copy(b, a);
+		print(b);
+
+		// Using str_copy on an uninitialized dst buffer c, nothing happens
 		str_copy(c, a);
-		
-		// Using str_copy on an uninitialized src buffer c, this shouldn't work.
+		print(c);
+
+		// Using str_copy on an uninitialized src buffer c, a remains the same a = "5char"
 		str_copy(a, c);
-		
+		print(a);
+
 		// Using str_copy on an initialized dst buffer d with d.length > a.length, this should work.
+		// d should equal "5charr1234" with length == 10
 		str_copy(d, a);
-		// d should equal "5char" with length == 10
+		print(d);
+
+		//inspect code
+		printf("-- Done test -- \n");
 	}
-	
+
 	void test_str_clone() {
+		printf("Testing: str_clone\n\n");
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c;
@@ -30,43 +41,58 @@ module libstring_tests imports libstring {
 		buffer e;
 		a = "5char";
 		d = "10char1234";
-		
+
+		//inspect outputs of the following tests:
+
 		// Using str_clone on an initialized dst buffer b, this should work.
-		b = str_clone(a);
 		// b should equal "5char"
-		
+		b = str_clone(a);
+		print(b);
+
 		// Using str_clone on an uninitialized dst buffer c, this should work.
-		c = str_clone(a);
 		// c should equal "5char"
-		
+		c = str_clone(a);
+		print(c);
+
 		// Using str_clone on a larger dst buffer d, this should work.
-		d = str_clone(a);
 		// d should equal "5char" with buflength == 5
-		
-		// Using str_clone on an uninitialized src buffer e, this shouldn't work.
+		d = str_clone(a);
+		print(d);
+
+		// Using str_clone on an uninitialized src buffer e, this simple will clone an empty buffer.
 		a = str_clone(e);
+		print(a); //prints nothing
+		printf("-- Done test -- \n");
 	}
-	
+
 	void test_str_concat() {
+		printf("Testing: str_concat\n\n");
 		buffer a = create(5);
 		buffer b = create(10);
 		buffer c;
 		buffer e;
 		a = "5char";
 		b = "10char1234";
-		
+
+		//inspect outputs of the following tests:
+
 		// Using str_concat on two initialized buffers, this should work.
-		e = str_concat(a, b);
 		// e should equal "5char10char1234", with length == 15
-		
-		// Using str_concat on uninitialized buffer s1, this shouldn't work.
+		e = str_concat(a, b);
+		print(e);
+
+		// Using str_concat on uninitialized buffer s1, c is empty, hence we should only get a
 		e = str_concat(c, a);
-		
-		// Using str_concat on uninitialized buffer s2, this shouldn't work.
+		print(e);
+
+		// Using str_concat on uninitialized buffer s2, same as above
 		e = str_concat(a, c);
+		print(e);
+		printf("-- Done test -- \n");
 	}
-	
+
 	void test_str_trim() {
+		printf("Testing: str_trim\n\n");
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c = create(5);
@@ -77,29 +103,38 @@ module libstring_tests imports libstring {
 		b = "  345";
 		c = "123  ";
 		d = "12345";
-		
+
+		//inspect outputs of the following tests:
+
 		// Both leading and trailing spaces.
-		res = str_trim(a);
 		// res should equal "3" with length == 1
-		
+		res = str_trim(a);
+		printf("res: %s , length: %d \n", res, res.length);
+
 		// Only leading spaces.
-		res = str_trim(b);
 		// res should equal "345" with length == 3
-		
+		res = str_trim(b);
+		printf("res: %s , length: %d \n", res, res.length);
+
 		// Only trailing spaces.
-		res = str_trim(c);
 		// res should equal "123" with length == 3
-		
+		res = str_trim(c);
+		printf("res: %s , length: %d \n", res, res.length);
+
 		// No leading or trailing spaces.
-		res = str_trim(d);
 		// res should equal "12345" with length == 5
-		
+		res = str_trim(d);
+		printf("res: %s , length: %d \n", res, res.length);
+
 		// Uninitialized src buffer, this shouldn't work.
 		res = str_trim(e);
-		
+		printf("res: %s , length: %d \n", res, res.length);
+
+		printf("-- Done test -- \n");
 	}
-	
+
 	void test_str_equal() {
+		printf("Testing: str_equal\n\n");
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c = create(10);
@@ -107,70 +142,113 @@ module libstring_tests imports libstring {
 		buffer e = create(5);
 		buffer f;
 		boolean res;
-		
+
 		a = "12345";
 		b = "12345";
 		c = "1234567890";
 		d = "54321";
 		e = "1234";
-		
+
+		//inspect outputs of the following tests:
+
 		// str_equal on two initialized buffers, should work.
-		res = str_equal(a, b);	
 		// This should return true
-		
+		res = str_equal(a, b);
+		printf("str_equal res: %d \n", res);
+
 		// str_equal on two buffers with different length, should work.
-		res = str_equal(a, c);	
 		// This should return false
-		
+		res = str_equal(a, c);
+		printf("str_equal res: %d \n", res);
+
 		// str_equal on two equal length but different buffers, should work.
-		res = str_equal(a, d);	
 		// This should return false
-		
+		res = str_equal(a, d);
+		printf("str_equal res: %d \n", res);
+
 		// str_equal on two equal size buffers but different length strings, should work.
-		res = str_equal(a, e);	
 		// This should return false
-		
-		// str_equal on an uninitialized buffer, shouldn't work.
-		res = str_equal(a, f);	
+		res = str_equal(a, e);
+		printf("str_equal res: %d \n", res);
+
+		// str_equal on an uninitialized buffer, should work.
+		// This should return false
+		res = str_equal(a, f);
+		printf("str_equal res: %d \n", res);
+
+		printf("-- Done test -- \n");
 	}
-	
+
 	void test_str_compare() {
+		printf("Testing: str_compare\n\n");
 		buffer a = create(5);
 		buffer b = create(5);
 		buffer c = create(10);
 		buffer d = create(5);
 		buffer f;
 		int res;
-		
+
 		a = "12345";
 		b = "12345";
 		c = "1234567890";
 		d = "54321";
-		
+
+		//inspect outputs of the following tests:
+
 		// str_compare on two initialized buffers, should work.
-		res = str_compare(a, b);	
 		// Should return 0
-		
+		res = str_compare(a, b);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on two initialized buffers of different sizes, should work.
-		res = str_compare(a, c);	
 		// Should return 0
-		
+		res = str_compare(a, c);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on two initialized buffers of different sizes, should work.
-		res = str_compare(c, a);	
 		// Should return 0
-		
+		res = str_compare(c, a);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on two initialized buffers which are different, should work.
-		res = str_compare(a, d);	
 		// Should return -1
-		
+		res = str_compare(a, d);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on two initialized buffers which are different, should work.
-		res = str_compare(d, a);	
 		// Should return 1
-		
+		res = str_compare(d, a);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on an uninitialized buffer, shouldn't work.
-		res = str_compare(a, f);	
-		
+		res = str_compare(a, f);
+		printf("str_compare res: %d \n", res);
+
 		// str_compare on an uninitialized buffer, shouldn't work.
-		res = str_compare(f, a);	
+		res = str_compare(f, a);
+		printf("str_compare res: %d \n", res);
+
+		printf("-- Done test -- \n");
 	}
+
+
+	int main()
+	{
+		//Run all TESTs
+
+		test_str_copy();
+
+		test_str_clone();
+
+		test_str_concat();
+
+		test_str_trim();
+
+		test_str_equal();
+
+		test_str_compare();
+
+		return 1;
+	}
+
 }
