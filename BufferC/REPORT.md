@@ -1,8 +1,7 @@
 # README
-
+----
 ## Secure by Construction through Linguistic Abstraction
 *In this assignment, we study how classes of security vulnerabilities can be avoided by means of linguistic abstraction.*
-
 
 
 ### Running the tests
@@ -23,6 +22,8 @@ In order to run the tests, follow the steps:
 		4. Makes libstring_tests and runs them
 
 
+Note:
+	The Makefile uses clang. Modify CC var in both makefiles as needed.
 
 #### Run-Time Library (bufferc.c)
 
@@ -65,11 +66,11 @@ This operator returns the allocated buffer size.
 
 ##### Reading from a file
 
-We are assuming a really safe implemeanation of this, hence:
+We are assuming a really safe implementation of this, hence:
 
 FILE * f = bufferc_fopen("input_file", "r");
 
-rather than leaving it to the user to check wheterh opening the file was successful or not, we simply exit() if failed.
+rather than leaving it to the user to check whether opening the file was successful or not, we simply exit() if failed.
 
 The C library function char *fgets(char *str, int n, FILE *stream) reads a line from the specified stream and stores it into the string pointed to by str. It stops when either (n-1) characters are read, the newline character is read, or the end-of-file is reached, whichever comes first.
 
