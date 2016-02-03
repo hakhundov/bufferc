@@ -126,7 +126,7 @@ module libstring_tests imports libstring {
 		res = str_trim(d);
 		printf("res: %s , length: %d \n", res, res.length);
 
-		// Uninitialized src buffer, this shouldn't work.
+		// Uninitialized src buffer, returns the same empty buffer
 		res = str_trim(e);
 		printf("res: %s , length: %d \n", res, res.length);
 
@@ -185,6 +185,7 @@ module libstring_tests imports libstring {
 		buffer b = create(5);
 		buffer c = create(10);
 		buffer d = create(5);
+		buffer e;
 		buffer f;
 		int res;
 
@@ -198,35 +199,39 @@ module libstring_tests imports libstring {
 		// str_compare on two initialized buffers, should work.
 		// Should return 0
 		res = str_compare(a, b);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 1: %d \n", res);
 
 		// str_compare on two initialized buffers of different sizes, should work.
 		// Should return 0
 		res = str_compare(a, c);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 2: %d \n", res);
 
 		// str_compare on two initialized buffers of different sizes, should work.
 		// Should return 0
 		res = str_compare(c, a);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 3: %d \n", res);
 
 		// str_compare on two initialized buffers which are different, should work.
 		// Should return -1
 		res = str_compare(a, d);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 4: %d \n", res);
 
 		// str_compare on two initialized buffers which are different, should work.
 		// Should return 1
 		res = str_compare(d, a);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 5: %d \n", res);
 
-		// str_compare on an uninitialized buffer, shouldn't work.
+		// str_compare on an uninitialized buffer, should return  1 since s2 is a null str
 		res = str_compare(a, f);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 6: %d \n", res);
 
-		// str_compare on an uninitialized buffer, shouldn't work.
+		// str_compare on an uninitialized buffer, should return  -1 since s1 is a null str
 		res = str_compare(f, a);
-		printf("str_compare res: %d \n", res);
+		printf("str_compare res 7: %d \n", res);
+
+		// str_compare on both uninitialized buffer, should return 0 (both same)
+		res = str_compare(e, f);
+		printf("str_compare res 8: %d \n", res);
 
 		printf("-- Done test -- \n");
 	}
@@ -247,6 +252,8 @@ module libstring_tests imports libstring {
 		test_str_equal();
 
 		test_str_compare();
+
+		printf("Done with all tests\n");
 
 		return 1;
 	}
