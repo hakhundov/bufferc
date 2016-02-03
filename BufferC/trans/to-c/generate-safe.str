@@ -72,6 +72,9 @@ rules // buffer operations
 	gen-c-special :	
 		Return(None()) -> $[return;]
 	
+	gen-c-special :	
+		CommaExp(e) -> <genc>e
+	
 /**************************************************
 	Buffer Size
 ***************************************************/	
