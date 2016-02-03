@@ -4,4 +4,5 @@
 simpler
 test_bufferc
 test_libstring
+*.c
 *.h
