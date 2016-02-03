@@ -1,0 +1,16 @@
+CC=clang #gcc
+CFLAGS=
+#-I.
+DEPS = buffer.h libstring.h
+OBJ = buffer.o libstring.o libstring_tests.o   
+
+
+%.o: %.c $(DEPS)
+		$(CC) -c -o $@ $< $(CFLAGS)
+
+test_libstring: $(OBJ)
+	gcc -o $@ $^ $(CFLAGS)
+
+clean:
+	rm *.o
+	rm test_libstring
