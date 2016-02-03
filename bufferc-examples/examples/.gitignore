@@ -2,3 +2,6 @@
 /simple.c
 *.o
 simpler
+test_bufferc
+test_libstring
+*.h
