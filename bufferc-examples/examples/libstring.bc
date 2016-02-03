@@ -35,7 +35,7 @@ module libstring {
   }
 
   boolean chr_is_space(char c) {
-    return c == '\32' || c == '\t';
+    return c == ' ' || c == '\t';
   }
 
 // str_trim(s): remove leading and trailing spaces from s
