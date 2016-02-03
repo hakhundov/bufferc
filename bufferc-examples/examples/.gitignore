@@ -1,6 +1,10 @@
 *.o
 *.c
+!buffer.c
+!libstring.c
 *.h
+!buffer.h
+!libstring.h
 simpler
 test_bufferc
 test_libstring
