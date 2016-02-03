@@ -1,10 +1,10 @@
 # README
-## Secure by Construction through Linguistic Abstraction
+### Secure by Construction through Linguistic Abstraction
 
 In this report design/implementation decisions are addressed:
 
 
-### BufferC declaration:
+##### BufferC declaration:
 BufferC declaration such as the following:
 
 buffer b;
@@ -17,13 +17,7 @@ All other assignments and creates are done via realloc. Realloc takes care of fr
 
 e.g.
 
-buffer a;
-a = create(42);
-a = create(420);
-
-will have no memory leaks.
-
-### Buffer Assignment:
+##### Buffer Assignment:
 
 Buffer Assignment such as *a = b* where both variables *a* and *b* are of type *Buffer()* copy *b* entirely into *a*;
 
@@ -35,17 +29,17 @@ Namely the following happens:
 Hence, the state of *a* does not matter i.e. it's size nor content: an entirely new *a* is allocated and *b* is copied into *a*;
 
 
-### Run-time failures
+##### Run-time failures
 
 For run-time failures i.e. malloc failure, out of bounds exception etc. the program exits using the following:
 
 exit(EXIT_FAILURE);
 
-### .length operator
+##### .length operator
 
 This operator returns the allocated buffer size.
 
-### Reading from a file
+##### Reading from a file
 
 We are assuming a really safe implemeanation of this, hence:
 
