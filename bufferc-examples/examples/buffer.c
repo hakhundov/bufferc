@@ -17,17 +17,18 @@ buffer *alloc_buf(int size) {
 	}
 	buf->bufsize = size;
 	buf->ptr = (char *) malloc(buf->bufsize + 1); // +1 for '\0'
+	buf->ptr[0] = '\0';
 	return buf;
 }
 
 buffer *realloc_buf(buffer * buf, int size) {
 	char * temp;
-	temp = realloc(buf->ptr, size+1);
-	if (temp!=NULL){
+	temp = realloc(buf->ptr, size + 1);
+	if (temp != NULL) {
 		buf->ptr = temp;
 		buf->bufsize = size;
 	}
-	else{
+	else {
 		fprintf(stderr, "Unable to re-allocate memory. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
 		exit(EXIT_FAILURE);
 	}
@@ -49,9 +50,9 @@ int buf_size(buffer *buf) {
 }
 
 //deprecated
-int buf_length(buffer *buf){
+int buf_length(buffer *buf) {
 	int len = 0;
-		while (buf->ptr[len] != '\0') len++;
+	while (buf->ptr[len] != '\0') len++;
 	return len;
 }
 
@@ -79,7 +80,7 @@ void assign_char(buffer *dst, int loc, char c) {
 void assign_stringliteral(buffer *dst, char* c, int length) {
 	//sizeof is probably wrong
 	int i;
-	for(i = 0; i < length; i++) {
+	for (i = 0; i < length; i++) {
 		if (i < dst->bufsize) {
 			dst->ptr[i] = c[i];
 		}
@@ -118,7 +119,7 @@ FILE * bufferc_fopen(char *fname, char *mode) {
 void bufferc_fread(buffer * b, FILE *fp) {
 	if ((fp != NULL) && (b != NULL))
 	{
-		if (fgets(b->ptr, b->bufsize+1, fp) == NULL)
+		if (fgets(b->ptr, b->bufsize + 1, fp) == NULL)
 		{
 			fprintf(stderr, "Error reading from file. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
 			exit(EXIT_FAILURE);
