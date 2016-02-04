@@ -17,7 +17,11 @@ buffer *alloc_buf(int size) {
 	}
 	buf->bufsize = size;
 	buf->ptr = (char *) malloc(buf->bufsize + 1); // +1 for '\0'
-	buf->ptr[0] = '\0';
+	if (buf->ptr == NULL) {
+		fprintf(stderr, "Unable to allocate memory. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);
+		exit(EXIT_FAILURE);
+	}
+	buf->ptr[size] = '\0'; //extra safety
 	return buf;
 }
 
@@ -126,5 +130,3 @@ void bufferc_fread(buffer * b, FILE *fp) {
 		}
 	}
 }
-
-/* REFERENCE COUNTING */
