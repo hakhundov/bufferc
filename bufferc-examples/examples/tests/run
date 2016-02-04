@@ -4,11 +4,12 @@ cp ../buffer.{c,h} .
 cp ../libstring.{c,h} .
 
 make clean
-make test_bufferc
-./test_bufferc
-
-
 make clean -f MakefileLibstring
+
+
+make test_bufferc
 make -f MakefileLibstring
+
+./test_bufferc
 ./test_libstring
 
