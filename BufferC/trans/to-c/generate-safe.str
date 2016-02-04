@@ -107,6 +107,17 @@ rules // buffer operations
 		where
 			<?Buffer()><get-type>var1
 		;	<?Buffer()><get-type>var2
+		
+		
+	gen-c-special :
+	    Assign(Var(Identifier(var1)) , Assign(), func_call) ->
+	    $[ free([var1]);
+		 [var1] = [func_call']]
+		where
+			func_call' := <genc>func_call
+		;	<?Buffer()><get-type>var1
+		; 	<?Buffer()><get-type>func_call
+
 	
 /**************************************************
 	Printing
