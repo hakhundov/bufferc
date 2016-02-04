@@ -72,9 +72,94 @@ FILE * f = bufferc_fopen("input_file", "r");
 
 rather than leaving it to the user to check whether opening the file was successful or not, we simply exit() if failed.
 
-The C library function char *fgets(char *str, int n, FILE *stream) reads a line from the specified stream and stores it into the string pointed to by str. It stops when either (n-1) characters are read, the newline character is read, or the end-of-file is reached, whichever comes first.
 
 #### libstring Library (libstring.bc)
 
-In this section some important design & implementation decisions are addressed:
+No specific design or implementation decisions are made for this library. Function descriptions provided should be sufficient. 
 
+
+#### Reference Counting
+
+Certain memory management related aspects have already been taken care of using simply proper rewrite strategies and run-time libraries.
+
+###### Example 1:
+
+The following code snippet from *memoryleak.bc* <u>does not cause a memory leak</u>, since any subsequent creates use a *realloc*, which takes care of freeing the previously allocated buffer:
+
+<b>BufferC</b>
+
+	module memoryleak {
+		void leak() { 
+			buffer b;
+			for(int i = 0; i < 1000000; i++) {
+				b = create(100);
+			}
+		}
+	}
+
+The corresponding translation would be:
+
+<b>C</b>
+
+	void leak() {
+	buffer * b;
+	b = alloc_buf(0);
+	
+	for(int i = 0; (i <  1000000); i++) {
+			b = realloc_buf(b,100);
+		}
+	}
+*See buffer.c for more on function definitions*
+
+###### Example 2:
+
+As stated in the sections above, one of the assumption about the assignment operator is that the entire structure gets allocated and copied in the previous pointer. Memory management is intrinsically taking place here as well.
+
+<b>Strategy</b>
+
+		gen-c-special :
+		Assign(Var(Identifier(var1)), Assign(), Var(Identifier(var2))) -> 
+		$[ free([var1]);
+		[var1] = copy([var2])]
+		where
+			<?Buffer()><get-type>var1
+		;	<?Buffer()><get-type>var2
+
+<b>BufferC</b>
+
+		a = b;
+
+<b>C</b>
+
+		free(a);
+		a = copy(b);
+
+<b>This has a strong implication on the program, based on this assumption: No object is referenced from more than one pointer!</b>
+
+
+Hence using the following strategy:
+
+<b>Strategy</b>
+
+	gen-c-special :
+	    Assign(Var(Identifier(var1)) , Assign(), func_call) ->
+	    $[ free([var1]);
+		 [var1] = [func_call']]
+		where
+			func_call' := <genc>func_call
+		;	<?Buffer()><get-type>var1
+		; 	<?Buffer()><get-type>func_call
+
+The following <b>BufferC</b> code:
+
+	b = str_clone(a);
+	
+Translates into the following <b>C</b> code:
+
+	free(b);
+	b = str_clone(a);
+	
+<b>Hence we are preventing garbage altogether, by automatically freeing objects with no references.</b>
+
+
+		
