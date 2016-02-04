@@ -143,9 +143,26 @@ rules // buffer operations
 	is-it-buffer:
 		var -> $[[<genc>var]]
 	
+	//PRINTF_ERROR is a MACRO defined in buffer.h
 	gen-c-special :
+		FunctionCall(PrintF(), es) -> 
+		$[
+		if (printf_is_safe([format_string],[arg_count]))
+		{
+			printf([args]);
+		}
+		else
+		{
+			PRINTF_ERROR;
+		}]
+		where args := <debug(!"args")><mapsep(is-it-buffer|", ")>es
+		where arg_count := <debug(!"arg count")><subt>(<length>es, 1)
+		where format_string := <Hd> args
+		
+	//deprecated
+/*	gen-c-special :
 		FunctionCall(PrintF(), es) -> $[printf([<mapsep(is-it-buffer|", ")>es])]
-
+*/
 		
 /**************************************************
 	File Operations

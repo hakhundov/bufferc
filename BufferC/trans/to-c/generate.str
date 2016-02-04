@@ -147,7 +147,7 @@ rules // statements
   		}]
  
   gen-c :
-  	IfElse(e, s1, s2) -> $[if([<genc>e]) [<genc>s1] else [<genc>s2]]
+  	IfElse(e, s1, s2) -> $[if([<genc>e]) {[<genc>s1]} else {[<genc>s2]}]
   	
   gen-c :
   	While(e, Block(s)) -> $[

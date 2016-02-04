@@ -109,6 +109,35 @@ void bufferc_printf(char* format, buffer * b) {
 	printf(format, b->ptr);
 }
 
+/* PRINTING SAGETY */
+//The following function counts 'format specifier %' in the format string and watches out for escaped format specifiers such as %%
+//Returns 1 if count matches arg_count else 0;
+
+int printf_is_safe(char * format, int arg_count)
+	{
+		int i = 0;
+		int count = 0;
+		int run = 0;
+
+		while (format[i] != '\n')
+		{
+			if (format[i] == '%')
+			{
+				while (format[i] == '%')
+				{
+					run++;
+					i++;
+				}
+				if (run%2 == 1) count++;
+				run = 0;
+			}
+			if (format[i]=='\0') break;
+			i++;
+		}
+
+		if (arg_count == count) return 1;
+		else return 0;
+	}
 
 /* FILE OPERATIONS */
 FILE * bufferc_fopen(char *fname, char *mode) {

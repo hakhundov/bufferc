@@ -7,10 +7,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#define PRINTF_ERROR fprintf(stderr, "Error in printf! Number of arguments doesn't math specifiers. line %d of file \"%s\" (function <%s>)\n", __LINE__, __FILE__, __func__);\
+		exit(EXIT_FAILURE);
+
 // BufferC data type
 typedef struct {
 	char* ptr;
 	int bufsize;
+	// int ref_count; //this is unnecessary; explained in the REPORT
 } buffer;
 
 
@@ -28,5 +32,6 @@ void bufferc_printf(char* format, buffer * b);
 void bufferc_print(buffer * b);
 FILE * bufferc_fopen(char *fname, char *mode);
 void bufferc_fread(buffer * b, FILE *fp);
+int printf_is_safe(char * format, int arg_count);
 
 #endif

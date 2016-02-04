@@ -88,27 +88,27 @@ The following code snippet from *memoryleak.bc* <u>does not cause a memory leak<
 
 <b>BufferC</b>
 
-	module memoryleak {
-		void leak() { 
-			buffer b;
-			for(int i = 0; i < 1000000; i++) {
-				b = create(100);
+		module memoryleak {
+			void leak() { 
+				buffer b;
+				for(int i = 0; i < 1000000; i++) {
+					b = create(100);
+				}
 			}
 		}
-	}
 
 The corresponding translation would be:
 
 <b>C</b>
 
-	void leak() {
-	buffer * b;
-	b = alloc_buf(0);
-	
-	for(int i = 0; (i <  1000000); i++) {
-			b = realloc_buf(b,100);
+		void leak() {
+			buffer * b;
+			b = alloc_buf(0);
+			
+			for(int i = 0; (i <  1000000); i++) {
+					b = realloc_buf(b,100);
+				}
 		}
-	}
 *See buffer.c for more on function definitions*
 
 ###### Example 2:
@@ -141,25 +141,49 @@ Hence using the following strategy:
 
 <b>Strategy</b>
 
-	gen-c-special :
-	    Assign(Var(Identifier(var1)) , Assign(), func_call) ->
-	    $[ free([var1]);
-		 [var1] = [func_call']]
-		where
-			func_call' := <genc>func_call
-		;	<?Buffer()><get-type>var1
-		; 	<?Buffer()><get-type>func_call
+		gen-c-special :
+		    Assign(Var(Identifier(var1)) , Assign(), func_call) ->
+		    $[ free([var1]);
+			 [var1] = [func_call']]
+			where
+				func_call' := <genc>func_call
+			;	<?Buffer()><get-type>var1
+			; 	<?Buffer()><get-type>func_call
 
 The following <b>BufferC</b> code:
 
-	b = str_clone(a);
-	
+		b = str_clone(a);
+		
 Translates into the following <b>C</b> code:
 
-	free(b);
-	b = str_clone(a);
+		free(b);
+		b = str_clone(a);
 	
 <b>Hence we are preventing garbage altogether, by automatically freeing objects with no references.</b>
 
 
-		
+
+#### Format String Validation
+
+A simple check is added for printf() safety: it ensures that the number of format specifiers in the format string matches the number of arguments.
+
+A <b>Strategy</b> is defined such that it *wraps* the printf function, with a run-time function that checks format string before proceeding.
+
+###### Example:
+
+The following <b>BufferC</b> code:
+
+		printf("%s %s", a, b);	
+	
+Translates into the following <b>C</b> code:
+
+		if (printf_is_safe("%s %s",2))
+		{
+			printf("%s %s", a->ptr, b->ptr);
+		}
+		else
+		{
+			PRINTF_ERROR;
+		};
+
+*See buffer.c & buffer.h for printf_is_safe() and macro definitions*

@@ -134,6 +134,27 @@ module bufferc_tests {
 
 		return;
 	}
+	
+	void test_printing() {
+		printf("testing format string validation\n");
+		int a = 42;
+		buffer b = create(5);
+		b = "Fact:";
+		
+		// POSITIVE TESTS
+		printf("%% %% %%\n"); //prints three % characters
+		printf("%% %s %%\n", "Hello!"); //prints as expected
+		printf("%s The answer to life, universe and everything is: %d\n", b, a);
+		
+		// NEGATIVE TESTS //run-time error, exit failure
+		// Uncomment to test
+		//printf("%% %% %\n"); 
+		//printf("%s! The answer to life, universe and everything is: %d\n", a);
+		
+
+		return;
+	}
+	
 	int main()
 	{
 		printf("**** Running run-time lib tests ****\n\n");
@@ -154,8 +175,11 @@ module bufferc_tests {
 
 		//Run TEST 5
 		test_fileOperations();
+		
 		// Printing functions are tested along the way in the previous tests
-
+		// The following tests for format string validation
+		test_printing();
+		
 		//Report results
 		if (error_count == 0) printf("Success!\n");
 		else printf("Failure, Error Count: %d", error_count);
