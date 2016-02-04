@@ -136,6 +136,8 @@ module bufferc_tests {
 	}
 	int main()
 	{
+		printf("**** Running run-time lib tests ****\n\n");
+	
 		int error_count = 0;
 
 		//Run TEST 1
@@ -157,6 +159,8 @@ module bufferc_tests {
 		//Report results
 		if (error_count == 0) printf("Success!\n");
 		else printf("Failure, Error Count: %d", error_count);
+		
+		printf("Done with all tests \n\n");
 
 		return 1;
 	}
