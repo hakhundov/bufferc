@@ -144,7 +144,7 @@ rules // buffer operations
 		var -> $[[<genc>var]]
 	
 	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[printf([<debug><mapsep(is-it-buffer|", ")>es])]
+		FunctionCall(PrintF(), es) -> $[printf([<mapsep(is-it-buffer|", ")>es])]
 
 		
 /**************************************************
