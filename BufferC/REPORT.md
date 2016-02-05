@@ -162,6 +162,7 @@ Translates into the following **C** code:
 	
 **Hence we are preventing garbage altogether, by automatically freeing objects with no references.**
 
+*Return statements are annotated, and all allocated buffers (except the one being returned from a function) are freed just before returning.*
 
 
 #### Format String Validation
@@ -188,3 +189,14 @@ Translates into the following **C** code:
 		};
 
 *See buffer.c & buffer.h for `printf_is_safe()` and macro definitions*
+
+Note that in general modern C compilers (gcc, clang) would also give a compile-time warning (that is if the appropriate compiler warnings are enabled) when printf() is misused such as:
+
+	bufferc_tests.c:244:70: warning: format specifies type 'char *' but the argument
+	      has type 'int' [-Wformat]
+	  ...printf("%s! The answer to life, universe and everything is: %d\n", a);
+	             ~~                                                         ^
+	             %d
+	bufferc_tests.c:244:64: warning: more '%' conversions than data arguments
+	      [-Wformat]
+
