@@ -14,7 +14,8 @@ module libstring {
   // str_clone(src) : create a new buffer that is an exact copy of src
   buffer str_clone(buffer src) {
     buffer dst = create(src.length);
-    return str_copy(dst, src);
+    str_copy(dst, src);
+    return dst;
   }
 
   // str_concat(s1, s2): concatenate buffers s1 and s2 into a new buffer
