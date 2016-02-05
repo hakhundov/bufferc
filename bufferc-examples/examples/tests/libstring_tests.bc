@@ -30,6 +30,8 @@ module libstring_tests imports libstring {
 
 		//inspect code
 		printf("-- Done test -- \n");
+		
+		return;
 	}
 
 	void test_str_clone() {
@@ -236,10 +238,28 @@ module libstring_tests imports libstring {
 		printf("-- Done test -- \n");
 	}
 
-
+	buffer test_freeing()
+	{
+		// freeing tests
+		// inspect code
+		buffer a;
+		buffer b;
+		
+		if (1 == 1) return a;
+		
+		return a;	
+	}
+	void only_void()
+	{
+		// inspect code
+		return;	
+	}
+	
 	int main()
 	{
 		printf("**** Running libstring tests ****\n\n");
+		
+		
 		
 		//Run all TESTs
 
@@ -255,6 +275,7 @@ module libstring_tests imports libstring {
 
 		test_str_compare();
 
+		
 		printf("Done with all tests \n\n");
 
 		return 1;
