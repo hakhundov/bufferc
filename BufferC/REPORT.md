@@ -162,8 +162,12 @@ Translates into the following **C** code:
 	
 **Hence we are preventing garbage altogether, by automatically freeing objects with no references.**
 
-*Return statements are annotated, and all allocated buffers (except the one being returned from a function) are freed just before returning.*
+#### Important
+*Return statements are annotated, and all allocated buffers (except the one being returned from a function) are freed just before returning.  This leads to the following:*
 
+- Library functions (such as libstring.bc) should not have functions that return the passed parameter. This prevents the 'double freed' error
+
+- All buffer variables must be declared before the first encountered *return* statement within a function to prevent 'double freed or corruption' error (we shall not free() a variable that has not been declared yet)
 
 #### Format String Validation
 
