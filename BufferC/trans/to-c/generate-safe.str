@@ -154,7 +154,8 @@ rules // buffer operations
 		var -> $[[<genc>var]->ptr]
 		where
 		<?Buffer()><get-type>var
- 	
+	;	<not(?String(_))>var
+	
 	is-it-buffer:
 		var -> $[[<genc>var]]
 		where
