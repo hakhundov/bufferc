@@ -36,7 +36,7 @@ rules // annotating return statements
 			
 	function-vars :
 	  d@FunDef(t, Identifier(f), params, stms) -> [("vars", vs)]
-		where vs := <collect(buffer-var)> d
+		where vs := <collect(buffer-var)> stms
 			
 	buffer-var :
 		Param(Buffer(), Decl(Identifier(name))) -> name
