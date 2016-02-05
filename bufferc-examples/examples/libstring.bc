@@ -41,7 +41,14 @@ module libstring {
 // str_trim(s): remove leading and trailing spaces from s
 // i.e. copy s into a new buffer without leading and trailing spaces
   buffer str_trim(buffer s) {
-    if (s.length == 0 ) return s;
+  	buffer dst;
+    if (s.length == 0 ) 
+    {
+      return dst;
+    }
+	// the above is necessary rather just returning s, because in spoofax we inject a free()
+	// If we return s, we would get a 'double free or corruption (fasttop)' error
+	
     int numLeadingSpaces = 0;
     int numTrailingSpaces = 0;
 
@@ -60,7 +67,7 @@ module libstring {
     }
 
     // Copy to new buffer
-    buffer dst = create(s.length - numLeadingSpaces - numTrailingSpaces);
+    dst = create(s.length - numLeadingSpaces - numTrailingSpaces);
     for (int i = 0; i < dst.length; i++) {
       dst[i] = s[i + numLeadingSpaces];
     }
