@@ -23,7 +23,12 @@ rules // annotating return statements
 	annotate-returns :
 	  d@FunDef(t, Identifier(f), params, stms) -> FunDef(t, Identifier(f), params, stms')
 	  where annos:= <function-vars> d
-	  where stms' := <alltd(annotate-return(|annos))> <conc>(stms, [Return("final")])
+	  where stms' := <try(add-return);alltd(annotate-return(|annos))> stms 
+	  
+	  
+	add-return:
+	  stms ->  <conc>(stms, [Return(None())])
+	  where <not(oncetd(?Return(_)))>stms
 
 	annotate-return(|annos) :
 		stm@Return(e) -> stm'
