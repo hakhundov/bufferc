@@ -70,8 +70,32 @@ rules // buffer operations
 		String(str) -> $[[str]]
 	
 	gen-c-special :	
-		Return(None()) -> $[return;]
+		r@Return(Some(e)) -> 
+		$[ [frees]
+		    return [<genc>e];]
+		where
+			frees := <get-vars; filter(free-var-special(|e))>
+		
+	free-var-special (|e) :
+		x -> $[free([x]);
+		]	
+		where debug;
+			x1 := <strip-annos; debug(!"x1 ")> Var(Identifier(x))
+		;	<strip-annos; not(?x1);debug(!"checked")> e
+					
+	gen-c-special :	
+		r@Return(None()) -> 
+		$[ [frees]
+		    return;]
+		where
+			frees := <get-vars; map(free-var)>
+			//vars := <get-vars; strip-annos> r
+			//;	frees := <map(free-var)> vars
 	
+	free-var () :
+		x -> $[free([x]);
+		]
+		
 	gen-c-special :	
 		CommaExp(e) -> <genc>e
 	
@@ -85,15 +109,13 @@ rules // buffer operations
 /**************************************************
 	Assignment & Reading an element
 ***************************************************/			
-	// Done in run-time
-	// TODO: static check
+
 	gen-c-special :
 		Assign(ArrayField(e1, e_idx), Assign(), e2) -> $[assign_char([<genc>e1], [<genc>e_idx], [<genc>e2])]
 		
 	gen-c-special :
 		ArrayField(e1, e2) -> $[read_element([<genc>e1], [<genc>e2])]
 			
-	// Code gen for x = "string_literal";
 	gen-c-special :
 		Assign(x, Assign(), String(s)) -> $[assign_stringliteral([<genc>x], [s], [len])]
 		where
@@ -132,8 +154,7 @@ rules // buffer operations
 		var -> $[[<genc>var]->ptr]
 		where
 		<?Buffer()><get-type>var
-	;	<not(?String(_))>var
-	
+ 	
 	is-it-buffer:
 		var -> $[[<genc>var]]
 		where
@@ -155,15 +176,15 @@ rules // buffer operations
 		{
 			PRINTF_ERROR;
 		}]
-		where args := <debug(!"args")><mapsep(is-it-buffer|", ")>es
-		where arg_count := <debug(!"arg count")><subt>(<length>es, 1)
+		where args := <mapsep(is-it-buffer|", ")>es
+		where arg_count := <subt>(<length>es, 1)
 		where format_string := <Hd> args
 		
 	//deprecated
-/*	gen-c-special :
-		FunctionCall(PrintF(), es) -> $[printf([<mapsep(is-it-buffer|", ")>es])]
-*/
-		
+	/*	gen-c-special :
+			FunctionCall(PrintF(), es) -> $[printf([<mapsep(is-it-buffer|", ")>es])]
+	*/
+			
 /**************************************************
 	File Operations
 ***************************************************/		
@@ -172,35 +193,4 @@ rules // buffer operations
 			
 	gen-c-special :
 		FunctionCall(Fread(), es) -> $[bufferc_fread[<genc>es]]
-
-
-
-
-rules // main function
-
-  // the main function takes 
-	
-	gen-c-header-special :
-  	FunDef(t, Identifier("main"), params, stms) -> $[[t] [name] {
-  		[c-params]
-  		[c-stms]
-  	}]
-  	where
-  		type := <genc> t
-	;	name := <genc> Identifier("main")
-	;	c-params := <map(genc)> params
-	;	c-stms := <map(genc)> stms
-    
-//	gen-c-special :
-//  	FunDef(t, Identifier("main"), params, stms) -> $[]
-    
-rules // reference counting
-				
-	// write more gen-c-special rules to instrument reference counting code
-	
-	// a typical to change is assignment
-	
-//	gen-c-special :
-//		Assign(e1, Assign(), e2) -> $[[<genc>e1] = [<genc>e2]]
-
-  // examples/refcount.bc contains a variety of scenarios
+		
