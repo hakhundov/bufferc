@@ -96,13 +96,14 @@ type rules // buffer operations
 	FunctionCall(Print(), [e]) : Void()
 	where e : Buffer()
 	      else error "buffer expected" on e
-  			 
-  FunctionCall(PrintF(), [e1, e2]) : Void()
+  
+  //deprecated. See printf.str for new type rule	 
+  /*FunctionCall(PrintF(), [e1, e2]) : Void()
 	where e1 : Buffer()
 	      else error "buffer expected" on e1
     and e2 : Buffer()
 	      else error "buffer expected" on e2 
-  			 
+  */			 
 	FunctionCall(Fopen(), [e1, e2]) : FILE()
 	where e1 : Buffer()
 	      else error "buffer expected" on e1
